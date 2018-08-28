@@ -4,12 +4,10 @@ function Stage:new()
 	self.area = Area(self)
 	self.main_canvas = love.graphics.newCanvas(gw,gh)
 	self.player = self.area:addObject("Player",gw/2,gh/2)
-	input:bind('f4',function () self.player.dead = true print(Stage.player.dead)end )
+	input:bind('f4',function () self.player.dead = true end )
 end
 
 function Stage:update(dt)
-	camera.smoother = Camera.smooth.damped(5)
-	camera:lockPosition(dt,gw/2,gh/2)
 	if self.area then self.area:update(dt) end
 end
 

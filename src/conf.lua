@@ -4,6 +4,8 @@
 --- DateTime: 2018/8/25 下午11:03
 ---
 
+io.stdout:setvbuf("no")
+
 gw = 430
 gh = 240
 sx = 1
