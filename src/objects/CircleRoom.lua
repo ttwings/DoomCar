@@ -1,0 +1,2 @@
+
+CircleRoom = Stage:extend()
