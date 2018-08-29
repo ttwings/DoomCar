@@ -23,11 +23,18 @@ function GameObject:new(area,x,y,opts)
 end
 
 function GameObject:update(dt)
+    if self.collider then self.x,self.y = self.collider:getPosition() end
 	if self.timer then self.timer:update(dt) end
 end
 
 function GameObject:draw()
 	-- love.graphics.rectangle("fill",self.x,self.y,45,45)
+end
+
+function GameObject:destroy()
+    self.timer:destroy()
+    if self.collider then self.collider:destroy() end
+    self.collider = nil
 end
 
 return GameObject

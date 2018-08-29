@@ -3,6 +3,7 @@ Object = require("lib.classic")
 Timer = require( "lib.Timer" )
 Camera = require("lib.Camera")
 util = require( "lib.util" )
+Physics = require("lib.windfield")
 
 function love.load(  )
     love.math.setRandomSeed(os.time())
@@ -22,8 +23,19 @@ function love.load(  )
     --input:bind("f2","rectangle")
     --input:bind("f3","polygon")
     input:bind("1",function() camera:shake(4,1,60) end )
+    input:bind("left","left")
+    input:bind("right","right")
 
-    input:bind("k",function ()
+    input:bind("f2",function ()
+        testRoom = addRoom("Stage","testRoom")
+        gotoRoom("Stage","testRoom")
+    end)
+
+    input:bind("f3",function ()
+        current_room:destroy()
+    end)
+
+    input:bind("f1",function ()
         print("Before collection : " .. collectgarbage("count")/1024)
         collectgarbage()
         print("After collection : ".. collectgarbage("count")/1024)
@@ -34,8 +46,8 @@ function love.load(  )
     end)
 
     rooms = {}
-    gameStage = addRoom("Stage","room")
-    current_room = gameStage
+    --gameStage = addRoom("Stage","room")
+    current_room = nil
 end
 
 function love.update(dt)
