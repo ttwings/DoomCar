@@ -35,6 +35,7 @@ function love.load(  )
         current_room:destroy()
     end)
 
+
     input:bind("f1",function ()
         print("Before collection : " .. collectgarbage("count")/1024)
         collectgarbage()

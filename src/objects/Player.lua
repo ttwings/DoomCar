@@ -4,8 +4,9 @@
 --- DateTime: 2018/8/28 下午8:28
 ---
 
-Player = NewGameObject:extend()
 ---@class Player
+
+Player = NewGameObject:extend()
 
 function Player:new(area,x,y,opts)
     Player.super.new(self, area, x, y, opts)
@@ -22,6 +23,8 @@ function Player:new(area,x,y,opts)
     self.collider:setObject(self)
     self.attack_speed = 1
     self.timer:every(0.24/self.attack_speed,function () self:shot() end)
+
+    input:bind('f4',function () self:die() end)
 end
 
 function Player:update(dt)
@@ -49,4 +52,12 @@ function Player:shot()
             self.y + d*math.sin(self.r),{r=self.r})
     self.area:addObject('Projectile',self.x + 4*math.sin(self.r) + d*math.cos(self.r),
             self.y + d*math.sin(self.r),{r=self.r})
+end
+
+function Player:die()
+    --self.dead = true
+    for i = 1,love.math.random(8,12) do
+        self.area:addObject('ExplodeParticle',self.x,self.y)
+    end
+    self.dead = true
 end

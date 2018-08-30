@@ -5,6 +5,8 @@
 ---
 
 --- @class NewGameObject
+require("objects.GameObject")
+
 NewGameObject = GameObject:extend()
 
 function NewGameObject:new(area,x,y,opts)
