@@ -1,3 +1,5 @@
+---@class Area
+
 Area = Object:extend()
 
 function Area:new( room )

@@ -97,3 +97,23 @@ function type_name(o)
     end
     return global_type_table[getmetatable(o) or 0] or "Unknown"
 end
+
+---@see Player
+
+function pushRote(x,y,r,sx,sy)
+    love.graphics.push()
+    love.graphics.translate(x,y)
+    love.graphics.rotate(r or 0)
+    love.graphics.scale(sx or 1,sy or sx or 1)
+    love.graphics.translate(-x,-y)
+end
+
+---
+
+Color = {}
+Color.default = {222/256,222/256,222/256}
+Color.background = {22/256,22/256,22/256}
+Color.ammo = {123/256,200/256,164/256}
+Color.boost = {76/256,195/256,217/256}
+Color.hp = {241/256,103/256,69/256}
+Color.skill_point = {255/256,198/256,93/256}

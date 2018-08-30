@@ -8,7 +8,7 @@
 GameObject = Object:extend()
 
 --- @param opts table
-
+--- @param area Area
 
 function GameObject:new(area,x,y,opts)
 	local opts = opts or {}

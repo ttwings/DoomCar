@@ -1,3 +1,5 @@
+--- @class Stage
+
 Stage = Object:extend()
 
 function Stage:new()
@@ -28,8 +30,10 @@ function Stage:draw()
 end
 
 function Stage:destroy()
-	self.area:destroy()
-	self.area = nil
+	if self.area then
+		self.area:destroy()
+		self.area = nil
+	end
 end
 
 return Stage

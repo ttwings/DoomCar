@@ -4,6 +4,7 @@
 --- DateTime: 2018/8/29 下午11:10
 ---
 
+--- @class NewGameObject
 NewGameObject = GameObject:extend()
 
 function NewGameObject:new(area,x,y,opts)
