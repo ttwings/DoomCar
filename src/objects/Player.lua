@@ -15,8 +15,22 @@ function Player:new(area,x,y,opts)
     self.r = -math.pi/2
     self.rv = 1.66*math.pi
     self.v = 0
-    self.max_v = 100
+    self.base_max_v = 100
+    self.max_v = base_max_v
     self.a = 100
+
+    self.trail_color = Color.skill_point
+
+    self.ship = "Fighter"
+    self.polygons = {}
+
+    self.timer:every(0.01,function ()
+        self.area:addObject("TrailParticle",self.x - self.w*math.cos(self.r),
+        self.y - self.h*math.sin(self.r), {parent = self,r = random(2,4), d = random(0.15,0.25),
+                color = self.trail_color}
+        )
+    end)
+
     self.collider = self.area.world:newCircleCollider(self.x,self.y,self.w)
     --self.area.world:addCollisionClass("Player")
     --self.collider:setCollisionClass("Player")
@@ -29,6 +43,19 @@ end
 
 function Player:update(dt)
     Player.super.update(self,dt)
+    self.max_v = self.base_max_v
+    self.boosting = false
+
+    if input:down("up") then
+        self.boosting = true
+        self.max_v = 1.5*self.base_max_v
+    end
+    if input:down("down") then
+        self.boosting = true
+        self.max_v = 0.5 * self.base_max_v
+    end
+    self.trail_color = Color.trail_color
+    if self.boosting then self.trail_color = Color.boost end
     if input:down("left") then self.r = self.r - self.rv*dt end
     if input:down("right") then self.r = self.r + self.rv*dt end
     self.v = math.min(self.v + self.a * dt,self.max_v)
@@ -46,12 +73,12 @@ function Player:shot()
     local d = 1.2*self.w
     self.area:addObject('ShootEffect',self.x + 1.5*d*math.cos(self.r),
             self.y + 1.5*d*math.sin(self.r),{player=self,d = d})
-    self.area:addObject('Projectile',self.x - 4*math.cos(self.r) + d*math.cos(self.r),
-            self.y + d*math.sin(self.r),{r=self.r})
+    --self.area:addObject('Projectile',self.x - 4*math.cos(self.r) + d*math.cos(self.r),
+    --        self.y + d*math.sin(self.r),{r=self.r})
     self.area:addObject('Projectile',self.x + d*math.cos(self.r),
             self.y + d*math.sin(self.r),{r=self.r})
-    self.area:addObject('Projectile',self.x + 4*math.sin(self.r) + d*math.cos(self.r),
-            self.y + d*math.sin(self.r),{r=self.r})
+    --self.area:addObject('Projectile',self.x + 4*math.sin(self.r) + d*math.cos(self.r),
+    --        self.y + d*math.sin(self.r),{r=self.r})
 end
 
 function Player:die()

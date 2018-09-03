@@ -21,12 +21,11 @@ function love.load(  )
     input = Input()
     camera = Camera()
     timer = Timer()
-    --input:bind("f1","circle")
-    --input:bind("f2","rectangle")
-    --input:bind("f3","polygon")
-    input:bind("1",function() camera:shake(4,1,60) end )
+
     input:bind("left","left")
     input:bind("right","right")
+    input:bind("up","up")
+    input:bind("down","down")
 
     input:bind("f2",function ()
         testRoom = addRoom("Stage","testRoom")
@@ -49,7 +48,6 @@ function love.load(  )
     end)
 
     rooms = {}
-    --gameStage = addRoom("Stage","room")
     current_room = nil
 end
 
