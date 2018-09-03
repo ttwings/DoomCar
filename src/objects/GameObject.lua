@@ -9,6 +9,12 @@ GameObject = Object:extend()
 
 --- @param opts table
 --- @param area Area
+--- @field area Area
+--- @field timer Timer()
+--- @field x number
+--- @field y number
+--- @field id UUID()
+--- @field depth number
 
 function GameObject:new(area,x,y,opts)
 	local opts = opts or {}
@@ -19,7 +25,9 @@ function GameObject:new(area,x,y,opts)
     self.y = y
     self.id = UUID()
     self.dead = false
+    self.depth = 50
     self.timer = Timer()
+    self.creation_time = os.time()
 end
 
 function GameObject:update(dt)

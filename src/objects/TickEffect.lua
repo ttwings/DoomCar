@@ -3,11 +3,13 @@
 --- Created by apple.
 --- DateTime: 2018/9/3 下午11:15
 ---
-
+--- @class TickEffect
+--- @field timer Timer
 TickEffect = GameObject:extend()
 
 function TickEffect:new(area,x,y,opts)
     TickEffect.super.new(self,area,x,y,opts)
+    self.depth = 75
     self.w = 48
     self.h = 32
     self.y_offset = 32
