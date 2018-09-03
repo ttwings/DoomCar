@@ -6,7 +6,7 @@
 
 --- @class ProjectileDeathEffect
 
-ProjectileDeathEffect = NewGameObject:extend()
+ProjectileDeathEffect = GameObject:extend()
 
 function ProjectileDeathEffect:new(area,x,y,opts)
     ProjectileDeathEffect.super.new(self,area,x,y,opts)

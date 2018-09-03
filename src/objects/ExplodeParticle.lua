@@ -14,18 +14,38 @@ function ExplodeParticle:new(area,x,y,opts)
     self.r = random(0, 2*math.pi)
     self.s = opts.s or random(2,3)
     self.v = opts.v or random(75,150)
+
+    self.collider = self.area.world:newCircleCollider(self.x ,self.y ,self.s)
+    self.collider:setObject(self)
+    self.collider:setLinearVelocity(self.v*math.cos(self.r),self.v*math.sin(self.r))
+
     self.line_width = 2
     self.timer:tween(opts.d or random(0.3,0.5), self,{s = 0,v=0,line_width = 0},
-    'linear',function () self.dead = true end )
+    'linear',function () self:die() end )
+end
+
+function ExplodeParticle:update(dt)
+    ExplodeParticle.super.update(self,dt)
+    self.collider:setLinearVelocity(self.v*math.cos(self.r),self.v*math.sin(self.r))
+    if self.x < 0 then self:die() end
+    if self.y < 0 then self:die() end
+    if self.x > gw then self:die() end
+    if self.y > gh then self:die() end
 end
 
 function ExplodeParticle:draw()
-    p_print("explode")
+    ExplodeParticle.super.draw()
     pushRote(self.x,self.y,self.r)
+    love.graphics.rectangle("fill",self.x,self.y,self.s,self.v)
     love.graphics.setLineWidth(self.line_width)
     love.graphics.setColor(self.color)
     love.graphics.line(self.x - self.s ,self.y ,self.x - self.s, self.y)
     love.graphics.setColor(1,1,1,1)
     love.graphics.setLineWidth(1)
     love.graphics.pop()
+end
+
+function ExplodeParticle:die()
+    self.dead = true
+    --self.area:addObject('ProjectileDeathEffect',self.x,self.y,{color = Color.hp,w = 3*self.s})
 end

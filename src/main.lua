@@ -17,8 +17,10 @@ function love.load(  )
     requireFiles(object_files)
     p_print(#object_files)
 
+    slow_amount = 1
     input = Input()
     camera = Camera()
+    timer = Timer()
     --input:bind("f1","circle")
     --input:bind("f2","rectangle")
     --input:bind("f3","polygon")
@@ -52,11 +54,16 @@ function love.load(  )
 end
 
 function love.update(dt)
-    camera:update(dt)
-    if current_room then current_room:update(dt) end
+    timer:update(dt*slow_amount)
+    camera:update(dt*slow_amount)
+    if current_room then current_room:update(dt*slow_amount) end
 end
 
 function love.draw()
     if current_room then current_room:draw() end
 end
 
+function slow(amount,duration)
+    slow_amount = amount
+    timer:tween(duration,_G,{slow_amount = 1},"in-out-cubic")
+end
