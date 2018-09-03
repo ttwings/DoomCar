@@ -23,7 +23,7 @@ function Player:new(area,x,y,opts)
     self.collider:setObject(self)
     self.attack_speed = 1
     self.timer:every(0.24/self.attack_speed,function () self:shot() end)
-
+    self.timer:every(5,function () self:tick()end)
     input:bind('f4',function () self:die() end)
 end
 
@@ -63,4 +63,8 @@ function Player:die()
     slow(0.5,1)
     camera:flash(1,{1,0,1,1})
     self.dead = true
+end
+
+function Player:tick()
+    self.area:addObject("TickEffect",self.x,self.y,{parent = self})
 end
