@@ -16,7 +16,7 @@ end
 function Stage:draw()
 	love.graphics.setCanvas(self.main_canvas)
 	love.graphics.clear()
-		camera:attach(0,0,gw,gh)
+		camera:attach(0,0,sw*gw,sh*gh)
 		--love.graphics.circle("line",gw/2,gh/2,50)
 		if self.area then self.area:draw() end
 		camera:detach()
@@ -24,7 +24,7 @@ function Stage:draw()
 
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.setBlendMode('alpha','premultiplied')
-	love.graphics.draw(self.main_canvas,0,0,0,sx,sy)
+	love.graphics.draw(self.main_canvas,0,0,0,3,3)
 	love.graphics.setBlendMode('alpha')
 end
 

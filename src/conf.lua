@@ -8,8 +8,8 @@ io.stdout:setvbuf("no")
 
 gw = 430
 gh = 240
-sx = 1
-sy = 1
+sw = 1
+sh = 1
 
 function love.conf(t)
     t.identity = nil                   -- The name of the save directory (string)

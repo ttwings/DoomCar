@@ -88,7 +88,8 @@ function Player:die()
     end
     camera:shake(6,0.4,60)
     slow(0.5,1)
-    camera:flash(1,{1,0,1,1})
+    flash(4)
+    --camera:flash(1,{1,0,1,1})
     self.dead = true
 end
 

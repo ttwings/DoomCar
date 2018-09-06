@@ -49,6 +49,7 @@ function love.load(  )
 
     rooms = {}
     current_room = nil
+    flash_frames = nil
 end
 
 function love.update(dt)
@@ -59,9 +60,26 @@ end
 
 function love.draw()
     if current_room then current_room:draw() end
+    if flash_frames then
+        flash_frames = flash_frames - 1
+        if flash_frames < 0 then
+            flash_frames = nil
+        end
+    end
+
+    if flash_frames then
+        love.graphics.setColor(Color.background)
+        love.graphics.rectangle("fill",0,0,sw*gw,sh*gh)
+        love.graphics.setColor(1,1,1,1)
+    end
+   
 end
 
 function slow(amount,duration)
     slow_amount = amount
     timer:tween(duration,_G,{slow_amount = 1},"in-out-cubic")
+end
+
+function flash(frames)
+    flash_frames = frames
 end
