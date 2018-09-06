@@ -4,6 +4,7 @@ Timer = require( "lib.Timer" )
 Camera = require("lib.Camera")
 util = require( "lib.util" )
 Physics = require("lib.windfield")
+fn = require("lib.moses")
 
 function love.load(  )
     love.math.setRandomSeed(os.time())

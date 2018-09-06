@@ -20,3 +20,7 @@ end
 function NewGameObject:destroy()
     NewGameObject.super.destroy(self)
 end
+
+function NewGameObject:draw()
+    NewGameObject.super.draw(self)
+end

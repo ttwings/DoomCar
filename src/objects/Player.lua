@@ -20,9 +20,33 @@ function Player:new(area,x,y,opts)
     self.a = 100
 
     self.trail_color = Color.skill_point
-
+---- draw ship polygons ----
     self.ship = "Fighter"
     self.polygons = {}
+    if self.ship == "Fighter" then
+        self.polygons[1] = {
+            self.w, 0, -- 1
+            self.w/2, -self.w/2, -- 2
+            -self.w/2, -self.w/2, -- 3
+            -self.w, 0, -- 4
+            -self.w/2, self.w/2, -- 5
+            self.w/2, self.w/2, -- 6
+        }
+        self.polygons[2] = {
+            self.w/2,   -self.w/2, -- 7
+            0,          -self.w, -- 8
+            -self.w - self.w/2, -self.w, -- 9
+            -3*self.w/4, -self.w/4, -- 10
+            -self.w/2,  -self.w/2, -- 1
+        }
+        self.polygons[3] = {
+            self.w/2,       self.w/2, -- 12
+            -self.w/2,      self.w/2, -- 13
+            -3*self.w/4,    self.w/4, -- 14
+            -self.w - self.w/2, self.w, -- 15
+            0,              self.w, -- 16
+        }
+    end
 
     self.timer:every(0.01,function ()
         self.area:addObject("TrailParticle",self.x - self.w*math.cos(self.r),
@@ -64,9 +88,21 @@ function Player:update(dt)
 end
 
 function Player:draw()
+    pushRote(self.x,self.y,self.r)
+    for _,polygon in ipairs(self.polygons) do
+        local points = fn.map(polygon,function (k,v)
+            if k%2 == 1 then
+                return self.x + v
+            else
+                return self.y + v
+            end
+        end)
+        love.graphics.polygon("line",points)
+    end
     love.graphics.circle('line',self.x,self.y,self.w)
     love.graphics.line(self.x,self.y,self.x + 2*self.w*math.cos(self.r),
             self.y + 2*self.w*math.sin(self.r))
+    love.graphics.pop()
 end
 
 function Player:shot()
