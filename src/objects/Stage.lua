@@ -17,7 +17,6 @@ function Stage:draw()
 	love.graphics.setCanvas(self.main_canvas)
 	love.graphics.clear()
 		camera:attach(0,0,sw*gw,sh*gh)
-		--love.graphics.circle("line",gw/2,gh/2,50)
 		if self.area then self.area:draw() end
 		camera:detach()
 	love.graphics.setCanvas()
