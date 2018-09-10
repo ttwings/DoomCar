@@ -67,6 +67,10 @@ end
 
 function Player:update(dt)
     Player.super.update(self,dt)
+    if self.x < 0 then self:die() end
+    if self.y < 0 then self:die() end
+    if self.x > gw then self:die() end
+    if self.y > gh then self:die() end
     self.max_v = self.base_max_v
     self.boosting = false
 
@@ -99,10 +103,13 @@ function Player:draw()
         end)
         love.graphics.polygon("line",points)
     end
-    love.graphics.circle('line',self.x,self.y,self.w)
-    love.graphics.line(self.x,self.y,self.x + 2*self.w*math.cos(self.r),
-            self.y + 2*self.w*math.sin(self.r))
+    love.graphics.circle('line',self.x,self.y,self.w/2)
+    love.graphics.rectangle("line",self.x-self.w,self.y-self.h,2*self.w,2*self.h)
+    love.graphics.line(self.x,self.y,self.x + 2*self.w,
+            self.y)
     love.graphics.pop()
+
+
 end
 
 function Player:shot()

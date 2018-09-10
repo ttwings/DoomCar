@@ -36,7 +36,7 @@ end
 function ExplodeParticle:draw()
     ExplodeParticle.super.draw()
     pushRote(self.x,self.y,self.r)
-    love.graphics.rectangle("fill",self.x,self.y,self.s,self.v)
+    --love.graphics.rectangle("fill",self.x,self.y,self.s,self.v)
     love.graphics.setLineWidth(self.line_width)
     love.graphics.setColor(self.color)
     love.graphics.line(self.x - self.s ,self.y ,self.x - self.s, self.y)
