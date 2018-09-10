@@ -70,7 +70,7 @@ function Player:new(area, x, y, opts)
 
     self.collider = self.area.world:newCircleCollider(self.x, self.y, self.w)
     --self.area.world:addCollisionClass("Player")
-    --self.collider:setCollisionClass("Player")
+    self.collider:setCollisionClass("Player")
     self.collider:setObject(self)
     self.attack_speed = 1
     self.timer:every(0.24 / self.attack_speed, function()

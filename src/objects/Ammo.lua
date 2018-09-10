@@ -15,7 +15,7 @@ function Ammo:new(area,x,y,opts)
     self.w = 8
     self.h = 8
     self.collider = self.area.world:newRectangleCollider(self.x,self.y,self.w,self.h)
-    --self.collider:setCollisionClass(self)
+    self.collider:setCollisionClass("Ammo")
     self.collider:setFixedRotation(false)
     self.r = random(0,2 * math.pi)
     self.v = random(10,20)
