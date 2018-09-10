@@ -7,6 +7,9 @@ function Stage:new()
 	self.area:addPhysicsWorld()
 	self.main_canvas = love.graphics.newCanvas(gw,gh)
 	self.player = self.area:addObject("Player",gw/2,gh/2)
+	input:bind("p",function ()
+		self.area:addObject("Ammo",random(0,gw),random(0,gh))
+	end )
 end
 
 function Stage:update(dt)
