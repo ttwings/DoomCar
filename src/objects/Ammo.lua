@@ -15,7 +15,8 @@ function Ammo:new(area,x,y,opts)
     self.w = 8
     self.h = 8
     self.collider = self.area.world:newRectangleCollider(self.x,self.y,self.w,self.h)
-    self.collider:setCollisionClass("Ammo")
+    self.collider:setCollisionClass("Collectable")
+    self.collider:setObject(self)
     --TODO setCollisionClass  learn setFixedRotation
     self.collider:setFixedRotation(false)
     self.r = random(0,2 * math.pi)
@@ -29,4 +30,12 @@ function Ammo:draw()
     pushRote(self.x,self.y,self.collider:getAngle())
     love.graphics.rectangle('line',self.x-self.w/2,self.y-self.h/2,self.w,self.h)
     love.graphics.pop()
+end
+
+function Ammo:die()
+    self.dead = true
+    --self.area:addObject("AmmoEffect",self.x,self.y,{color = Color.ammo,w = self.w,h = self.h})
+    for i=1,math.random(4,8) do
+        self.area:addObject("ExplodeParticle",self.x,self.y,{s=3,color = Color.ammo})
+    end
 end

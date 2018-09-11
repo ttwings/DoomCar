@@ -86,6 +86,21 @@ end
 
 function Player:update(dt)
     Player.super.update(self, dt)
+    --- collect able
+    if self.collider:enter("Collectable") then
+        p_print("1")
+        local collision_data = self.collider:getEnterCollisionData("Collectable")
+        local object = collision_data.collider:getObject()
+        p_print(tostring(object))
+
+        if object:is(Ammo) then
+            object:die()
+            self:addAmmo(5)
+            p_print(self.ammo)
+        end
+    end
+
+
     if self.x < 0 then
         self:die()
     end
@@ -170,6 +185,9 @@ function Player:shot()
             self.y + d * math.sin(self.r), { r = self.r })
     --self.area:addObject('Projectile',self.x + 4*math.sin(self.r) + d*math.cos(self.r),
     --        self.y + d*math.sin(self.r),{r=self.r})
+    if self.ammo > 0 then
+        self.ammo = self.ammo - 1
+    end
 end
 
 function Player:die()
@@ -186,4 +204,8 @@ end
 
 function Player:tick()
     self.area:addObject("TickEffect", self.x, self.y, { parent = self })
+end
+
+function Player:addAmmo(amount)
+    self.ammo = math.min(self.max_ammo,self.ammo + amount)
 end
