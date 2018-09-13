@@ -23,6 +23,7 @@ function Stage:draw()
 	love.graphics.setCanvas(self.main_canvas)
 	love.graphics.clear()
 		camera:attach(0,0,sw*gw,sh*gh)
+		love.graphics.print("中文")
 		if self.area then self.area:draw() end
 		camera:detach()
 	love.graphics.setCanvas()

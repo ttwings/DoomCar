@@ -7,6 +7,8 @@ Physics = require("lib.windfield")
 fn = require("lib.moses")
 
 function love.load(  )
+    font = Fonts.unifont
+    love.graphics.setFont(font)
     love.math.setRandomSeed(os.time())
     love.graphics.setDefaultFilter("nearest")
     love.graphics.setLineStyle("rough")

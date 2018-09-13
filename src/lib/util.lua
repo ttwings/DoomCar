@@ -111,10 +111,14 @@ end
 ---
 
 Color = {}
-Color.default = {222/256,222/256,222/256}
+Color.default = {1,1,1}
 Color.background = {22/256,22/256,22/256}
 Color.ammo = {123/256,200/256,164/256}
 Color.boost = {76/256,195/256,217/256}
 Color.hp = {241/256,103/256,69/256}
 Color.skill_point = {255/256,198/256,93/256}
 Color.trail_color = {0,0,1}
+
+---
+Fonts = {}
+Fonts.unifont = love.graphics.newFont("assets/font/unifont.ttf")

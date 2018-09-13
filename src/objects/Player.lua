@@ -199,6 +199,7 @@ function Player:die()
     slow(0.5, 1)
     flash(4)
     --camera:flash(1,{1,0,1,1})
+    self.area:addObject("InfoText",self.x,self.y,{text="DIE!!!"})
     self.dead = true
 end
 
