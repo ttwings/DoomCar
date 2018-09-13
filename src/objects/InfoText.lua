@@ -3,7 +3,7 @@
 --- Created by apple.
 --- DateTime: 2018/9/14 上午12:09
 ---
-
+--- @class InfoText
 InfoText = NewGameObject:extend()
 
 function InfoText:new(area,x,y,opts)
@@ -24,6 +24,10 @@ function InfoText:new(area,x,y,opts)
     for i = 1,#self.text do
         table.insert(self.characters,self.text:sub(i,i))
     end
+end
+--- TODO complete
+function InfoText:update(dt)
+
 end
 
 function InfoText:draw()
