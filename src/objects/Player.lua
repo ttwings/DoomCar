@@ -91,12 +91,16 @@ function Player:update(dt)
         p_print("1")
         local collision_data = self.collider:getEnterCollisionData("Collectable")
         local object = collision_data.collider:getObject()
-        p_print(tostring(object))
 
         if object:is(Ammo) then
             object:die()
             self:addAmmo(5)
-            p_print(self.ammo)
+        end
+
+        if object:is(Boost) then
+            object:die()
+            self:addBoost(5)
+
         end
     end
 
@@ -178,7 +182,6 @@ function Player:shot()
     if self.ammo > 0 then
         self.ammo = self.ammo - 1
     end
-    self.area:addObject('InfoText',self.x,self.y,{text="哒"})
 end
 
 function Player:die()
@@ -198,6 +201,11 @@ function Player:tick()
     self.area:addObject("TickEffect", self.x, self.y, { parent = self })
 end
 
+--- @type fun(amount:number)
 function Player:addAmmo(amount)
     self.ammo = math.min(self.max_ammo,self.ammo + amount)
+end
+--- @type fun(amount:number)
+function Player:addBoost(amount)
+    self.boost = math.min(self.max_boost,self.boost + amount)
 end
