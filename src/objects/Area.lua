@@ -1,4 +1,5 @@
----@class Area
+--- @class Area : Object
+--- @param room Stage
 
 Area = Object:extend()
 

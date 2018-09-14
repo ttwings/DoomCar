@@ -3,7 +3,9 @@
 --- Created by apple.
 --- DateTime: 2018/9/3 下午11:35
 ---
-
+--- @class TrailParticle : GameObject
+--- @param area Area
+--- @param opts Table
 TrailParticle = GameObject:extend()
 
 function TrailParticle:new(area,x,y,opts)

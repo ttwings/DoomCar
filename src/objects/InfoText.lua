@@ -3,7 +3,8 @@
 --- Created by apple.
 --- DateTime: 2018/9/14 上午12:09
 ---
---- @class InfoText
+--- @class InfoText : NewGameObject
+
 InfoText = NewGameObject:extend()
 
 function InfoText:new(area,x,y,opts)
@@ -14,6 +15,10 @@ function InfoText:new(area,x,y,opts)
     self.depth = 80
     self.characters = {}
     self.visible = true
+
+    for i = 1,#self.text,3 do
+        table.insert(self.characters,self.text:sub(i,i+2))
+    end
     self.timer:after(0.7,function ()
         self.timer:every(0.05,function () self.visible = not self.visible end)
         self.timer:after(0.35,function () self.visible = true end)
@@ -21,9 +26,6 @@ function InfoText:new(area,x,y,opts)
     self.timer:after(1.10,function ()
         self:die()
     end)
-    for i = 1,#self.text do
-        table.insert(self.characters,self.text:sub(i,i))
-    end
 end
 --- TODO complete
 function InfoText:update(dt)
@@ -40,8 +42,11 @@ function InfoText:draw()
             end
         end
         love.graphics.setColor(self.color)
-        love.graphics.print(self.characters[i],self.x + width,self.y,
-        0,1,1,0,self.font:getHeight()/2)
+        if self.visible then
+            love.graphics.print(self.characters[i],self.x + width,self.y,
+                    0,1,1,0,self.font:getHeight()/2)
+        end
+
     end
 end
 

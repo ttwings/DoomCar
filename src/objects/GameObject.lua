@@ -9,6 +9,9 @@ GameObject = Object:extend()
 
 --- @param opts table
 --- @param area Area
+--- @param x number
+--- @param y number
+---
 --- @field area Area
 --- @field timer Timer()
 --- @field x number

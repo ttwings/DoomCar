@@ -4,7 +4,7 @@
 --- DateTime: 2018/9/11 上午12:31
 ---
 require("objects.NewGameObject")
----@class Ammo
+---@class Ammo : NewGameObject
 
 Ammo = NewGameObject:extend()
 

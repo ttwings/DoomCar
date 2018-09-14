@@ -4,7 +4,7 @@
 --- DateTime: 2018/8/30 下午10:43
 ---
 
----@class Projectile
+---@class Projectile : NewGameObject
 
 Projectile = NewGameObject:extend()
 

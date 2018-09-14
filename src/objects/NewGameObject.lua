@@ -4,7 +4,10 @@
 --- DateTime: 2018/8/29 下午11:10
 ---
 
---- @class NewGameObject
+---@class NewGameObject : GameObject
+---@param area Area
+---@param x number
+---@param y number
 require("objects.GameObject")
 
 NewGameObject = GameObject:extend()

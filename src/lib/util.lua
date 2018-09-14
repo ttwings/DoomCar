@@ -98,7 +98,7 @@ function type_name(o)
     return global_type_table[getmetatable(o) or 0] or "Unknown"
 end
 
----@see Player
+---@see GameObject
 
 function pushRote(x,y,r,sx,sy)
     love.graphics.push()
