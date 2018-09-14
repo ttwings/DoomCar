@@ -10,6 +10,7 @@ function resize( s )
 	sw,sh = s,s
 end
 
+--- @type fun():string
 function UUID()
 	local fn = function ( x )
 		local r = love.math.random(16) - 1
@@ -18,13 +19,13 @@ function UUID()
 	end
 	return (("xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"):gsub("[xy]",fn))
 end
-
+--- @type fun():Stage
 function addRoom( room_type, room_name, ... )
     local room = _G[room_type](room_name, ...)
     rooms[room_name] = room
     return room
 end
-
+--- @type fun(room_type:Stage,room_name:string)
 function gotoRoom( room_type, room_name, ... )
     if current_room and current_room.destroy then current_room:destroy() end
     if current_room and rooms[room_name] then
@@ -33,7 +34,7 @@ function gotoRoom( room_type, room_name, ... )
         if current_room.activate then current_room:activate() end
     else current_room = addRoom(room_type, room_name, ...) end
 end
-
+--- @type fun(folder:string,file_list:table)
 function recursiveEnumerate( folder,file_list )
     local items = love.filesystem.getDirectoryItems(folder)
     for _,item in ipairs(items) do
@@ -122,3 +123,9 @@ Color.trail_color = {0,0,1}
 ---
 Fonts = {}
 Fonts.unifont = love.graphics.newFont("assets/font/unifont.ttf")
+
+--- table
+
+function table.random(t)
+    return t[math.random(1,#t)]
+end

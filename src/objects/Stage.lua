@@ -1,4 +1,6 @@
 --- @class Stage
+--- @field world World
+--- @field area Area
 
 Stage = Object:extend()
 
@@ -12,6 +14,8 @@ function Stage:new()
 	self.player = self.area:addObject("Player",gw/2,gh/2)
 	input:bind("p",function ()
 		self.area:addObject("Ammo",random(0,gw),random(0,gh))
+		self.area:addObject("Boost",random(0,gw),random(0,gh))
+
 	end )
 end
 

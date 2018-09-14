@@ -4,8 +4,12 @@
 --- DateTime: 2018/9/11 上午12:31
 ---
 require("objects.NewGameObject")
----@class Ammo : NewGameObject
-
+--- @class Ammo : NewGameObject
+--- @field collider Collider
+--- @field w number
+--- @field h number
+--- @field r number
+--- @field v number
 Ammo = NewGameObject:extend()
 
 function Ammo:new(area,x,y,opts)
@@ -30,6 +34,7 @@ function Ammo:draw()
     pushRote(self.x,self.y,self.collider:getAngle())
     love.graphics.rectangle('line',self.x-self.w/2,self.y-self.h/2,self.w,self.h)
     love.graphics.pop()
+    love.graphics.setColor(Color.default)
 end
 
 function Ammo:die()

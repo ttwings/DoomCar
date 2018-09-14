@@ -157,16 +157,6 @@ end
 
 function Player:draw()
     pushRote(self.x, self.y, self.r)
-    for _, polygon in ipairs(self.polygons) do
-        local points = fn.map(polygon, function(k, v)
-            if k % 2 == 1 then
-                return self.x + v
-            else
-                return self.y + v
-            end
-        end)
-        love.graphics.polygon("line", points)
-    end
     love.graphics.circle('line', self.x, self.y, self.w / 2)
     love.graphics.rectangle("line", self.x - self.w, self.y - self.h, 2 * self.w, 2 * self.h)
     love.graphics.line(self.x, self.y, self.x + 2 * self.w, self.y)
@@ -174,7 +164,7 @@ function Player:draw()
 
 
 end
-
+--- @field area Area
 function Player:shot()
     local d = 1.2 * self.w
     self.area:addObject('ShootEffect', self.x + 1.5 * d * math.cos(self.r),
@@ -188,6 +178,7 @@ function Player:shot()
     if self.ammo > 0 then
         self.ammo = self.ammo - 1
     end
+    self.area:addObject('InfoText',self.x,self.y,{text="哒"})
 end
 
 function Player:die()
@@ -199,7 +190,7 @@ function Player:die()
     slow(0.5, 1)
     flash(4)
     --camera:flash(1,{1,0,1,1})
-    self.area:addObject("InfoText",self.x,self.y,{text="你挂了WOKoldfalfj"})
+    self.area:addObject("InfoText",self.x,self.y,{text="咚！！"})
     self.dead = true
 end
 

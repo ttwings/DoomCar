@@ -13,10 +13,10 @@ GameObject = Object:extend()
 --- @param y number
 ---
 --- @field area Area
---- @field timer Timer()
+--- @field timer Timer:fun()
 --- @field x number
 --- @field y number
---- @field id UUID()
+--- @field id string
 --- @field depth number
 
 function GameObject:new(area,x,y,opts)

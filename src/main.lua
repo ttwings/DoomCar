@@ -4,10 +4,12 @@ Timer = require( "lib.Timer" )
 Camera = require("lib.Camera")
 util = require( "lib.util" )
 Physics = require("lib.windfield")
+Draft = require("lib.draft")
 fn = require("lib.moses")
 
 function love.load(  )
     font = Fonts.unifont
+    draft = Draft()
     love.graphics.setFont(font)
     love.math.setRandomSeed(os.time())
     love.graphics.setDefaultFilter("nearest")
@@ -15,7 +17,9 @@ function love.load(  )
     --font = love.graphics.newFont("assets/font/unifont.ttf",16)
     --love.graphics.setFont(font)
     resize(3)
+    --- @type Object[]
     local object_files = {}
+
     recursiveEnumerate('objects',object_files)
     requireFiles(object_files)
     p_print(#object_files)
@@ -49,7 +53,7 @@ function love.load(  )
         for k , v in pairs(counts) do print(k,v) end
         print("------------------------------")
     end)
-
+    --- @type Stage[]
     rooms = {}
     current_room = nil
     flash_frames = nil

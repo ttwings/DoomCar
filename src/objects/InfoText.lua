@@ -4,6 +4,18 @@
 --- DateTime: 2018/9/14 上午12:09
 ---
 --- @class InfoText : NewGameObject
+--- @param area Area
+--- @param x number
+--- @param y number
+--- @param opts table
+--- @field text string
+--- @field font Font
+--- @field color table
+--- @field sx number
+--- @field sy number
+--- @field depth number
+--- @field characters table
+--- @field visible boolean
 
 InfoText = NewGameObject:extend()
 
@@ -12,6 +24,8 @@ function InfoText:new(area,x,y,opts)
     self.text = opts.text or ""
     self.font = Fonts.unifont
     self.color = opts.color or {1,0,0}
+    self.sx = opts.sx or 1
+    self.sy = opts.sy or 1
     self.depth = 80
     self.characters = {}
     self.visible = true
@@ -29,7 +43,7 @@ function InfoText:new(area,x,y,opts)
 end
 --- TODO complete
 function InfoText:update(dt)
-
+    if self.timer then self.timer:update(dt) end
 end
 
 function InfoText:draw()
@@ -44,7 +58,7 @@ function InfoText:draw()
         love.graphics.setColor(self.color)
         if self.visible then
             love.graphics.print(self.characters[i],self.x + width,self.y,
-                    0,1,1,0,self.font:getHeight()/2)
+                    0,self.sx,self.sy,0,self.font:getHeight()/2)
         end
 
     end
