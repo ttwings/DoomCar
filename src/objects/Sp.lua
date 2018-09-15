@@ -32,8 +32,8 @@ end
 function Sp:draw()
     love.graphics.setColor(Color.skill_point)
     pushRote(self.x,self.y,self.collider:getAngle())
-    draft:rhombus(self.x,self.y,1.5 * self.w,1.5 * self.h, 'line')
-    draft:rhombus(self.x,self.y,0.5 * self.w,0.5 * self.h, 'fill')
+    draft:star(self.x,self.y,1.5 * self.w,1.5 * self.h,3,0, 'line')
+    draft:star(self.x,self.y,0.5 * self.w,0.5 * self.h,3,0, 'fill')
     love.graphics.pop()
     love.graphics.setColor(Color.default)
 end

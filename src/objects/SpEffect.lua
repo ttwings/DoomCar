@@ -32,8 +32,8 @@ function SpEffect:draw()
     SpEffect.super.draw(self)
     if not self.visible then return end
     love.graphics.setColor(self.current_color)
-    draft:rhombus(self.x,self.y,self.sx * 1.34 * self.w,self.sy * 1.34 * self.h,'fill')
-    draft:rhombus(self.x,self.y,self.sx * 2 * self.w, self.sy * 2* self.h,'line')
+    draft:star(self.x,self.y,self.sx * 1.5 * self.w,self.sy * 1.5 * self.h,3,0, 'line')
+    draft:star(self.x,self.y,self.sx * 0.5 * self.w,self.sy * 0.5 * self.h,3,0, 'fill')
     love.graphics.setColor(Color.default)
 
 end
