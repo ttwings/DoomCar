@@ -30,12 +30,27 @@ function InfoText:new(area,x,y,opts)
     self.characters = {}
     self.visible = true
 
+    self.background_colors = {}
+    self.foreground_colors = {}
+
     for i = 1,#self.text,3 do
         table.insert(self.characters,self.text:sub(i,i+2))
     end
     self.timer:after(0.7,function ()
         self.timer:every(0.05,function () self.visible = not self.visible end)
         self.timer:after(0.35,function () self.visible = true end)
+
+        self.timer:every(0.035,function ()
+            local random_characters = "0123456789~!@#$%^&*()_+-=abcdefghijklmnopqrstuvwxyz"
+            for i,character in ipairs(self.characters) do
+                if math.random(1,20) <= 1 then
+                    local r = love.math.random(1,#random_characters)
+                    self.characters[i] = random_characters:sub(r,r)
+                else
+                    self.characters[i] = character
+                end
+            end
+        end)
     end)
     self.timer:after(1.10,function ()
         self:die()
@@ -55,6 +70,7 @@ function InfoText:draw()
                 width = width + self.font:getWidth(self.characters[j])
             end
         end
+
         love.graphics.setColor(self.color)
         if self.visible then
             love.graphics.print(self.characters[i],self.x + width,self.y,

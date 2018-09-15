@@ -88,7 +88,6 @@ function Player:update(dt)
     Player.super.update(self, dt)
     --- collect able
     if self.collider:enter("Collectable") then
-        p_print("1")
         local collision_data = self.collider:getEnterCollisionData("Collectable")
         local object = collision_data.collider:getObject()
 
@@ -99,7 +98,7 @@ function Player:update(dt)
 
         if object:is(Boost) then
             object:die()
-            self:addBoost(5)
+            self:addBoost(25)
 
         end
     end

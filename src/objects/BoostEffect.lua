@@ -38,5 +38,6 @@ end
 
 function BoostEffect:draw()
     BoostEffect.super.draw(self)
-    draft:rhombus(self.x,self.y,2 * self.w, 2* self.h,'line')
+    draft:rhombus(self.x,self.y,self.sx * 1.34 * self.w,self.sy * 1.34 * self.h,'fill')
+    draft:rhombus(self.x,self.y,self.sx * 2 * self.w, self.sy * 2* self.h,'line')
 end

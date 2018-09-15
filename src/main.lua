@@ -22,7 +22,6 @@ function love.load(  )
 
     recursiveEnumerate('objects',object_files)
     requireFiles(object_files)
-    p_print(#object_files)
 
     slow_amount = 1
     input = Input()
