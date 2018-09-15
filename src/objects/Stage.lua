@@ -8,14 +8,15 @@ function Stage:new()
 	self.area = Area(self)
 	self.area:addPhysicsWorld()
 	self.area.world:addCollisionClass("Player")
-	self.area.world:addCollisionClass("Projectile",{ignores = {"Projectile"}})
+	self.area.world:addCollisionClass("Projectile",{ignores = {"Projectile","Player"}})
 	self.area.world:addCollisionClass("Collectable",{ignores = {"Collectable","Projectile","Player"}})
 	self.main_canvas = love.graphics.newCanvas(gw,gh)
 	self.player = self.area:addObject("Player",gw/2,gh/2)
 	input:bind("p",function ()
 		self.area:addObject("Ammo",random(0,gw),random(0,gh))
 		self.area:addObject("Boost",random(0,gw),random(0,gh))
-
+		self.area:addObject("Hp")
+		self.area:addObject("Sp")
 	end )
 end
 

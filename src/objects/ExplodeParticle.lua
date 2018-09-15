@@ -20,7 +20,7 @@ function ExplodeParticle:new(area,x,y,opts)
     self.collider:setLinearVelocity(self.v*math.cos(self.r),self.v*math.sin(self.r))
 
     self.line_width = 3
-    self.timer:tween(opts.d or random(0.3,0.5), self,{s = 0,v=0,line_width = 0},
+    self.timer:tween(opts.d or random(0.5,0.1), self,{s = 0,v=0,line_width = 0},
     'linear',function () self:die() end )
 end
 

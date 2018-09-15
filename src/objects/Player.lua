@@ -31,6 +31,8 @@ function Player:new(area, x, y, opts)
     self.max_ammo = 100
     self.ammo = self.max_ammo
 
+    self.max_sp = 1000
+    self.sp = 0
 
     self.trail_color = Color.skill_point
     ---- draw ship polygons ----
@@ -99,7 +101,16 @@ function Player:update(dt)
         if object:is(Boost) then
             object:die()
             self:addBoost(25)
+        end
 
+        if object:is(Hp) then
+            object:die()
+            self:addHp(10)
+        end
+
+        if object:is(Sp) then
+            object:die()
+            self:addSp(1)
         end
     end
 
@@ -207,4 +218,14 @@ end
 --- @type fun(amount:number)
 function Player:addBoost(amount)
     self.boost = math.min(self.max_boost,self.boost + amount)
+end
+
+--- @type fun(amount:number)
+function Player:addHp(amount)
+    self.hp = math.min(self.max_hp,self.hp + amount)
+end
+
+--- @type fun(amount:number)
+function Player:addSp(amount)
+    self.sp = math.min(self.max_sp,self.sp + amount)
 end

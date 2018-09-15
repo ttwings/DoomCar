@@ -70,7 +70,7 @@ function InfoText:draw()
                 width = width + self.font:getWidth(self.characters[j])
             end
         end
-
+---- TODO random color ,#7
         love.graphics.setColor(self.color)
         if self.visible then
             love.graphics.print(self.characters[i],self.x + width,self.y,
