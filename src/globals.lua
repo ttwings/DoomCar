@@ -7,12 +7,20 @@
 
 ---
 attacks = {
-    ["Neutral"] = {cooldown = 0.24, ammo = 0, abbreviation = "N", color = Color.default },
-    ["Double"]  = {cooldown = 0.32, ammo = 2, abbreviation = "2", color = Color.ammo },
-    ['Triple']  = {cooldown = 0.32, ammo = 3, abbreviation = '3', color = Color.boost},
-    ['Rapid']   = {cooldown = 0.12, ammo = 1, abbreviation = 'R', color = Color.default},
-    ['Spread']  = {cooldown = 0.16, ammo = 1, abbreviation = 'S', color = Color.default},
-    ['Back']    = {cooldown = 0.32, ammo = 2, abbreviation = 'B', color = Color.skill_point},
-    ['Side']    = {cooldown = 0.32, ammo = 3, abbreviation = 'Si', color = Color.boost},
-    ['Blast']   = {cooldown = 0.5,  ammo = 5, abbreviation = 'Si', color = Color.hp},
+    ["Neutral"] = {cooldown = 0.24, ammo = 0, abbreviation = "Ne", speed = 200, color = Color.default },
+    ["Double"]  = {cooldown = 0.32, ammo = 2, abbreviation = "Do", speed = 200, color = Color.ammo },
+    ['Triple']  = {cooldown = 0.32, ammo = 3, abbreviation = 'Tr', speed = 200, color = Color.boost},
+    ['Rapid']   = {cooldown = 0.12, ammo = 1, abbreviation = 'Ra', speed = 200, color = Color.default},
+    ['Spread']  = {cooldown = 0.16, ammo = 1, abbreviation = 'Sp', speed = 200, color = Color.default},
+    ['Back']    = {cooldown = 0.32, ammo = 2, abbreviation = 'Ba', speed = 200, color = Color.skill_point},
+    ['Side']    = {cooldown = 0.32, ammo = 3, abbreviation = 'Si', speed = 200, color = Color.boost},
+    ['Blast']   = {cooldown = 0.66, ammo = 5, abbreviation = 'Bl', speed = 600, color = Color.hp},
 }
+
+attacks_name = {"Neutral","Double","Triple","Rapid","Spread","Back","Side","Blast"}
+--
+--local function getName(attacks)
+--    for k, v in pairs(attacks) do
+--        table.insert(attacks_name,k)
+--    end
+--end

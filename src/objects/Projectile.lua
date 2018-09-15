@@ -11,8 +11,8 @@ Projectile = NewGameObject:extend()
 function Projectile:new(area,x,y,opts)
     Projectile.super.new(self,area,x,y,opts)
     self.s = opts.s or 2.5
-    self.v = opts.v or 200
     self.attack = opts.attack or "Neutral"
+    self.v = opts.v or 200
     self.color = attacks[self.attack].color or Color.default
     self.collider = self.area.world:newCircleCollider(self.x,self.y,self.s)
     self.collider:setCollisionClass("Projectile")

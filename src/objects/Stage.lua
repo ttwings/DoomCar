@@ -17,6 +17,7 @@ function Stage:new()
 		self.area:addObject("Boost",random(0,gw),random(0,gh))
 		self.area:addObject("Hp")
 		self.area:addObject("Sp")
+		self.area:addObject("Attack",0,0,{name = table.random(attacks_name)})
 	end )
 end
 

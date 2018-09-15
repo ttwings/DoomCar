@@ -126,6 +126,11 @@ function Player:update(dt)
             object:die()
             self:addSp(1)
         end
+
+        if object:is(Attack) then
+            object:die()
+            self:setAttack(object.name)
+        end
     end
 
 --- out bound
@@ -275,26 +280,27 @@ function Player:shot()
                 { r = self.r - add_r,attack = self.attack})
     elseif self.attack == "Blast" then
         self.ammo = self.ammo - attacks[self.attack].ammo
+        local p_speed = attacks[self.attack].speed
         self.area:addObject('Projectile',
                 self.x + 1.5 * d * math.cos(self.r + math.pi/8),
                 self.y + 1.5 * d * math.sin(self.r + math.pi/8),
-                { r = self.r + math.pi/8,attack = self.attack})
+                { r = self.r + math.pi/8,attack = self.attack,v = p_speed})
         self.area:addObject('Projectile',
                 self.x + 1.5 * d * math.cos(self.r + math.pi/12),
                 self.y + 1.5 * d * math.sin(self.r + math.pi/12),
-                { r = self.r + math.pi/12,attack = self.attack})
+                { r = self.r + math.pi/12,attack = self.attack,v = p_speed})
         self.area:addObject('Projectile',
                 self.x + 1.5 * d * math.cos(self.r),
                 self.y + 1.5 * d * math.sin(self.r),
-                { r = self.r ,attack = self.attack})
+                { r = self.r ,attack = self.attack,v = p_speed})
         self.area:addObject('Projectile',
                 self.x + 1.5 * d * math.cos(self.r - math.pi/12),
                 self.y + 1.5 * d * math.sin(self.r - math.pi/12),
-                { r = self.r - math.pi/12 ,attack = self.attack})
+                { r = self.r - math.pi/12 ,attack = self.attack,v = p_speed})
         self.area:addObject('Projectile',
                 self.x + 1.5 * d * math.cos(self.r - math.pi/8),
                 self.y + 1.5 * d * math.sin(self.r - math.pi/8),
-                { r = self.r - math.pi/8 ,attack = self.attack})
+                { r = self.r - math.pi/8 ,attack = self.attack,v = p_speed})
     end
 
     if self.ammo <= 0 then
