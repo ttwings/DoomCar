@@ -5,6 +5,7 @@ Camera = require("lib.Camera")
 util = require( "lib.util" )
 Physics = require("lib.windfield")
 Draft = require("lib.draft")
+Vector = require("lib.vector")
 fn = require("lib.moses")
 
 function love.load(  )

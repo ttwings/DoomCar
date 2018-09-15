@@ -12,7 +12,8 @@ function Projectile:new(area,x,y,opts)
     Projectile.super.new(self,area,x,y,opts)
     self.s = opts.s or 2.5
     self.v = opts.v or 200
-
+    self.attack = opts.attack or "Neutral"
+    self.color = attacks[self.attack].color or Color.default
     self.collider = self.area.world:newCircleCollider(self.x,self.y,self.s)
     self.collider:setCollisionClass("Projectile")
     self.collider:setObject(self)
@@ -30,8 +31,15 @@ end
 
 function Projectile:draw()
     Projectile.super.draw()
-    pushRote(self.x,self.y,self.r - math.pi/4)
-    love.graphics.circle('line',self.x,self.y,self.s)
+    pushRote(self.x,self.y,Vector(self.collider:getLinearVelocity()):angleTo())
+    love.graphics.setLineWidth(self.s - self.s/4)
+    love.graphics.setColor(self.color)
+    love.graphics.line(self.x - 2 * self.s,self.y,self.x,self.y)
+    love.graphics.setColor(Color.default)
+    love.graphics.line(self.x,self.y,self.x + 2 * self.s,self.y)
+    --love.graphics.setColor(Color.default)
+    love.graphics.setLineWidth(1)
+    --love.graphics.circle('line',self.x,self.y,self.s)
     love.graphics.pop()
 end
 

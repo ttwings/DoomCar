@@ -6,6 +6,8 @@
 
 ---@class Player
 
+require("globals")
+
 Player = NewGameObject:extend()
 
 function Player:new(area, x, y, opts)
@@ -35,33 +37,45 @@ function Player:new(area, x, y, opts)
     self.sp = 0
 
     self.trail_color = Color.skill_point
+
+    --self:setAttack("Neutral")
+    --self:setAttack("Double")
+    --self:setAttack("Triple")
+    --self:setAttack("Rapid")
+    --self:setAttack("Spread")
+    --self:setAttack("Back")
+    self:setAttack("Side")
+    self:setAttack("Blast")
+
+    self.shoot_timer = 0
+    self.shoot_cooldown = attacks[self.attack].cooldown
     ---- draw ship polygons ----
     self.ship = "Fighter"
     self.polygons = {}
-    if self.ship == "Fighter" then
-        self.polygons[1] = {
-            self.w, 0, -- 1
-            self.w / 2, -self.w / 2, -- 2
-            -self.w / 2, -self.w / 2, -- 3
-            -self.w, 0, -- 4
-            -self.w / 2, self.w / 2, -- 5
-            self.w / 2, self.w / 2, -- 6
-        }
-        self.polygons[2] = {
-            self.w / 2, -self.w / 2, -- 7
-            0, -self.w, -- 8
-            -self.w - self.w / 2, -self.w, -- 9
-            -3 * self.w / 4, -self.w / 4, -- 10
-            -self.w / 2, -self.w / 2, -- 1
-        }
-        self.polygons[3] = {
-            self.w / 2, self.w / 2, -- 12
-            -self.w / 2, self.w / 2, -- 13
-            -3 * self.w / 4, self.w / 4, -- 14
-            -self.w - self.w / 2, self.w, -- 15
-            0, self.w, -- 16
-        }
-    end
+    --if self.ship == "Fighter" then
+    --    self.polygons[1] = {
+    --        self.w, 0, -- 1
+    --        self.w / 2, -self.w / 2, -- 2
+    --        -self.w / 2, -self.w / 2, -- 3
+    --        -self.w, 0, -- 4
+    --        -self.w / 2, self.w / 2, -- 5
+    --        self.w / 2, self.w / 2, -- 6
+    --    }
+    --    self.polygons[2] = {
+    --        self.w / 2, -self.w / 2, -- 7
+    --        0, -self.w, -- 8
+    --        -self.w - self.w / 2, -self.w, -- 9
+    --        -3 * self.w / 4, -self.w / 4, -- 10
+    --        -self.w / 2, -self.w / 2, -- 1
+    --    }
+    --    self.polygons[3] = {
+    --        self.w / 2, self.w / 2, -- 12
+    --        -self.w / 2, self.w / 2, -- 13
+    --        -3 * self.w / 4, self.w / 4, -- 14
+    --        -self.w - self.w / 2, self.w, -- 15
+    --        0, self.w, -- 16
+    --    }
+    --end
 
     self.timer:every(0.01, function()
         self.area:addObject("TrailParticle", self.x - self.w * math.cos(self.r),
@@ -75,9 +89,9 @@ function Player:new(area, x, y, opts)
     self.collider:setCollisionClass("Player")
     self.collider:setObject(self)
     self.attack_speed = 1
-    self.timer:every(0.24 / self.attack_speed, function()
-        self:shot()
-    end)
+    --self.timer:every(0.24 , function()
+    --    self:shot()
+    --end)
     self.timer:every(5, function()
         self:tick()
     end)
@@ -114,7 +128,7 @@ function Player:update(dt)
         end
     end
 
-
+--- out bound
     if self.x < 0 then
         self:die()
     end
@@ -127,13 +141,13 @@ function Player:update(dt)
     if self.y > gh then
         self:die()
     end
-
+--- boost
     self.boost = math.min(self.max_boost,self.boost + 10 * dt)
     self.boost_timer = self.boost_timer + dt
     if self.boost_timer > self.boost_cooldown then self.can_boost = true end
     self.max_v = self.base_max_v
     self.boosting = false
-
+--- input
     if input:down("up") and self.boost > 1 and self.can_boost then
         self.boosting = true
         self.max_v = 1.5 * self.base_max_v
@@ -167,13 +181,23 @@ function Player:update(dt)
     self.v = math.min(self.v + self.a * dt, self.max_v)
     --- 在windfield源码的备注中找到。。。。貌似用的 love2d physics的方法。
     self.collider:setLinearVelocity(self.v * math.cos(self.r), self.v * math.sin(self.r))
+--- shoot
+    self.shoot_timer = self.shoot_timer + dt
+    if self.shoot_timer > self.shoot_cooldown then
+        self.shoot_timer = 0
+        self:shot()
+    end
 end
 
 function Player:draw()
-    pushRote(self.x, self.y, self.r)
-    love.graphics.circle('line', self.x, self.y, self.w / 2)
-    love.graphics.rectangle("line", self.x - self.w, self.y - self.h, 2 * self.w, 2 * self.h)
-    love.graphics.line(self.x, self.y, self.x + 2 * self.w, self.y)
+    pushRote(self.x, self.y, self.r - math.pi/2)
+    --love.graphics.circle('line', self.x, self.y, self.w / 2)
+    --love.graphics.rectangle("line", self.x - self.w, self.y - self.h, 2 * self.w, 2 * self.h)
+    --love.graphics.line(self.x, self.y, self.x + 2 * self.w, self.y)
+    draft:diamond(self.x,self.y,2 * self.w,'line')
+    draft:circle(self.x,self.y,self.w/3,8,'line')
+    --draft:rhombus(self.x,self.y,self.w,self.h,"line")
+    --draft:square(self.x,self.y,self.w,"line")
     love.graphics.pop()
 
 
@@ -181,17 +205,103 @@ end
 --- @field area Area
 function Player:shot()
     local d = 1.2 * self.w
-    self.area:addObject('ShootEffect', self.x + 1.5 * d * math.cos(self.r),
-            self.y + 1.5 * d * math.sin(self.r), { player = self, d = d })
-    --self.area:addObject('Projectile',self.x - 4*math.cos(self.r) + d*math.cos(self.r),
-    --        self.y + d*math.sin(self.r),{r=self.r})
-    self.area:addObject('Projectile', self.x + d * math.cos(self.r),
-            self.y + d * math.sin(self.r), { r = self.r })
-    --self.area:addObject('Projectile',self.x + 4*math.sin(self.r) + d*math.cos(self.r),
-    --        self.y + d*math.sin(self.r),{r=self.r})
-    if self.ammo > 0 then
-        self.ammo = self.ammo - 1
+    self.area:addObject('ShootEffect', self.x + d * math.cos(self.r),
+            self.y + d * math.sin(self.r), { player = self, d = d })
+    if self.attack == "Neutral" then
+        self.area:addObject('Projectile', self.x + 1.5 * d * math.cos(self.r),
+                self.y + 1.5 * d * math.sin(self.r), { r = self.r })
+    elseif self.attack == "Double" then
+        self.ammo = self.ammo - attacks[self.attack].ammo
+        self.area:addObject('Projectile',
+                self.x + 1.5 * d * math.cos(self.r + math.pi/12),
+                self.y + 1.5 * d * math.sin(self.r + math.pi/12),
+                { r = self.r + math.pi/12,attack = self.attack})
+        self.area:addObject('Projectile',
+                self.x + 1.5 * d * math.cos(self.r - math.pi/12),
+                self.y + 1.5 * d * math.sin(self.r - math.pi/12),
+                { r = self.r - math.pi/12 ,attack = self.attack})
+    elseif self.attack == "Triple" then
+        self.ammo = self.ammo - attacks[self.attack].ammo
+        self.area:addObject('Projectile',
+                self.x + 1.5 * d * math.cos(self.r + math.pi/12),
+                self.y + 1.5 * d * math.sin(self.r + math.pi/12),
+                { r = self.r + math.pi/12,attack = self.attack})
+        self.area:addObject('Projectile',
+                self.x + 1.5 * d * math.cos(self.r),
+                self.y + 1.5 * d * math.sin(self.r),
+                { r = self.r ,attack = self.attack})
+        self.area:addObject('Projectile',
+                self.x + 1.5 * d * math.cos(self.r - math.pi/12),
+                self.y + 1.5 * d * math.sin(self.r - math.pi/12),
+                { r = self.r - math.pi/12 ,attack = self.attack})
+    elseif self.attack == "Rapid" then
+        self.ammo = self.ammo - attacks[self.attack].ammo
+        self.area:addObject('Projectile',
+                self.x + 1.5 * d * math.cos(self.r),
+                self.y + 1.5 * d * math.sin(self.r),
+                { r = self.r ,attack = self.attack})
+    elseif self.attack == "Spread" then
+        self.ammo = self.ammo - attacks[self.attack].ammo
+        local random_r = table.random({-1,0,0,1})*math.pi/(random(8,10))
+        self.area:addObject('Projectile',
+                self.x + 1.5 * d * math.cos(self.r + random_r),
+                self.y + 1.5 * d * math.sin(self.r + random_r),
+                { r = self.r + random_r,attack = self.attack})
+    elseif self.attack == "Back" then
+        self.ammo = self.ammo - attacks[self.attack].ammo
+        local add_r = math.pi
+        self.area:addObject('Projectile',
+                self.x + 1.5 * d * math.cos(self.r),
+                self.y + 1.5 * d * math.sin(self.r),
+                { r = self.r,attack = self.attack})
+        self.area:addObject('Projectile',
+                self.x + 1.5 * d * math.cos(self.r + add_r),
+                self.y + 1.5 * d * math.sin(self.r + add_r),
+                { r = self.r + add_r,attack = self.attack})
+    elseif self.attack == "Side" then
+        self.ammo = self.ammo - attacks[self.attack].ammo
+        local add_r = math.pi/2
+        self.area:addObject('Projectile',
+                self.x + 1.5 * d * math.cos(self.r),
+                self.y + 1.5 * d * math.sin(self.r),
+                { r = self.r,attack = self.attack})
+        self.area:addObject('Projectile',
+                self.x + 1.5 * d * math.cos(self.r + add_r),
+                self.y + 1.5 * d * math.sin(self.r + add_r),
+                { r = self.r + add_r,attack = self.attack})
+        self.area:addObject('Projectile',
+                self.x + 1.5 * d * math.cos(self.r - add_r),
+                self.y + 1.5 * d * math.sin(self.r - add_r),
+                { r = self.r - add_r,attack = self.attack})
+    elseif self.attack == "Blast" then
+        self.ammo = self.ammo - attacks[self.attack].ammo
+        self.area:addObject('Projectile',
+                self.x + 1.5 * d * math.cos(self.r + math.pi/8),
+                self.y + 1.5 * d * math.sin(self.r + math.pi/8),
+                { r = self.r + math.pi/8,attack = self.attack})
+        self.area:addObject('Projectile',
+                self.x + 1.5 * d * math.cos(self.r + math.pi/12),
+                self.y + 1.5 * d * math.sin(self.r + math.pi/12),
+                { r = self.r + math.pi/12,attack = self.attack})
+        self.area:addObject('Projectile',
+                self.x + 1.5 * d * math.cos(self.r),
+                self.y + 1.5 * d * math.sin(self.r),
+                { r = self.r ,attack = self.attack})
+        self.area:addObject('Projectile',
+                self.x + 1.5 * d * math.cos(self.r - math.pi/12),
+                self.y + 1.5 * d * math.sin(self.r - math.pi/12),
+                { r = self.r - math.pi/12 ,attack = self.attack})
+        self.area:addObject('Projectile',
+                self.x + 1.5 * d * math.cos(self.r - math.pi/8),
+                self.y + 1.5 * d * math.sin(self.r - math.pi/8),
+                { r = self.r - math.pi/8 ,attack = self.attack})
     end
+
+    if self.ammo <= 0 then
+        self:setAttack("Neutral")
+        self.ammo = self.max_ammo
+    end
+
 end
 
 function Player:die()
@@ -228,4 +338,11 @@ end
 --- @type fun(amount:number)
 function Player:addSp(amount)
     self.sp = math.min(self.max_sp,self.sp + amount)
+end
+
+--- @type fun(attack:string)
+function Player:setAttack(attack)
+    self.attack = attack
+    self.shoot_cooldown = attacks[attack].cooldown
+    self.ammo = self.max_ammo
 end
