@@ -14,9 +14,10 @@ function Rock:new(area,x,y,opts)
     Rock.super.new(self,area,x,y,opts)
     local direction = table.random({-1,1})
     self.x = gw/2 + direction * (gw/2 + 48)
-    self.y = random(16,gh - 16)
+    --self.y = random(16,gh - 16)
+    self.y = gh/2
     self.w,self.h = 8,8
-    self.hp = 20
+    self.hp = 100
     self.hit_flash = false
     self.color = Color.hp
     self.collider = self.area.world:newPolygonCollider(createIrregularPolygon(8))

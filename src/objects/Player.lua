@@ -38,14 +38,18 @@ function Player:new(area, x, y, opts)
 
     self.trail_color = Color.skill_point
 
-    --self:setAttack("Neutral")
+    self:setAttack("Neutral")
     --self:setAttack("Double")
     --self:setAttack("Triple")
     --self:setAttack("Rapid")
     --self:setAttack("Spread")
     --self:setAttack("Back")
-    self:setAttack("Side")
-    self:setAttack("Blast")
+    --self:setAttack("Side")
+    --self:setAttack("Blast")
+    self.invincible = false
+    self.invincible_time = 0
+    self.invincible_max_time = 0.3
+    self.visible = true
 
     self.shoot_timer = 0
     self.shoot_cooldown = attacks[self.attack].cooldown
@@ -102,6 +106,14 @@ end
 
 function Player:update(dt)
     Player.super.update(self, dt)
+    if self.collider:enter("Enemy") then
+        local collision_data = self.collider:getEnterCollisionData("Enemy")
+        local object = collision_data.collider:getObject()
+        if object:is(Rock) and not self.invincible then
+            object:hit(10)
+            self:hit(30)
+        end
+    end
     --- collect able
     if self.collider:enter("Collectable") then
         local collision_data = self.collider:getEnterCollisionData("Collectable")
@@ -195,6 +207,7 @@ function Player:update(dt)
 end
 
 function Player:draw()
+    if not self.visible then return end
     pushRote(self.x, self.y, self.r - math.pi/2)
     --love.graphics.circle('line', self.x, self.y, self.w / 2)
     --love.graphics.rectangle("line", self.x - self.w, self.y - self.h, 2 * self.w, 2 * self.h)
@@ -351,4 +364,38 @@ function Player:setAttack(attack)
     self.attack = attack
     self.shoot_cooldown = attacks[attack].cooldown
     self.ammo = self.max_ammo
+end
+
+--- @type fun(damage:number)
+function Player:hit(damage)
+    local damage = damage or 10
+    for i=1,math.random(4,8) do
+        self.area:addObject("ExplodeParticle",self.x,self.y,{s=3,color = Color.default})
+    end
+    self:addHp(-damage)
+    if damage >= 10 then
+        self.timer:after(0.5, function()
+            self.invincible = true
+            if self.invincible then
+                self.timer:every(0.04,function()
+                    self.visible = not self.visible
+                end)
+            end
+            self.timer:after(0.4,function ()
+                self.visible = true
+                self.invincible = false
+            end)
+        end)
+    end
+
+    if damage <= 30 then
+        camera:shake(6, 0.4, 60)
+        slow(0.75, 0.25)
+        flash(2)
+    end
+    self.invincible = false
+
+    if self.hp <= 0 then
+        self:die()
+    end
 end
