@@ -12,6 +12,7 @@ function Projectile:new(area,x,y,opts)
     Projectile.super.new(self,area,x,y,opts)
     self.s = opts.s or 2.5
     self.attack = opts.attack or "Neutral"
+    self.damage = attacks[self.attack].damage or 10
     self.v = opts.v or 200
     self.color = attacks[self.attack].color or Color.default
     self.collider = self.area.world:newCircleCollider(self.x,self.y,self.s)
@@ -27,6 +28,15 @@ function Projectile:update(dt)
     if self.y < 0 then self:die() end
     if self.x > gw then self:die() end
     if self.y > gh then self:die() end
+    if self.collider:enter("Enemy") then
+        local collision_data = self.collider:getEnterCollisionData("Enemy")
+        local object = collision_data.collider:getObject()
+
+        if object:is(Rock) then
+            object:hit(self.damage)
+            self:die()
+        end
+    end
 end
 
 function Projectile:draw()

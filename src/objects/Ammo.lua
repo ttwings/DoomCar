@@ -41,6 +41,6 @@ function Ammo:die()
     self.dead = true
     --self.area:addObject("AmmoEffect",self.x,self.y,{color = Color.ammo,w = self.w,h = self.h})
     for i=1,math.random(4,8) do
-        self.area:addObject("ExplodeParticle",self.x,self.y,{s=3,color = Color.ammo})
+        self.area:addObject("AmmoEffect",self.x,self.y,{s=3,color = Color.ammo})
     end
 end
