@@ -113,6 +113,10 @@ function Player:update(dt)
             object:hit(10)
             self:hit(30)
         end
+        if object:is(Shooter) and not self.invincible then
+            object:hit(10)
+            self:hit(30)
+        end
     end
     --- collect able
     if self.collider:enter("Collectable") then
@@ -212,10 +216,27 @@ function Player:draw()
     --love.graphics.circle('line', self.x, self.y, self.w / 2)
     --love.graphics.rectangle("line", self.x - self.w, self.y - self.h, 2 * self.w, 2 * self.h)
     --love.graphics.line(self.x, self.y, self.x + 2 * self.w, self.y)
+
+    -----
     draft:diamond(self.x,self.y,2 * self.w,'line')
     draft:circle(self.x,self.y,self.w/3,8,'line')
+    --- 和尚 圆
+    --draft:circle(self.x,self.y,self.w * 2,10,"line")
+    --draft:circle(self.x,self.y + 3,3,5,"line")
+    --draft:circle(self.x,self.y - 3,3,5,"line")
+    --draft:circle(self.x + 3,self.y + 3,3,5,"line")
+    --draft:circle(self.x + 3,self.y - 3,3,5,"line")
+    --draft:circle(self.x - 3,self.y + 3,3,5,"line")
+    --draft:circle(self.x - 3,self.y - 3,3,5,"line")
+    --draft:circle(self.x + 3,self.y,3,5,"line")
+    --draft:circle(self.x - 3,self.y,3,5,"line")
+    --draft:circle(self.x,self.y,3,5,"line")
+    --draft:rectangle(self.x,self.y,self.w * 3,self.h * 2,"line")
+    ------
     --draft:rhombus(self.x,self.y,self.w,self.h,"line")
     --draft:square(self.x,self.y,self.w,"line")
+    --draft:rectangle(self.x,self.y,self.w,self.h,'line')
+    --draft:circle(self.x,self.y,self.w/2,10,'line')
     love.graphics.pop()
 
 
@@ -324,15 +345,12 @@ function Player:shot()
 end
 
 function Player:die()
-    --self.dead = true
     for i = 1, love.math.random(8, 12) do
         self.area:addObject('ExplodeParticle', self.x, self.y)
     end
     camera:shake(6, 0.4, 60)
     slow(0.5, 1)
     flash(4)
-    --camera:flash(1,{1,0,1,1})
-    self.area:addObject("InfoText",self.x,self.y,{text="咚！！"})
     self.dead = true
 end
 

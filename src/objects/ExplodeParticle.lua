@@ -12,7 +12,7 @@ function ExplodeParticle:new(area,x,y,opts)
 
     self.color = opts.color or Color.default
     self.r = random(0, 2*math.pi)
-    self.s = opts.s or random(2,3)
+    self.s = opts.s or random(2,4)
     self.v = opts.v or random(75,150)
 
     self.collider = self.area.world:newCircleCollider(self.x ,self.y ,self.s)
@@ -47,5 +47,4 @@ end
 
 function ExplodeParticle:die()
     self.dead = true
-    --self.area:addObject('ProjectileDeathEffect',self.x,self.y,{color = Color.hp,w = 3*self.s})
 end
