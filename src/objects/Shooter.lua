@@ -9,7 +9,10 @@
 --- @field world World
 Shooter = NewGameObject:extend()
 
-
+--- @param area Area
+--- @param x number
+--- @param y number
+--- @param opts table
 function Shooter:new(area,x,y,opts)
     Shooter.super.new(self,area,x,y,opts)
     local direction = table.random({-1,1})
@@ -17,7 +20,7 @@ function Shooter:new(area,x,y,opts)
     --self.y = random(16,gh - 16)
     self.y = gh/2
     self.w,self.h = 8,8
-    self.hp = 100
+    self.hp = 30
     self.hit_flash = false
     self.color = Color.hp
     self.collider = self.area.world:newPolygonCollider({self.w, 0, -self.w/2, self.h, -self.w, 0, -self.w/2, -self.h})
@@ -28,7 +31,11 @@ function Shooter:new(area,x,y,opts)
     self.collider:setObject(self)
 
     self.collider:setFixedRotation(false)
-    self.collider:setAngle(direction == 1 and 0 or math.pi)
+    --if direction == 1 then
+    --    self.collider:setAngle(0)
+    --else
+    --    self.collider:setAngle(math.pi)
+    --end
     self.collider:setFixedRotation(true)
     self.v = - direction * 10
     self.collider:setLinearVelocity(self.v,0)
