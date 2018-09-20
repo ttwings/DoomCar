@@ -39,6 +39,21 @@ function Shooter:new(area,x,y,opts)
     self.collider:setFixedRotation(true)
     self.v = - direction * 10
     self.collider:setLinearVelocity(self.v,0)
+    ---- add perAttack
+    self.timer:every(random(3,5),function ()
+        self.area:addObject("PreAttackEffect",
+                self.x + 1.4*self.w*math.cos(self.collider:getAngle()),
+                self.y + 1.4*self.w*math.sin(self.collider:getAngle()),
+                {shooter = self,color = Color.hp,duration = 1})
+        self.timer:after(1,function ()
+            self.area:addObject("EnemyProjectile",
+                    self.x + 1.4 * self.w * math.cos(self.collider:getAngle()),
+                    self.y + 1.4 * self.w * math.sin(self.collider:getAngle()),
+                    {r=math.atan2(current_room.player.y - self.y,current_room.player.x - self.x),
+                    v = random(80,100), s = 3.5}
+            )
+        end)
+    end)
 end
 
 function Shooter:update(dt)

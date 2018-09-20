@@ -4,16 +4,16 @@
 --- DateTime: 2018/8/29 下午11:10
 ---
 
---- @class NewGameObject : GameObject
---- @param area Area
---- @param x number
---- @param y number
---- @field extend fun()
+
 require("objects.GameObject")
 
 NewGameObject = GameObject:extend()
 
---- @type fun(area:Area,x:number,y:number,opts:table)
+--- @class NewGameObject : GameObject
+--- @param area Area
+--- @param x number
+--- @param y number
+--- @field extend func
 
 function NewGameObject:new(area,x,y,opts)
     NewGameObject.super.new(self,area,x,y,opts)
