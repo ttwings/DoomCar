@@ -57,4 +57,10 @@ function Stage:destroy()
 	end
 end
 
+function Stage:finished()
+	timer:after(1,function ()
+		gotoRoom("Stage","Stage")
+	end)
+end
+
 return Stage

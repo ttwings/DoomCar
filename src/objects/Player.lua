@@ -352,6 +352,7 @@ function Player:die()
     slow(0.5, 1)
     flash(4)
     self.dead = true
+    current_room:finished()
 end
 
 function Player:tick()

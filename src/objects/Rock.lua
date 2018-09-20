@@ -7,15 +7,16 @@
 --- @class Rock : NewGameObject
 --- @field area Area
 --- @field world World
-Rock = NewGameObject:extend()
+Rock = Object:extend()
 
 
-function Rock:new(area,x,y,opts)
-    Rock.super.new(self,area,x,y,opts)
+function Rock:new()
+    --Rock.super.new(self,area,x,y,opts)
+    self.area = current_room.area
     local direction = table.random({-1,1})
     self.x = gw/2 + direction * (gw/2 + 48)
-    --self.y = random(16,gh - 16)
-    self.y = gh/2
+    self.y = random(16,gh - 16)
+    --self.y = gh/2
     self.w,self.h = 8,8
     self.hp = 100
     self.hit_flash = false
@@ -31,7 +32,7 @@ function Rock:new(area,x,y,opts)
 end
 
 function Rock:update(dt)
-    Rock.super.update(self,dt)
+    --Rock.super.update(self,dt)
     self.collider:setLinearVelocity(self.v,0)
 end
 --- @field draft Draft
@@ -48,7 +49,7 @@ function Rock:draw()
 end
 
 function Rock:update(dt)
-    Rock.super.update(self,dt)
+    --Rock.super.update(self,dt)
     if self.x < -gw then self:die() end
     if self.y < -gh then self:die() end
     if self.x > 2 * gw then self:die() end

@@ -15,6 +15,7 @@ function Director:new(stage)
     self.round_time = 0
     self.difficulty_to_point = {}
     self.difficulty_to_point[1] = 16
+    self.timer = Timer()
     for i = 2, 1024,4 do
         self.difficulty_to_point[i] = self.difficulty_to_point[i - 1] + 8
         self.difficulty_to_point[i + 1] = self.difficulty_to_point[i]
@@ -24,8 +25,22 @@ function Director:new(stage)
 
     self.enemy_to_point = {
         ['Rock'] = 1,
-        ['Shooter'] = 2
+        ['Shooter'] = 2,
+        ["nil"] = 0
     }
+
+    self.enemy_spawn_chance = {
+        [1] = chanceList({'Rock',1}),
+        [2] = chanceList({'Rock',8},{'Shooter',4}),
+        [3] = chanceList({'Rock',8},{'Shooter',8}),
+        [4] = chanceList({'Rock',4},{'Shooter',8}),
+    }
+    for i = 5, 1024 do
+        self.enemy_spawn_chance[i] = chanceList(
+                {'Rock',random(2,12)},
+                {'Shooter',random(2,12)})
+    end
+    self:setEnemySpawnForThisRound()
 end
 
 function Director:update(dt)
@@ -38,5 +53,26 @@ function Director:update(dt)
 end
 
 function Director:setEnemySpawnForThisRound()
+    local point = self.difficulty_to_point[self.difficulty]
+    --- find enemy
+    local enemy_list = {}
+    while point > 0 do
+        local enemy = self.enemy_spawn_chance[self.difficulty]:next()
+        p_print(enemy)
+        point = point - self.enemy_to_point[enemy]
+        table.insert(enemy_list,enemy)
+    end
+    --- find enemy spawn times
+    local enemy_spawn_times = {}
+    for i = 1,#enemy_list do
+        enemy_spawn_times[i] = random(0,self.round_duration)
+    end
+    table.sort(enemy_spawn_times,function (a,b) return a < b end)
 
+    --- set spawn enemy timer
+    for i = 1,#enemy_spawn_times do
+        self.timer:after(enemy_spawn_times[i],function ()
+            self.stage.area:addObject("Rock")
+        end)
+    end
 end
