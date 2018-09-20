@@ -23,10 +23,16 @@ function Stage:new()
 		--self.area:addObject("Sp")
 		--self.area:addObject("Attack",0,0,{name = table.random(attacks_name)})
 	end )
+
+	---- director
+	self.director = Director(self)
+
+
 end
 
 function Stage:update(dt)
 	if self.area then self.area:update(dt) end
+	if self.director then self.director:update(dt) end
 end
 
 function Stage:draw()
