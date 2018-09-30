@@ -35,8 +35,10 @@ function love.load(  )
     input:bind("down","down")
 
     input:bind("f2",function ()
-        testRoom = addRoom("Stage","testRoom")
-        gotoRoom("Stage","testRoom")
+        --testRoom = addRoom("Stage","testRoom")
+        --stage_shop = addRoom("StageShop","stage_shop")
+        --gotoRoom("Stage","Stage")
+        gotoRoom("StageShop","stage_shop")
     end)
 
     input:bind("f3",function ()

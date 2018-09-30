@@ -7,11 +7,11 @@
 --- @class Rock : NewGameObject
 --- @field area Area
 --- @field world World
-Rock = Object:extend()
+Rock = NewGameObject:extend()
 
 
-function Rock:new()
-    --Rock.super.new(self,area,x,y,opts)
+function Rock:new(area,x,y,opts)
+    Rock.super.new(self,area,x,y,opts)
     self.area = current_room.area
     local direction = table.random({-1,1})
     self.x = gw/2 + direction * (gw/2 + 48)
@@ -49,7 +49,7 @@ function Rock:draw()
 end
 
 function Rock:update(dt)
-    --Rock.super.update(self,dt)
+    Rock.super.update(self,dt)
     if self.x < -gw then self:die() end
     if self.y < -gh then self:die() end
     if self.x > 2 * gw then self:die() end

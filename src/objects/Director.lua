@@ -25,8 +25,8 @@ function Director:new(stage)
 
     self.enemy_to_point = {
         ['Rock'] = 1,
-        ['Shooter'] = 2,
-        ["nil"] = 0
+        ['Shooter'] = 2
+        --["nil"] = 0
     }
 
     self.enemy_spawn_chance = {
@@ -72,7 +72,7 @@ function Director:setEnemySpawnForThisRound()
     --- set spawn enemy timer
     for i = 1,#enemy_spawn_times do
         self.timer:after(enemy_spawn_times[i],function ()
-            self.stage.area:addObject("Rock")
+            self.stage.area:addObject("Rock",random(32,gw - 32),random(32,gh - 32))
         end)
     end
 end
