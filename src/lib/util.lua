@@ -130,6 +130,11 @@ function table.random(t)
     return t[math.random(1,#t)]
 end
 
+function table.copy(t)
+    local table = {}
+
+end
+
 --- func
 
 function chanceList( ... )

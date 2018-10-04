@@ -58,7 +58,7 @@ function love.load(  )
     end)
     --- @type Stage[]
     rooms = {}
-    current_room = gotoRoom("SkillTree","SkillTree")
+    current_room = nil
     flash_frames = nil
 end
 
