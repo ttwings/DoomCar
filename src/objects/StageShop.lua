@@ -42,26 +42,21 @@ local input = {text = ""}
 function StageShop:update(dt)
     if self.area then self.area:update(dt) end
     --- suit update
-    -- put the layout origin at position (100,100)
-    -- the layout will grow down and to the right from this point
-    suit.layout:reset(100,100)
+    test = suit.Button("X",{font = font},gw * sw - 40,0,40,40)
 
-    -- put an input widget at the layout origin, with a cell size of 200 by 30 pixels
-    suit.Input(input, suit.layout:row(200,30))
-
-    -- put a label that displays the text below the first cell
-    -- the cell size is the same as the last one (200x30 px)
-    -- the label text will be aligned to the left
-    suit.Label("Hello, "..input.text, {align = "left"}, suit.layout:row())
-
-    -- put an empty cell that has the same size as the last cell (200x30 px)
-    suit.layout:row()
-
-    -- put a button of size 200x30 px in the cell below
-    -- if the button is pressed, quit the game
-    if suit.Button("Close", suit.layout:row()).hit then
+    if test.hit then
         love.event.quit()
     end
+
+    suit.layout:reset()
+    suit.layout:row(48,48)
+    local row_num = 8
+    for i = 0, 100 do
+        suit.Button("物品" .. i,i%row_num * 48 + 32,math.floor(i/row_num) * 48 + 32,40,40)
+    end
+
+    suit.Label("钱:" .. 10000,100,gh * sh - 60,100,40)
+
 end
 
 function StageShop:draw()
@@ -70,19 +65,21 @@ function StageShop:draw()
     camera:attach(0,0,sw*gw,sh*gh)
     love.graphics.print("中文")
     if self.area then self.area:draw() end
+
+    --- shop ui
     love.graphics.rectangle("line",1,1,gw/3 -1 ,gh - 2,8)
     love.graphics.rectangle("line",1 + gw/3,1,gw/3 -1,gh - 2,8)
     love.graphics.rectangle("line",1 + gw * 2/3,1,gw/3 - 1,gh - 2,8)
-    ---- suit gui
-    suit.draw()
 
     camera:detach()
     love.graphics.setCanvas()
-
     love.graphics.setColor(255,255,255,255)
     love.graphics.setBlendMode('alpha','premultiplied')
     love.graphics.draw(self.main_canvas,0,0,0,3,3)
     love.graphics.setBlendMode('alpha')
+    ---- suit gui
+    suit.draw()
+
 end
 
 function StageShop:destroy()

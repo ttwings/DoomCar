@@ -29,6 +29,7 @@ function love.load(  )
     camera = Camera()
     timer = Timer()
 
+    input:bind("mouse1","mouse1")
     input:bind("left","left")
     input:bind("right","right")
     input:bind("up","up")
@@ -57,7 +58,7 @@ function love.load(  )
     end)
     --- @type Stage[]
     rooms = {}
-    current_room = nil
+    current_room = gotoRoom("SkillTree","SkillTree")
     flash_frames = nil
 end
 
