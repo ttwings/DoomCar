@@ -62,6 +62,17 @@ function Director:new(stage)
                 {'Hp',random(2,12)},
                 {'Sp',random(2,12)})
     end
+
+    --- attack spawn
+
+    --for i = 5, 1024 do
+    --    self.attack_spawn_chance[i] = chanceList(
+    --            {'Ammo',random(0,1)},
+    --            {'Boost',random(2,12)},
+    --            {'Hp',random(2,12)},
+    --            {'Sp',random(2,12)})
+    --end
+
     self:setEnemySpawnForThisRound()
     self:setResourceSpawnForThisRound()
 end
@@ -94,7 +105,6 @@ function Director:setEnemySpawnForThisRound()
     --- set spawn enemy timer
     for i = 1,#enemy_spawn_times do
         self.timer:after(enemy_spawn_times[i],function ()
-            p_print(enemy_list[i])
             self.stage.area:addObject(enemy_list[i])
         end)
     end
@@ -118,7 +128,6 @@ function Director:setResourceSpawnForThisRound()
     --- set spawn enemy timer
     for i = 1,#resource_spawn_times do
         self.timer:after(resource_spawn_times[i],function ()
-            p_print(resource_list[i])
             self.stage.area:addObject(resource_list[i])
         end)
     end

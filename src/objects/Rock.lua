@@ -78,6 +78,7 @@ function Rock:hit(damage)
     self.hp = self.hp - damage
     if self.hp <= 0 then
         self:die()
+        current_room.score = current_room.score + 100
     else
         self.hit_flash = true
         self.timer:after(0.2,function ()

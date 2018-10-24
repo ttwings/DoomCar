@@ -363,20 +363,24 @@ end
 --- @type fun(amount:number)
 function Player:addAmmo(amount)
     self.ammo = math.min(self.max_ammo,self.ammo + amount)
+    current_room.score = current_room.score + 50
 end
 --- @type fun(amount:number)
 function Player:addBoost(amount)
     self.boost = math.min(self.max_boost,self.boost + amount)
+    current_room.score = current_room.score + 100
 end
 
 --- @type fun(amount:number)
 function Player:addHp(amount)
     self.hp = math.min(self.max_hp,self.hp + amount)
+    current_room.score = current_room.score + 150
 end
 
 --- @type fun(amount:number)
 function Player:addSp(amount)
     self.sp = math.min(self.max_sp,self.sp + amount)
+    current_room.score = current_room.score + 200
 end
 
 --- @type fun(attack:string)

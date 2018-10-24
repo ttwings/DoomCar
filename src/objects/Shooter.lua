@@ -31,11 +31,13 @@ function Shooter:new(area,x,y,opts)
     self.collider:setObject(self)
 
     self.collider:setFixedRotation(false)
-    --if direction == 1 then
-    --    self.collider:setAngle(0)
-    --else
-    --    self.collider:setAngle(math.pi)
-    --end
+    if direction == 1 then
+        self.collider:setAngle(0)
+    else
+        self.collider:setAngle(math.pi)
+    end
+
+    p_print(self.collider:getAngle())
     self.collider:setFixedRotation(true)
     self.v = - direction * 10
     self.collider:setLinearVelocity(self.v,0)
@@ -92,6 +94,7 @@ function Shooter:hit(damage)
     self.hp = self.hp - damage
     if self.hp <= 0 then
         self:die()
+        current_room.score = current_room.score + 150
     else
         self.hit_flash = true
         self.timer:after(0.2,function ()
