@@ -5,6 +5,11 @@
 ---
 require("objects.NewGameObject")
 --- @class Ammo : NewGameObject
+--- 弹药类
+--- @param area Area
+--- @param x number
+--- @param y number
+--- @param opts table
 --- @field collider Collider
 --- @field w number
 --- @field h number

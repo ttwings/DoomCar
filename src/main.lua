@@ -38,8 +38,8 @@ function love.load(  )
     input:bind("f2",function ()
         --testRoom = addRoom("Stage","testRoom")
         --stage_shop = addRoom("StageShop","stage_shop")
-        --gotoRoom("Stage","Stage")
-        gotoRoom("StageShop","stage_shop")
+        gotoRoom("Stage","Stage")
+        --gotoRoom("StageShop","stage_shop")
     end)
 
     input:bind("f3",function ()
@@ -82,7 +82,6 @@ function love.draw()
         love.graphics.rectangle("fill",0,0,sw*gw,sh*gh)
         love.graphics.setColor(1,1,1,1)
     end
-   
 end
 
 function slow(amount,duration)

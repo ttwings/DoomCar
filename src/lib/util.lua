@@ -39,7 +39,7 @@ function recursiveEnumerate( folder,file_list )
     local items = love.filesystem.getDirectoryItems(folder)
     for _,item in ipairs(items) do
         local file = folder .. '/' .. item
-        if love.filesystem.isFile(file) then
+        if love.filesystem.getInfo(file).type == "file" then
             table.insert(file_list,file)
         elseif love.filesystem.isDirectory(file) then
             recursiveEnumerate(file,file_liset)
@@ -148,8 +148,8 @@ function chanceList( ... )
                         table.insert(self.chance_list,chance_definition[1])
                     end
                 end
-                return table.remove(self.chance_list,random(1,#self.chance_list))
             end
+            return table.remove(self.chance_list,random(1,#self.chance_list))
         end
     }
 end

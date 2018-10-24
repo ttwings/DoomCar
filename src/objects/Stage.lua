@@ -15,13 +15,14 @@ function Stage:new()
 	self.main_canvas = love.graphics.newCanvas(gw,gh)
 	self.player = self.area:addObject("Player",gw/2,gh/2)
 	input:bind("p",function ()
-		--self.area:addObject("Ammo",random(0,gw),random(0,gh))
-		self.area:addObject("Rock",random(32,gw - 32),random(32,gh - 32))
-		--self.area:addObject("Shooter",random(32,gw - 32),random(32,gh - 32))
+		self.area:addObject("Ammo")
+		self.area:addObject("Rock")
 
-		--self.area:addObject("Hp")
-		--self.area:addObject("Sp")
-		--self.area:addObject("Attack",0,0,{name = table.random(attacks_name)})
+		self.area:addObject("Shooter")
+
+		self.area:addObject("Hp")
+		self.area:addObject("Sp")
+		self.area:addObject("Attack",0,0,{name = table.random(attacks_name)})
 	end )
 
 	---- director

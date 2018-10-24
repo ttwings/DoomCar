@@ -56,6 +56,7 @@ function Player:new(area, x, y, opts)
     ---- draw ship polygons ----
     self.ship = "Fighter"
     self.polygons = {}
+
     --if self.ship == "Fighter" then
     --    self.polygons[1] = {
     --        self.w, 0, -- 1
