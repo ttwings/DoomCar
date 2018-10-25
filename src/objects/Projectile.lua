@@ -40,6 +40,10 @@ function Projectile:update(dt)
             object:hit(self.damage)
             self:die()
         end
+        if object:is(BigRock) then
+            object:hit(self.damage)
+            self:die()
+        end
     end
 end
 

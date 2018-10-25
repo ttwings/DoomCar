@@ -111,12 +111,16 @@ function Player:update(dt)
         local collision_data = self.collider:getEnterCollisionData("Enemy")
         local object = collision_data.collider:getObject()
         if object:is(Rock) and not self.invincible then
-            object:hit(10)
-            self:hit(30)
+            object:hit(5)
+            self:hit(5)
         end
         if object:is(Shooter) and not self.invincible then
             object:hit(10)
-            self:hit(30)
+            self:hit(10)
+        end
+        if object:is(BigRock) and not self.invincible then
+            object:hit(20)
+            self:hit(20)
         end
     end
     --- collect able

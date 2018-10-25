@@ -25,21 +25,22 @@ function Director:new(stage)
 
     self.enemy_to_point = {
         ['Rock'] = 1,
-        ['Shooter'] = 2
-        --["nil"] = 0
+        ['Shooter'] = 2,
+        ["BigRock"] = 1
     }
 
 
     self.enemy_spawn_chance = {
-        [1] = chanceList({'Rock',1}),
+        [1] = chanceList({'BigRock',1}),
         [2] = chanceList({'Rock',8},{'Shooter',4}),
-        [3] = chanceList({'Rock',8},{'Shooter',8}),
-        [4] = chanceList({'Rock',4},{'Shooter',8}),
+        [3] = chanceList({'Rock',8},{'Shooter',4},{'BigRock',2}),
+        [4] = chanceList({'Rock',4},{'Shooter',8},{'BigRock',4}),
     }
     for i = 5, 1024 do
         self.enemy_spawn_chance[i] = chanceList(
                 {'Rock',random(2,12)},
-                {'Shooter',random(2,12)})
+                {'Shooter',random(2,12)},
+                {'BigRock',random(2,12)})
     end
 --- resource spawn
     self.resource_to_point = {

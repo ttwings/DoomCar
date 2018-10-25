@@ -29,7 +29,7 @@ function Shooter:new(area,x,y,opts)
     self.collider:setObject(self)
 
     self.collider:setFixedRotation(false)
-    self.collider:setAngle(direction == 1 and 0 or math.pi)
+    self.collider:setAngle(direction == 1 and math.pi or 0)
     self.collider:setFixedRotation(true)
 
     self.v = - direction * 10
