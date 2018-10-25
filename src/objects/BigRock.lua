@@ -53,7 +53,7 @@ end
 function BigRock:die()
     self.dead = true
     for i = 1,random(2,4) do
-        self.area:addObject("Rock",self.x,self.y)
+        self.area:addObject("Rock",_,_,{x = self.x,y = self.y})
     end
 end
 

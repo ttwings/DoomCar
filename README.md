@@ -19,5 +19,6 @@ Study BYTEPATH SSYGEN blog。Make a Doom Car game.
 
 ---------------------
 ## 截图
-![start](doc/2018102501.png)
-![gaming](doc/2018102502.png)
+![start](src/doc/2018102501.png)
+![gaming](src/doc/2018102502.png)
+![gaming](src/doc/2018102503.png)

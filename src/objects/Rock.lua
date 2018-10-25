@@ -14,8 +14,8 @@ function Rock:new(area,x,y,opts)
     Rock.super.new(self,area,x,y,opts)
     self.area = current_room.area
     local direction = table.random({-1,1})
-    self.x = x or gw/2 + direction * (gw/2 + 48)
-    self.y = y or random(16,gh - 16)
+    self.x = opts.x or gw/2 + direction * (gw/2 + 48)
+    self.y = opts.y or random(16,gh - 16)
     --self.y = gh/2
     self.w,self.h = 8,8
     self.hp = 10
