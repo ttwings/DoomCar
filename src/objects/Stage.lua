@@ -29,8 +29,6 @@ function Stage:new()
 
 	---- director
 	self.director = Director(self)
-
-
 end
 
 function Stage:update(dt)
@@ -100,17 +98,18 @@ end
 function Stage:destroy()
 	if self.area then
 		self.area:destroy()
-		self.area = nil
+		--self.area = nil
 	end
 	if self.director then
 		self.director:destroy()
-		self.director = nil
+		--self.director = nil
 	end
 end
 
 function Stage:finished()
 	timer:after(1,function ()
-		gotoRoom("Stage","Stage")
+		gotoRoom("Stage","Stage1")
+		p_print("new stage")
 	end)
 end
 

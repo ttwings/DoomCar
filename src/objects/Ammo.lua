@@ -19,8 +19,9 @@ Ammo = NewGameObject:extend()
 
 function Ammo:new(area,x,y,opts)
     Ammo.super.new(self,area,x,y,opts)
-    --self.x = x
-    --self.y = y
+    local direction = table.random({-1,1})
+    self.x = gw/2 + direction * (gw/2 + 48)
+    self.y = random(16,gh - 16)
     self.w = 8
     self.h = 8
     self.collider = self.area.world:newRectangleCollider(self.x,self.y,self.w,self.h)

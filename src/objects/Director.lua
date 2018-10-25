@@ -64,17 +64,30 @@ function Director:new(stage)
     end
 
     --- attack spawn
+    self.attack_to_point = {
+    ["Double"]  = 4,
+    ['Triple']  = 4,
+    ['Rapid']   = 5,
+    ['Spread']  = 5,
+    ['Back']    = 6,
+    ['Side']    = 6,
+    ['Blast']   = 7
+    }
 
-    --for i = 5, 1024 do
-    --    self.attack_spawn_chance[i] = chanceList(
-    --            {'Ammo',random(0,1)},
-    --            {'Boost',random(2,12)},
-    --            {'Hp',random(2,12)},
-    --            {'Sp',random(2,12)})
-    --end
+    local attacks_name = {}
+    for k,v in pairs(attacks) do
+        table.insert(attacks_name,k)
+    end
+    self.attack_spawn_chance = {}
+    for i = 1, 1024 do
+        local attack_index = math.random(1,#attacks_name)
+        self.attack_spawn_chance[i] = chanceList(
+                {attacks_name[attack_index],random(1,math.floor(i))})
+    end
 
     self:setEnemySpawnForThisRound()
     self:setResourceSpawnForThisRound()
+    self:setAttackSpawnForThisRound()
 end
 
 function Director:update(dt)
@@ -84,7 +97,12 @@ function Director:update(dt)
         self.difficulty = self.difficulty + 1
         self:setEnemySpawnForThisRound()
         self:setResourceSpawnForThisRound()
+        self:setAttackSpawnForThisRound()
     end
+end
+
+function Director:destroy()
+
 end
 
 function Director:setEnemySpawnForThisRound()
@@ -125,10 +143,34 @@ function Director:setResourceSpawnForThisRound()
         resource_spawn_times[i] = random(0,self.round_duration)
     end
     table.sort(resource_spawn_times,function (a,b) return a < b end)
-    --- set spawn enemy timer
+    --- set spawn resource timer
     for i = 1,#resource_spawn_times do
         self.timer:after(resource_spawn_times[i],function ()
-            self.stage.area:addObject(resource_list[i])
+            current_room.area:addObject(resource_list[i])
+        end)
+    end
+end
+
+function Director:setAttackSpawnForThisRound()
+    local point = self.difficulty_to_point[self.difficulty]
+    --- find attack
+    local attack_list = {}
+    while point > 0 do
+        local attack = self.attack_spawn_chance[self.difficulty]:next()
+        point = point - self.attack_to_point[attack]
+        table.insert(attack_list,attack)
+    end
+    --- find attack spawn times
+    local attack_spawn_times = {}
+    for i = 1,#attack_list do
+        attack_spawn_times[i] = random(0,self.round_duration)
+    end
+    table.sort(attack_spawn_times,function (a,b) return a < b end)
+    --- set spawn attack timer
+    for i = 1,#attack_spawn_times do
+        self.timer:after(attack_spawn_times[i],function ()
+            p_print(attack_list[i])
+            current_room.area:addObject("Attack",0,0,{name = attack_list[i]})
         end)
     end
 end

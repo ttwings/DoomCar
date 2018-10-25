@@ -17,28 +17,21 @@ function Shooter:new(area,x,y,opts)
     Shooter.super.new(self,area,x,y,opts)
     local direction = table.random({-1,1})
     self.x = gw/2 + direction * (gw/2 + 48)
-    --self.y = random(16,gh - 16)
-    self.y = gh/2
+    self.y = random(16,gh - 16)
+    --self.y = gh/2
     self.w,self.h = 8,8
     self.hp = 30
     self.hit_flash = false
     self.color = Color.hp
     self.collider = self.area.world:newPolygonCollider({self.w, 0, -self.w/2, self.h, -self.w, 0, -self.w/2, -self.h})
     self.collider:setPosition(self.x,self.y)
-
-
     self.collider:setCollisionClass("Enemy")
     self.collider:setObject(self)
 
     self.collider:setFixedRotation(false)
-    if direction == 1 then
-        self.collider:setAngle(0)
-    else
-        self.collider:setAngle(math.pi)
-    end
-
-    p_print(self.collider:getAngle())
+    self.collider:setAngle(direction == 1 and 0 or math.pi)
     self.collider:setFixedRotation(true)
+
     self.v = - direction * 10
     self.collider:setLinearVelocity(self.v,0)
     ---- add perAttack
@@ -65,6 +58,7 @@ end
 --- @field draft Draft
 function Shooter:draw()
     pushRote(self.x,self.y,self.collider:getAngle())
+    p_print(self.collider:getAngle())
     love.graphics.setColor(self.color)
     if self.hit_flash then
         love.graphics.setColor(Color.default)
