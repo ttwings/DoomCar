@@ -49,13 +49,7 @@ function love.load(  )
 
 
     input:bind("f1",function ()
-        print("Before collection : " .. collectgarbage("count")/1024)
-        collectgarbage()
-        print("After collection : ".. collectgarbage("count")/1024)
-        print("object count : " )
-        local counts = type_count()
-        for k , v in pairs(counts) do print(k,v) end
-        print("------------------------------")
+        debug.getCollection()
     end)
     --- @type Stage[]
     rooms = {}

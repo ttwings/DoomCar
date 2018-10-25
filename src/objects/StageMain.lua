@@ -5,13 +5,11 @@
 StageMain = Object:extend()
 
 function StageMain:new()
-    self.area = Area(self)
     self.font = font
     self.main_canvas = love.graphics.newCanvas(gw,gh)
 end
 
 function StageMain:update(dt)
-    if self.area then self.area:update(dt) end
     input:bind("space",function ()
         gotoRoom("Stage","Stage")
     end)
@@ -21,7 +19,6 @@ function StageMain:draw()
     love.graphics.setCanvas(self.main_canvas)
     love.graphics.clear()
     camera:attach(0,0,sw*gw,sh*gh)
-    if self.area then self.area:draw() end
     camera:detach()
     love.graphics.print("打飞机",gw/2,gh/2 - 50,0,3,3,math.floor(self.font:getWidth("打飞机")/2))
     local t1 = "按空格开始"
@@ -37,10 +34,7 @@ function StageMain:draw()
 end
 
 function StageMain:destroy()
-    if self.area then
-        self.area:destroy()
-        --self.area = nil
-    end
+
 end
 
 function StageMain:finished()

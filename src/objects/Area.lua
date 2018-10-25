@@ -50,6 +50,6 @@ function Area:destroy()
 	game_objects = {}
 	if self.world then
 		self.world:destroy()
-		--self.world = nil
+		self.world = nil
 	end
 end

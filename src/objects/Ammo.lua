@@ -50,3 +50,7 @@ function Ammo:die()
         self.area:addObject("AmmoEffect",self.x,self.y,{s=3,color = Color.ammo})
     end
 end
+
+function Ammo:destroy()
+    --self.collider:destroy()
+end

@@ -174,3 +174,7 @@ function Director:setAttackSpawnForThisRound()
         end)
     end
 end
+
+function Director:destroy()
+
+end

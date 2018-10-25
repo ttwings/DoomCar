@@ -98,19 +98,21 @@ end
 function Stage:destroy()
 	if self.area then
 		self.area:destroy()
-		--self.area = nil
+		self.area = nil
 	end
 	if self.director then
 		self.director:destroy()
-		--self.director = nil
+		self.director = nil
 	end
 end
 
 function Stage:finished()
+	table.insert(score,self.score)
 	timer:after(1,function ()
 		gotoRoom("StageEnd","StageEnd")
 		p_print("new stage")
 	end)
+	debug.getCollection()
 end
 
 return Stage
