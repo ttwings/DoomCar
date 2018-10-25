@@ -25,7 +25,7 @@ function addRoom( room_type, room_name, ... )
     rooms[room_name] = room
     return room
 end
---- @type fun(room_type:Stage,room_name:string)
+--- @type fun(room_type:string,room_name:string)
 function gotoRoom( room_type, room_name, ... )
     if current_room and current_room.destroy then current_room:destroy() end
     if current_room and rooms[room_name] then

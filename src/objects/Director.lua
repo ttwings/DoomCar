@@ -170,7 +170,6 @@ function Director:setAttackSpawnForThisRound()
     --- set spawn attack timer
     for i = 1,#attack_spawn_times do
         self.timer:after(attack_spawn_times[i],function ()
-            p_print(attack_list[i])
             current_room.area:addObject("Attack",0,0,{name = attack_list[i]})
         end)
     end

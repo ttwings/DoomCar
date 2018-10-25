@@ -31,18 +31,19 @@ function Projectile:update(dt)
     if self.collider:enter("Enemy") then
         local collision_data = self.collider:getEnterCollisionData("Enemy")
         local object = collision_data.collider:getObject()
-
-        if object:is(Rock) then
-            object:hit(self.damage)
-            self:die()
-        end
-        if object:is(Shooter) then
-            object:hit(self.damage)
-            self:die()
-        end
-        if object:is(BigRock) then
-            object:hit(self.damage)
-            self:die()
+        if object then
+            if object:is(Rock) then
+                object:hit(self.damage)
+                self:die()
+            end
+            if object:is(Shooter) then
+                object:hit(self.damage)
+                self:die()
+            end
+            if object:is(BigRock) then
+                object:hit(self.damage)
+                self:die()
+            end
         end
     end
 end

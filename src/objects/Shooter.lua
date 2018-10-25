@@ -58,7 +58,6 @@ end
 --- @field draft Draft
 function Shooter:draw()
     pushRote(self.x,self.y,self.collider:getAngle())
-    p_print(self.collider:getAngle())
     love.graphics.setColor(self.color)
     if self.hit_flash then
         love.graphics.setColor(Color.default)

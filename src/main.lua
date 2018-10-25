@@ -38,8 +38,9 @@ function love.load(  )
     input:bind("f2",function ()
         --testRoom = addRoom("Stage","testRoom")
         --stage_shop = addRoom("StageShop","stage_shop")
-        gotoRoom("Stage","Stage")
+        --gotoRoom("Stage","Stage")
         --gotoRoom("StageShop","stage_shop")
+        gotoRoom("StageMain","stage_main")
     end)
 
     input:bind("f3",function ()
@@ -58,7 +59,8 @@ function love.load(  )
     end)
     --- @type Stage[]
     rooms = {}
-    current_room = nil
+    --current_room = StageMain:new()
+    gotoRoom("StageMain","StageMain")
     flash_frames = nil
 end
 

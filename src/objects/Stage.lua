@@ -108,7 +108,7 @@ end
 
 function Stage:finished()
 	timer:after(1,function ()
-		gotoRoom("Stage","Stage1")
+		gotoRoom("StageEnd","StageEnd")
 		p_print("new stage")
 	end)
 end
