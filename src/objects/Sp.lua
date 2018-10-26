@@ -41,5 +41,5 @@ end
 function Sp:die()
     self.dead = true
     self.area:addObject("SpEffect",self.x,self.y,{color = Color.skill_point})
-    self.area:addObject("InfoText",self.x,self.y,{text="+SP",color = Color.skill_point})
+    self.area:addObject("InfoText",self.x,self.y,{text="科技",color = Color.skill_point})
 end

@@ -20,7 +20,7 @@ function StageMain:draw()
     love.graphics.clear()
     camera:attach(0,0,sw*gw,sh*gh)
     camera:detach()
-    love.graphics.print("打飞机",gw/2,gh/2 - 50,0,3,3,math.floor(self.font:getWidth("打飞机")/2))
+    love.graphics.print("毁灭战车",gw/2,gh/2 - 50,0,3,3,math.floor(self.font:getWidth("打飞机")/2))
     local t1 = "按空格开始"
     love.graphics.print(t1,gw/2,gh/2 + 40,0,1,1,math.floor(self.font:getWidth(t1)/2))
     local t2 = "左右箭头控制方向\n上下箭头控制速度"

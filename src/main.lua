@@ -10,6 +10,7 @@ fn = require("lib.moses")
 
 function love.load(  )
     font = Fonts.unifont
+    --font = love.graphics.newFont("assets/font/SourceHanSerifCN-Regular.otf")
     draft = Draft()
     love.graphics.setFont(font)
     love.math.setRandomSeed(os.time())

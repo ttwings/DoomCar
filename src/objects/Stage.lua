@@ -46,10 +46,10 @@ function Stage:draw()
 		camera:detach()
 	--- score
 	love.graphics.setColor(Color.default)
-	love.graphics.print(self.score,gw - 40,0)
+	love.graphics.print('得分：' .. self.score,gw - 100,0)
 	--- sp
 	love.graphics.setColor(Color.skill_point)
-	love.graphics.print('SP : ' .. self.player.sp,0,0)
+	love.graphics.print('科技 : ' .. self.player.sp,0,0)
 	-- HP
 	local r, g, b = unpack(Color.hp)
 	local hp, max_hp = self.player.hp, self.player.max_hp
@@ -57,8 +57,8 @@ function Stage:draw()
 	love.graphics.rectangle('fill', gw/2 - 52, gh - 16, 48*(hp/max_hp), 4)
 	love.graphics.setColor(r - 32/255, g - 32/255, b - 32/255)
 	love.graphics.rectangle('line', gw/2 - 52, gh - 16, 48, 4)
-	love.graphics.print('HP', gw/2 - 52 + 24, gh - 24, 0, 1, 1,
-			math.floor(self.font:getWidth('HP')/2), math.floor(self.font:getHeight()/2))
+	love.graphics.print('护甲', gw/2 - 52 + 24, gh - 24, 0, 1, 1,
+			math.floor(self.font:getWidth('护甲')/2), math.floor(self.font:getHeight()/2))
 	love.graphics.print(hp .. '/' .. max_hp, gw/2 - 52 + 24, gh - 6, 0, 1, 1,
 			math.floor(self.font:getWidth(hp .. '/' .. max_hp)/2),
 			math.floor(self.font:getHeight()/2))
@@ -70,8 +70,8 @@ function Stage:draw()
 	love.graphics.rectangle('fill', gw/2 - 52, 16, 48*(ammo/max_ammo), 4)
 	love.graphics.setColor(r - 32/255, g - 32/255, b - 32/255)
 	love.graphics.rectangle('line', gw/2 - 52, 16, 48, 4)
-	love.graphics.print('Ammo', gw/2 - 52 + 24, 24, 0, 1, 1,
-			math.floor(self.font:getWidth('Ammo')/2), math.floor(self.font:getHeight()/2))
+	love.graphics.print('弹药', gw/2 - 52 + 24, 24, 0, 1, 1,
+			math.floor(self.font:getWidth('弹药')/2), math.floor(self.font:getHeight()/2))
 	love.graphics.print(ammo .. '/' .. max_ammo, gw/2 - 52 + 24, 6, 0, 1, 1,
 			math.floor(self.font:getWidth(ammo .. '/' .. max_ammo)/2),
 			math.floor(self.font:getHeight()/2))
@@ -83,8 +83,8 @@ function Stage:draw()
 	love.graphics.rectangle('fill', gw/2 + 4, 16, 48*(boost/max_boost), 4)
 	love.graphics.setColor(r - 32/255, g - 32/255, b - 32/255)
 	love.graphics.rectangle('line', gw/2 + 4, 16, 48, 4)
-	love.graphics.print('Boost', gw/2 + 24 + 4, 24, 0, 1, 1,
-			math.floor(self.font:getWidth('Boost')/2), math.floor(self.font:getHeight()/2))
+	love.graphics.print('燃料', gw/2 + 24 + 4, 24, 0, 1, 1,
+			math.floor(self.font:getWidth('燃料')/2), math.floor(self.font:getHeight()/2))
 	love.graphics.print(math.floor(boost) .. '/' .. max_boost, gw/2 + 24 + 4, 6, 0, 1, 1,
 			math.floor(self.font:getWidth(math.floor(boost)  .. '/' .. max_boost)/2),
 			math.floor(self.font:getHeight()/2))

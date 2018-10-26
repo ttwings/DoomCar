@@ -43,5 +43,5 @@ end
 function Boost:die()
     self.dead = true
     self.area:addObject("BoostEffect",self.x,self.y,{color = Color.boost})
-    self.area:addObject("InfoText",self.x,self.y,{text="+BOOST",color = Color.boost})
+    self.area:addObject("InfoText",self.x,self.y,{text="燃料",color = Color.boost})
 end
