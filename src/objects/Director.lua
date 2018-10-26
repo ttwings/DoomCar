@@ -103,7 +103,10 @@ function Director:update(dt)
 end
 
 function Director:destroy()
-
+    if self.timer then
+        self.timer:destroy()
+        self.timer = nil
+    end
 end
 
 function Director:setEnemySpawnForThisRound()

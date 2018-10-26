@@ -1,6 +1,7 @@
 --- @class Stage
 --- @field world World
 --- @field area Area
+require("objects.Area")
 
 Stage = Object:extend()
 
@@ -113,6 +114,15 @@ function Stage:finished()
 		p_print("new stage")
 	end)
 	debug.getCollection()
+end
+
+function Stage:deactivate()
+	p_print("deactivate")
+	self:destroy()
+end
+
+function Stage:activate()
+	self:new()
 end
 
 return Stage

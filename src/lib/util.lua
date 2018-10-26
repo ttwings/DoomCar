@@ -29,7 +29,7 @@ end
 function gotoRoom( room_type, room_name, ... )
     if current_room and current_room.destroy then current_room:destroy() end
     if current_room and rooms[room_name] then
-        if current_room.deactivate then current_room:activate() end
+        if current_room.deactivate then current_room:deactivate() end
         current_room = rooms[room_name]
         if current_room.activate then current_room:activate() end
     else current_room = addRoom(room_type, room_name, ...) end
@@ -49,8 +49,8 @@ end
 
 function requireFiles(files)
     for _, file in ipairs(files) do
-        local file = file:sub(1,-5)
-        require(file)
+        local f = file:sub(1,-5)
+        require(f)
     end
 end
 
