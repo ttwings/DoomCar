@@ -40,7 +40,8 @@ function Node:update(dt)
         self.bought = false
     end
 
-    if self.hot and skill_points.left > 0 and skill_points.bought < skill_points.max and input:pressed("left_click") then
+    if self.hot and skill_points.left > 0
+            and skill_points.bought < skill_points.max and input:pressed("left_click") then
         if current_room:canNodeBeBought(self.id) then
             table.insert(bought_node_indexes,self.id)
             skill_points.bought = skill_points.bought + 1

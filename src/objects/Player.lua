@@ -350,7 +350,7 @@ function Player:shot()
 end
 
 function Player:die()
-    for i = 1, love.math.random(8, 12) do
+    for _ = 1, love.math.random(8, 12) do
         self.area:addObject('ExplodeParticle', self.x, self.y)
     end
     camera:shake(6, 0.4, 60)
@@ -397,7 +397,7 @@ end
 --- @type fun(damage:number)
 function Player:hit(damage)
     local damage = damage or 10
-    for i=1,math.random(4,8) do
+    for _=1,math.random(4,8) do
         self.area:addObject("ExplodeParticle",self.x,self.y,{s=3,color = Color.default})
     end
     self:addHp(-damage)

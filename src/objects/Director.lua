@@ -76,7 +76,7 @@ function Director:new(stage)
     }
 
     local attacks_name = {}
-    for k,v in pairs(attacks) do
+    for k,_ in pairs(attacks) do
         table.insert(attacks_name,k)
     end
     self.attack_spawn_chance = {}
@@ -173,8 +173,4 @@ function Director:setAttackSpawnForThisRound()
             current_room.area:addObject("Attack",0,0,{name = attack_list[i]})
         end)
     end
-end
-
-function Director:destroy()
-
 end
