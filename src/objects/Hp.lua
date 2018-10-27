@@ -37,5 +37,5 @@ end
 function Hp:die()
     self.dead = true
     self.area:addObject("HpEffect",self.x,self.y,{color = Color.hp})
-    self.area:addObject("InfoText",self.x,self.y,{text="+HP",color=Color.hp})
+    self.area:addObject("InfoText",self.x,self.y,{text="修复",color=Color.hp})
 end

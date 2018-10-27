@@ -25,11 +25,11 @@ function addRoom( room_type, room_name, ... )
     rooms[room_name] = room
     return room
 end
---- @type fun(room_type:Stage,room_name:string)
+--- @type fun(room_type:string,room_name:string)
 function gotoRoom( room_type, room_name, ... )
     if current_room and current_room.destroy then current_room:destroy() end
     if current_room and rooms[room_name] then
-        if current_room.deactivate then current_room:activate() end
+        if current_room.deactivate then current_room:deactivate() end
         current_room = rooms[room_name]
         if current_room.activate then current_room:activate() end
     else current_room = addRoom(room_type, room_name, ...) end
@@ -39,7 +39,7 @@ function recursiveEnumerate( folder,file_list )
     local items = love.filesystem.getDirectoryItems(folder)
     for _,item in ipairs(items) do
         local file = folder .. '/' .. item
-        if love.filesystem.isFile(file) then
+        if love.filesystem.getInfo(file).type == "file" then
             table.insert(file_list,file)
         elseif love.filesystem.isDirectory(file) then
             recursiveEnumerate(file,file_liset)
@@ -49,8 +49,8 @@ end
 
 function requireFiles(files)
     for _, file in ipairs(files) do
-        local file = file:sub(1,-5)
-        require(file)
+        local f = file:sub(1,-5)
+        require(f)
     end
 end
 
@@ -148,8 +148,19 @@ function chanceList( ... )
                         table.insert(self.chance_list,chance_definition[1])
                     end
                 end
-                return table.remove(self.chance_list,random(1,#self.chance_list))
             end
+            return table.remove(self.chance_list,random(1,#self.chance_list))
         end
     }
+end
+
+--- debug
+function debug.getCollection()
+    print("Before collection : " .. collectgarbage("count")/1024)
+    collectgarbage()
+    print("After collection : ".. collectgarbage("count")/1024)
+    print("object count : " )
+    local counts = type_count()
+    for k , v in pairs(counts) do print(k,v) end
+    print("------------------------------")
 end

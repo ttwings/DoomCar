@@ -5,6 +5,11 @@
 ---
 require("objects.NewGameObject")
 --- @class Ammo : NewGameObject
+--- 弹药类
+--- @param area Area
+--- @param x number
+--- @param y number
+--- @param opts table
 --- @field collider Collider
 --- @field w number
 --- @field h number
@@ -14,8 +19,9 @@ Ammo = NewGameObject:extend()
 
 function Ammo:new(area,x,y,opts)
     Ammo.super.new(self,area,x,y,opts)
-    --self.x = x
-    --self.y = y
+    local direction = table.random({-1,1})
+    self.x = gw/2 + direction * (gw/2 + 48)
+    self.y = random(16,gh - 16)
     self.w = 8
     self.h = 8
     self.collider = self.area.world:newRectangleCollider(self.x,self.y,self.w,self.h)
@@ -40,7 +46,11 @@ end
 function Ammo:die()
     self.dead = true
     --self.area:addObject("AmmoEffect",self.x,self.y,{color = Color.ammo,w = self.w,h = self.h})
-    for i=1,math.random(4,8) do
+    for _=1,math.random(4,8) do
         self.area:addObject("AmmoEffect",self.x,self.y,{s=3,color = Color.ammo})
     end
+end
+
+function Ammo:destroy()
+    --self.collider:destroy()
 end

@@ -109,11 +109,13 @@ function SkillTree:draw()
             mx,my = mx/sx,my/sy
 
             love.graphics.setColor(255,0,0,222)
-            love.graphics.rectangle('fill',mx,my,16 + max_text_width,font:getHeight() + #stats/3 * font:getHeight())
+            love.graphics.rectangle('fill',mx,my
+            ,16 + max_text_width,font:getHeight() + #stats/3 * font:getHeight())
             --- draw text
             love.graphics.setColor(Color.default)
             for i = 1,#stats,3 do
-                love.graphics.print(stats[i],math.floor(mx + 8),math.floor(my + font:getHeight()/2 + math.floor(i/3) * font:getHeight()))
+                love.graphics.print(stats[i]
+                ,math.floor(mx + 8),math.floor(my + font:getHeight()/2 + math.floor(i/3) * font:getHeight()))
             end
         end
     end

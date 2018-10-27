@@ -10,6 +10,7 @@ fn = require("lib.moses")
 
 function love.load(  )
     font = Fonts.unifont
+    --font = love.graphics.newFont("assets/font/SourceHanSerifCN-Regular.otf")
     draft = Draft()
     love.graphics.setFont(font)
     love.math.setRandomSeed(os.time())
@@ -39,7 +40,8 @@ function love.load(  )
         --testRoom = addRoom("Stage","testRoom")
         --stage_shop = addRoom("StageShop","stage_shop")
         --gotoRoom("Stage","Stage")
-        gotoRoom("StageShop","stage_shop")
+        --gotoRoom("StageShop","stage_shop")
+        gotoRoom("StageMain","stage_main")
     end)
 
     input:bind("f3",function ()
@@ -48,17 +50,12 @@ function love.load(  )
 
 
     input:bind("f1",function ()
-        print("Before collection : " .. collectgarbage("count")/1024)
-        collectgarbage()
-        print("After collection : ".. collectgarbage("count")/1024)
-        print("object count : " )
-        local counts = type_count()
-        for k , v in pairs(counts) do print(k,v) end
-        print("------------------------------")
+        debug.getCollection()
     end)
     --- @type Stage[]
     rooms = {}
-    current_room = nil
+    --current_room = StageMain:new()
+    gotoRoom("StageMain","StageMain")
     flash_frames = nil
 end
 
@@ -82,7 +79,6 @@ function love.draw()
         love.graphics.rectangle("fill",0,0,sw*gw,sh*gh)
         love.graphics.setColor(1,1,1,1)
     end
-   
 end
 
 function slow(amount,duration)

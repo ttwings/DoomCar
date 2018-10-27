@@ -56,6 +56,7 @@ function Player:new(area, x, y, opts)
     ---- draw ship polygons ----
     self.ship = "Fighter"
     self.polygons = {}
+
     --if self.ship == "Fighter" then
     --    self.polygons[1] = {
     --        self.w, 0, -- 1
@@ -109,13 +110,19 @@ function Player:update(dt)
     if self.collider:enter("Enemy") then
         local collision_data = self.collider:getEnterCollisionData("Enemy")
         local object = collision_data.collider:getObject()
-        if object:is(Rock) and not self.invincible then
-            object:hit(10)
-            self:hit(30)
-        end
-        if object:is(Shooter) and not self.invincible then
-            object:hit(10)
-            self:hit(30)
+        if object then
+            if object:is(Rock) and not self.invincible then
+                object:hit(5)
+                self:hit(5)
+            end
+            if object:is(Shooter) and not self.invincible then
+                object:hit(10)
+                self:hit(10)
+            end
+            if object:is(BigRock) and not self.invincible then
+                object:hit(20)
+                self:hit(20)
+            end
         end
     end
     --- collect able
@@ -345,7 +352,7 @@ function Player:shot()
 end
 
 function Player:die()
-    for i = 1, love.math.random(8, 12) do
+    for _ = 1, love.math.random(8, 12) do
         self.area:addObject('ExplodeParticle', self.x, self.y)
     end
     camera:shake(6, 0.4, 60)
@@ -362,20 +369,24 @@ end
 --- @type fun(amount:number)
 function Player:addAmmo(amount)
     self.ammo = math.min(self.max_ammo,self.ammo + amount)
+    current_room.score = current_room.score + 50
 end
 --- @type fun(amount:number)
 function Player:addBoost(amount)
     self.boost = math.min(self.max_boost,self.boost + amount)
+    current_room.score = current_room.score + 100
 end
 
 --- @type fun(amount:number)
 function Player:addHp(amount)
     self.hp = math.min(self.max_hp,self.hp + amount)
+    current_room.score = current_room.score + 150
 end
 
 --- @type fun(amount:number)
 function Player:addSp(amount)
     self.sp = math.min(self.max_sp,self.sp + amount)
+    current_room.score = current_room.score + 200
 end
 
 --- @type fun(attack:string)
@@ -388,7 +399,7 @@ end
 --- @type fun(damage:number)
 function Player:hit(damage)
     local damage = damage or 10
-    for i=1,math.random(4,8) do
+    for _=1,math.random(4,8) do
         self.area:addObject("ExplodeParticle",self.x,self.y,{s=3,color = Color.default})
     end
     self:addHp(-damage)

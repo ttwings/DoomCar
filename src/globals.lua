@@ -18,6 +18,8 @@ attacks = {
 }
 
 attacks_name = {"Neutral","Double","Triple","Rapid","Spread","Back","Side","Blast"}
+
+score = {}
 --
 --local function getName(attacks)
 --    for k, v in pairs(attacks) do
