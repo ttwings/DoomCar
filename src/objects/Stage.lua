@@ -40,7 +40,7 @@ end
 function Stage:draw()
 	love.graphics.setCanvas(self.main_canvas)
 	love.graphics.clear()
-		camera:attach(0,0,sw*gw,sh*gh)
+		camera:attach()
 		--love.graphics.print("中文")
 		if self.area then self.area:draw() end
 		camera:detach()
@@ -90,7 +90,7 @@ function Stage:draw()
 			math.floor(self.font:getHeight()/2))
 
 	love.graphics.setCanvas()
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 	love.graphics.setBlendMode('alpha','premultiplied')
 	love.graphics.draw(self.main_canvas,0,0,0,3,3)
 	love.graphics.setBlendMode('alpha')

@@ -81,7 +81,7 @@ function Director:new(stage)
     end
     self.attack_spawn_chance = {}
     for i = 1, 1024 do
-        local attack_index = math.random(1,#attacks_name)
+        local attack_index = math.random(1,#self.attack_to_point)
         self.attack_spawn_chance[i] = chanceList(
                 {attacks_name[attack_index],random(1,math.floor(i))})
     end
@@ -161,6 +161,7 @@ function Director:setAttackSpawnForThisRound()
     local attack_list = {}
     while point > 0 do
         local attack = self.attack_spawn_chance[self.difficulty]:next()
+        p_print(attack)
         point = point - self.attack_to_point[attack]
         table.insert(attack_list,attack)
     end

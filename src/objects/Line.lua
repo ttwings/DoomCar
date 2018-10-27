@@ -3,3 +3,25 @@
 --- Created by apple.
 --- DateTime: 2018/10/27 下午10:24
 ---
+--- @class Line
+Line = Object:extend()
+
+function Line:new(node1_id,node2_id)
+    self.node1_id, self.node2_id = node1_id, node2_id
+    self.node1, self.node2 = tree[node1_id], tree[node2_id]
+end
+
+function Line:update(dt)
+    if fn.any(bought_node_indexes, self.node1_id) and
+            fn.any(bought_node_indexes, self.node2_id) then
+        self.active = true
+    else self.active = false end
+end
+
+function Line:draw()
+    local r, g, b = unpack(Color.default)
+    if self.active then love.graphics.setColor(r, g, b, 1)
+    else love.graphics.setColor(r, g, b, 0.3) end
+    love.graphics.line(self.node1.x, self.node1.y, self.node2.x, self.node2.y)
+    love.graphics.setColor(r, g, b, 1)
+end
