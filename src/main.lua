@@ -55,7 +55,8 @@ function love.load(  )
     --- @type Stage[]
     rooms = {}
     --current_room = StageMain:new()
-    gotoRoom("StageMain","StageMain")
+    --gotoRoom("StageMain","StageMain")
+    gotoRoom("StageShop","StageShop")
     flash_frames = nil
 end
 

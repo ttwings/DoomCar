@@ -22,19 +22,7 @@ function StageShop:new()
     self.items_to_sell_money = 0
     --- 物品差价，即需要补充的部分，负值表示卖出物品的价值较高
     self.items_money_difference = self.items_to_buy_money - self.items_to_sell_money
-    --self.area:addPhysicsWorld()
-    --self.area.world:addCollisionClass("Player")
-    --self.area.world:addCollisionClass("Projectile",{ignores = {"Projectile","Player"}})
-    --self.area.world:addCollisionClass("Collectable",{ignores = {"Collectable","Projectile","Player"}})
-    --self.area.world:addCollisionClass("Enemy",{ignores = {"Collectable","Projectile","Player"}})
-    --self.area.world:addCollisionClass("EnemyProjectile",{ignores = {"Collectable","Projectile","EnemyProjectile","Enemy"}})
     self.main_canvas = love.graphics.newCanvas(gw,gh)
-    --self.player = self.area:addObject("Player",gw/2,gh/2)
-    --input:bind("p",function ()
-    --    self.area:addObject("Rock",random(32,gw - 32),random(32,gh - 32))
-    --end )
-
-
 end
 
 local input = {text = ""}
