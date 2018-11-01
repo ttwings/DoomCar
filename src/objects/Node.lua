@@ -55,10 +55,10 @@ function Node:draw()
     love.graphics.setColor(Color.background)
     love.graphics.circle('fill',self.x,self.y,self.w)
     if self.bought then
-        love.graphics.setColor(r,g,b,255)
+        love.graphics.setColor(r,g,b,1)
     else
-        love.graphics.setColor(r,g,b,32)
+        love.graphics.setColor(r,g,b,0.15)
     end
     love.graphics.circle('line',self.x,self.y,self.w)
-    love.graphics.setColor(r,g,b,255)
+    love.graphics.setColor(r,g,b,1)
 end

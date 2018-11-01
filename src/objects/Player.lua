@@ -17,7 +17,7 @@ function Player:new(area, x, y, opts)
     self.r = -math.pi / 2
     self.rv = 1.66 * math.pi
     self.v = 0
-    self.base_max_v = 100
+    self.base_max_v = 50
     self.max_v = self.base_max_v
     self.a = 100
 
@@ -32,20 +32,14 @@ function Player:new(area, x, y, opts)
 
     self.max_ammo = 100
     self.ammo = self.max_ammo
-
-    self.max_sp = 1000
-    self.sp = 0
+--- skill_point
+    self.max_sp = skill_points.max
+    self.sp = skill_points.left
 
     self.trail_color = Color.skill_point
 
     self:setAttack("Neutral")
-    --self:setAttack("Double")
-    --self:setAttack("Triple")
-    --self:setAttack("Rapid")
-    --self:setAttack("Spread")
-    --self:setAttack("Back")
-    --self:setAttack("Side")
-    --self:setAttack("Blast")
+
     self.invincible = false
     self.invincible_time = 0
     self.invincible_max_time = 0.3
@@ -56,31 +50,7 @@ function Player:new(area, x, y, opts)
     ---- draw ship polygons ----
     self.ship = "Fighter"
     self.polygons = {}
-
-    --if self.ship == "Fighter" then
-    --    self.polygons[1] = {
-    --        self.w, 0, -- 1
-    --        self.w / 2, -self.w / 2, -- 2
-    --        -self.w / 2, -self.w / 2, -- 3
-    --        -self.w, 0, -- 4
-    --        -self.w / 2, self.w / 2, -- 5
-    --        self.w / 2, self.w / 2, -- 6
-    --    }
-    --    self.polygons[2] = {
-    --        self.w / 2, -self.w / 2, -- 7
-    --        0, -self.w, -- 8
-    --        -self.w - self.w / 2, -self.w, -- 9
-    --        -3 * self.w / 4, -self.w / 4, -- 10
-    --        -self.w / 2, -self.w / 2, -- 1
-    --    }
-    --    self.polygons[3] = {
-    --        self.w / 2, self.w / 2, -- 12
-    --        -self.w / 2, self.w / 2, -- 13
-    --        -3 * self.w / 4, self.w / 4, -- 14
-    --        -self.w - self.w / 2, self.w, -- 15
-    --        0, self.w, -- 16
-    --    }
-    --end
+    self.polygons = draft:diamond(self.x,self.y,2 * self.w,'line')
 
     self.timer:every(0.01, function()
         self.area:addObject("TrailParticle", self.x - self.w * math.cos(self.r),
@@ -224,9 +194,9 @@ function Player:draw()
     --love.graphics.rectangle("line", self.x - self.w, self.y - self.h, 2 * self.w, 2 * self.h)
     --love.graphics.line(self.x, self.y, self.x + 2 * self.w, self.y)
 
-    -----
-    draft:diamond(self.x,self.y,2 * self.w,'line')
-    draft:circle(self.x,self.y,self.w/3,8,'line')
+    --- diamond
+    --draft:diamond(self.x,self.y,2 * self.w,'line')
+    --draft:circle(self.x,self.y,self.w/3,8,'line')
     --- 和尚 圆
     --draft:circle(self.x,self.y,self.w * 2,10,"line")
     --draft:circle(self.x,self.y + 3,3,5,"line")
@@ -240,10 +210,11 @@ function Player:draw()
     --draft:circle(self.x,self.y,3,5,"line")
     --draft:rectangle(self.x,self.y,self.w * 3,self.h * 2,"line")
     ------
-    --draft:rhombus(self.x,self.y,self.w,self.h,"line")
-    --draft:square(self.x,self.y,self.w,"line")
-    --draft:rectangle(self.x,self.y,self.w,self.h,'line')
-    --draft:circle(self.x,self.y,self.w/2,10,'line')
+    draft:rhombus(self.x,self.y,self.w,self.h,"line")
+    draft:rectangle(self.x,self.y + 8,4,18,"line")
+    --draft:square(self.x,self.y,self.w * 1.5,"line")
+    draft:rectangle(self.x,self.y,self.w * 1.4,self.h * 1.6,'line')
+    draft:circle(self.x,self.y,self.w/2,10,'line')
     love.graphics.pop()
 
 

@@ -20,6 +20,21 @@ attacks = {
 attacks_name = {"Neutral","Double","Triple","Rapid","Spread","Back","Side","Blast"}
 
 score = {}
+---- skill tree
+--- @type table
+tree = {}
+tree[1] = {x = 0, y = 0, links = {2}}
+tree[2] = {x = 48, y = 0, stats = {'4% Increased HP', 'hp_multiplier', 0.04}, links = {3}}
+tree[3] = {x = 96, y = 0, stats = {'6% Increased HP', 'hp_multiplier', 0.06}, links = {4}}
+tree[4] = {x = 144, y = 0, stats = {'4% Increased HP', 'hp_multiplier', 0.04}}
+
+skill_points = {}
+skill_points.left = 0
+skill_points.max = 1000
+skill_points.bought = 0
+
+bought_node_indexes = {1}
+
 --
 --local function getName(attacks)
 --    for k, v in pairs(attacks) do

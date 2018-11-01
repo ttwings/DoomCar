@@ -3,11 +3,13 @@
 --- Created by Administrator.
 --- DateTime: 18-9-18 下午4:03
 ---
-
---Timer = require("lib.Timer")
+tree = {}
+tree[1] = {x = 0, y = 0, links = {2}}
+tree[2] = {x = 48, y = 0, stats = {'4% Increased HP', 'hp_multiplier', 0.04}, links = {3}}
+tree[3] = {x = 96, y = 0, stats = {'6% Increased HP', 'hp_multiplier', 0.06}, links = {4}}
+tree[4] = {x = 144, y = 0, stats = {'4% Increased HP', 'hp_multiplier', 0.04}}
 
 local suit = require("lib.suit")
---local apply,cancel = false,false
 --- @class SkillTree : GameObject
 
 SkillTree = Object:extend()
@@ -15,10 +17,13 @@ SkillTree = Object:extend()
 function SkillTree:new()
     self.area = Area(self)
     self.tree = table.copy(tree)
+    p_print(tree)
     self.nodes = {}
     self.lines = {}
     --self.timer = Timer()
-    self.main_canvas = love.graphics.newCanvas(sx * gw,sy * gh)
+    self.main_canvas = love.graphics.newCanvas(gw,gh)
+    --camera.x = gw/2
+    --camera.y = gh/2
     for id,node in ipairs(self.tree) do
         for _,linked_node_id in ipairs(node.links or {}) do
             table.insert(self.tree[linked_node_id],id)
@@ -44,11 +49,11 @@ function SkillTree:update(dt)
 
 
     if input:down("left_click") then
-        local mx,my = camera:getMousePosition(sx,sy,0,0,sx * gw,sy * gh)
+        local mx,my = camera:getMousePosition(sw,sh,0,0,sw * gw,sh * gh)
         local dx,dy = mx - self.previous_mx,my - self.previous_my
         camera:move(-dx,-dy)
     end
-    self.previous_mx,self.previous_my = camera:getMousePosition(sx,sy,0,0,sx * gw,sy * gh)
+    self.previous_mx,self.previous_my = camera:getMousePosition(sw,sh,0,0,sw * gw,sh * gh)
 
     if input:pressed("zoom_in") then
         timer:tween(0.2,camera,{scale = camera.scale + 0.4},'in-out-cubic')
@@ -58,11 +63,11 @@ function SkillTree:update(dt)
     end
 
     --- suit test
-    suit.Label("技能点:" .. skill_points.left,gw - 100,0,100,20)
-    suit.layout:reset(gw/2 - 40,gh - 40,20,20)
+    --suit.Label("技能点:" .. skill_points.left,gw - 100,0,100,20)
+    --suit.layout:reset(gw/2 - 40,gh - 40,20,20)
     apply = suit.Button("确定",suit.layout:row(50,30))
-    cancel = suit.Button("取消", suit.layout:col())
-    suit.Label("Apply",suit.layout:col())
+    --cancel = suit.Button("取消", suit.layout:col())
+    --suit.Label("Apply",suit.layout:col())
 
 
     if apply.entered then
@@ -81,20 +86,23 @@ function SkillTree:draw()
 
     love.graphics.setCanvas(self.main_canvas)
     love.graphics.clear()
-    camera:attach(0,0,gw*sx,gh*sy)
+    local font = Fonts.unifont
+    love.graphics.setFont(font)
+    love.graphics.print({{1,0,0},"科技树"},gw*sw/2 - 20,0,0,sw,sh)
+    camera:attach()
+    --- sp
+    love.graphics.setColor(Color.skill_point)
     if self.area then self.area:draw() end
+    ---- draw line
     for _, line in ipairs(self.lines) do
         line:draw()
     end
     for _, node in ipairs(self.nodes) do
         node:draw()
     end
-
-
-    local font = Fonts.unifont_16
-    love.graphics.setFont(font)
+    --- draw node
     for _,node in ipairs(self.nodes) do
-        if node.hot then
+        if node.hot and tree[node.id].stats then
             local stats = tree[node.id].stats
             --- get max text width
             local max_text_width = 0
@@ -104,11 +112,11 @@ function SkillTree:draw()
                 end
             end
             --- draw rectangle
-            local mx,my = camera:getMousePosition(sx,sy,0,0,sx * gw,sy * gh)
-            --local mx,my = love.mouse.getPosition()
-            mx,my = mx/sx,my/sy
+            local mx,my = camera:getMousePosition(0,0,sw * gw,sh * gh)
+            local mx,my = love.mouse.getPosition()
+            mx,my = mx/sw,my/sh
 
-            love.graphics.setColor(255,0,0,222)
+            love.graphics.setColor(1,0,0,0.8)
             love.graphics.rectangle('fill',mx,my
             ,16 + max_text_width,font:getHeight() + #stats/3 * font:getHeight())
             --- draw text
@@ -120,10 +128,12 @@ function SkillTree:draw()
         end
     end
     camera:detach()
-    love.graphics.setColor(255,255,255)
+    love.graphics.print('科技 : ' .. skill_points.left,0,0)
+
+    love.graphics.setColor(1,1,1)
     love.graphics.setCanvas()
     --love.graphics.setBlendMode('alpha','premultiplied')
-    love.graphics.draw(self.main_canvas,0,0)
+    love.graphics.draw(self.main_canvas,0,0,0,sw,sh)
 
     suit.draw()
 end
