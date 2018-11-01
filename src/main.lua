@@ -40,7 +40,8 @@ function love.load(  )
         --gotoRoom("Stage","Stage")
         --gotoRoom("StageShop","stage_shop")
         --gotoRoom("StageMain","stage_main")
-        gotoRoom("SkillTree","skill_tree")
+        --gotoRoom("SkillTree","skill_tree")
+        gotoRoom('StageMap','StageMap')
     end)
 
     input:bind("f3",function ()
@@ -54,8 +55,8 @@ function love.load(  )
     --- @type Stage[]
     rooms = {}
     --current_room = StageMain:new()
-    --gotoRoom("StageMain","StageMain")
-    gotoRoom("StageShop","StageShop")
+    gotoRoom("StageMain","StageMain")
+    --gotoRoom("StageShop","StageShop")
     flash_frames = nil
 end
 
