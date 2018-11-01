@@ -48,10 +48,10 @@ function SkillTree:update(dt)
     end
 
 
-    if input:down("left_click") then
+    if love.mouse.isDown(1) then
         local mx,my = camera:getMousePosition(sw,sh,0,0,sw * gw,sh * gh)
         local dx,dy = mx - self.previous_mx,my - self.previous_my
-        camera:move(-dx,-dy)
+        camera:move(-dx/sw,-dy/sh)
     end
     self.previous_mx,self.previous_my = camera:getMousePosition(sw,sh,0,0,sw * gw,sh * gh)
 
@@ -100,7 +100,9 @@ function SkillTree:draw()
     for _, node in ipairs(self.nodes) do
         node:draw()
     end
-    --- draw node
+    camera:detach()
+
+    --- draw text
     for _,node in ipairs(self.nodes) do
         if node.hot and tree[node.id].stats then
             local stats = tree[node.id].stats
@@ -112,10 +114,11 @@ function SkillTree:draw()
                 end
             end
             --- draw rectangle
-            local mx,my = camera:getMousePosition(0,0,sw * gw,sh * gh)
+            --local mx,my = camera:getMousePosition(sw,sh,0,0,sw * gw,sh * gh)
             local mx,my = love.mouse.getPosition()
-            mx,my = mx/sw,my/sh
+            mx,my = mx / sw,my / sh
 
+            p_print(mx ,my)
             love.graphics.setColor(1,0,0,0.8)
             love.graphics.rectangle('fill',mx,my
             ,16 + max_text_width,font:getHeight() + #stats/3 * font:getHeight())
@@ -127,7 +130,7 @@ function SkillTree:draw()
             end
         end
     end
-    camera:detach()
+
     love.graphics.print('科技 : ' .. skill_points.left,0,0)
 
     love.graphics.setColor(1,1,1)

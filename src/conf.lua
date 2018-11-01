@@ -6,8 +6,8 @@
 
 io.stdout:setvbuf("no")
 
-gw = 430
-gh = 240
+gw = 1280
+gh = 720
 sw = 1
 sh = 1
 

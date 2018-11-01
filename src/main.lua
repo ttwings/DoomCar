@@ -1,3 +1,4 @@
+require('globals')
 Input = require( "lib.Input" )
 Object = require("lib.classic")
 Timer = require( "lib.Timer" )
@@ -15,7 +16,7 @@ function love.load(  )
     love.math.setRandomSeed(os.time())
     love.graphics.setDefaultFilter("nearest")
     love.graphics.setLineStyle("rough")
-    resize(3)
+    resize(sw,sh)
     --- @type Object[]
     local object_files = {}
 
@@ -40,8 +41,8 @@ function love.load(  )
         --gotoRoom("Stage","Stage")
         --gotoRoom("StageShop","stage_shop")
         --gotoRoom("StageMain","stage_main")
-        --gotoRoom("SkillTree","skill_tree")
-        gotoRoom('StageMap','StageMap')
+        gotoRoom("SkillTree","skill_tree")
+        --gotoRoom('StageMap','StageMap')
     end)
 
     input:bind("f3",function ()

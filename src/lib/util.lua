@@ -903,8 +903,29 @@ function type_name(o)
     end
     return global_type_table[getmetatable(o) or 0] or "Unknown"
 end
+------------------------------  Graphics -----------------------------
 
----@see GameObject
+--- label func
+--- @type fun(text,x,y,bg,fg,font)
+--- @param text string
+--- @param x number
+--- @param y number
+--- @param bg table color {r,g,b,a}
+--- @param fg table color {r,g,b,a}
+--- @param font Font
+function love.graphics.label(text,x,y,bg,fg,font)
+    local fg = fg or {1,1,1,1}
+    local bg = bg or {0,0,0,0.5}
+    local font = font or love.graphics.getFont()
+    local tw,th = font:getWidth(text),font:getHeight(text)
+    local x = x or gw/2 - tw/2  --- center
+    local y = y or 0
+
+    love.graphics.setColor(bg)
+    love.graphics.rectangle('fill',x,y,tw,th)
+    love.graphics.setColor(fg)
+    love.graphics.print(text,x,y)
+end
 
 function pushRote(x,y,r,sx,sy)
     love.graphics.push()
@@ -914,20 +935,9 @@ function pushRote(x,y,r,sx,sy)
     love.graphics.translate(-x,-y)
 end
 
----
 
-Color = {}
-Color.default = {1,1,1}
-Color.background = {22/256,22/256,22/256}
-Color.ammo = {123/256,200/256,164/256}
-Color.boost = {76/256,195/256,217/256}
-Color.hp = {241/256,103/256,69/256}
-Color.skill_point = {255/256,198/256,93/256}
-Color.trail_color = {0,0,1}
 
----
-Fonts = {}
-Fonts.unifont = love.graphics.newFont("assets/font/unifont.ttf")
+
 
 --- table
 

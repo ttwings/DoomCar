@@ -6,9 +6,9 @@
 
 town = {}
 town[1] = {x = 0, y = 0, links = {2}}
-town[2] = {x = 48, y = 0, stats = {'4% Increased HP', 'hp_multiplier', 0.04}, links = {3}}
-town[3] = {x = 96, y = 0, stats = {'6% Increased HP', 'hp_multiplier', 0.06}, links = {4}}
-town[4] = {x = 144, y = 0, stats = {'4% Increased HP', 'hp_multiplier', 0.04}}
+town[2] = {x = 48, y = 0, opts = {name = "小镇1"},stats = {'4% Increased HP', 'hp_multiplier', 0.04}, links = {3}}
+town[3] = {x = 96, y = 0, opts = {name = "小镇1"},stats = {'6% Increased HP', 'hp_multiplier', 0.06}, links = {4}}
+town[4] = {x = 144, y = 0, opts = {name = "小镇1"},stats = {'4% Increased HP', 'hp_multiplier', 0.04}}
 
 local suit = require("lib.suit")
 --- @class StageMap : GameObject
@@ -18,7 +18,7 @@ StageMap = Object:extend()
 function StageMap:new()
     self.area = Area(self)
     self.tree = table.copy(towns)
-    self.bg = love.graphics.newImage("assets/graphics/towns/town01.jpg")
+    self.bg = love.graphics.newImage("assets/graphics/map.jpg")
     p_print(tree)
     self.nodes = {}
     self.lines = {}
@@ -62,23 +62,6 @@ function StageMap:update(dt)
     if input:pressed("zoom_out") then
         timer:tween(0.2,camera,{scale = camera.scale - 0.4},'in-out-cubic')
     end
-
-    --- suit test
-    --suit.Label("技能点:" .. skill_points.left,gw - 100,0,100,20)
-    --suit.layout:reset(gw/2 - 40,gh - 40,20,20)
-    apply = suit.Button("确定",suit.layout:row(50,30))
-    --cancel = suit.Button("取消", suit.layout:col())
-    --suit.Label("Apply",suit.layout:col())
-
-    if apply.entered then
-        print("enter")
-    end
-    if apply.hit then
-        suit.Label("Apply",print("apply"))
-        print("Apply")
-    end
-
-
 end
 
 
@@ -102,10 +85,10 @@ function StageMap:draw()
     for _, node in ipairs(self.nodes) do
         node:draw()
     end
-    --- draw node
+    --- draw state
     for _,node in ipairs(self.nodes) do
-        if node.hot and tree[node.id].stats then
-            local stats = tree[node.id].stats
+        if node.hot and town[node.id].stats then
+            local stats = town[node.id].stats
             --- get max text width
             local max_text_width = 0
             for i=1,#stats,3 do
@@ -131,17 +114,17 @@ function StageMap:draw()
     end
 
     camera:detach()
-    love.graphics.setColor(0,0,0,0.5)
-    love.graphics.rectangle('fill',gw/2 - font:getWidth('诺亚世界')/2,0,font:getWidth('诺亚世界'),font:getHeight('诺亚世界'))
-    love.graphics.setColor(1,1,1)
-    love.graphics.print('诺亚世界',gw/2 - font:getWidth('诺亚世界')/2,0,0,1,1)
-    love.graphics.setColor(1,1,1)
 
+    love.graphics.label('诺亚世界')
+    love.graphics.setColor(1,1,1)
+    love.graphics.label("我的世界",0,0)
     love.graphics.setCanvas()
     --love.graphics.setBlendMode('alpha','premultiplied')
     love.graphics.draw(self.main_canvas,0,0,0,sw,sh)
-    suit.draw()
+
 end
+
+
 
 function StageMap:canNodeBeBought(id)
     for _,linked_node_id in ipairs(self.tree[id]) do

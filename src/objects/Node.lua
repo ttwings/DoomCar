@@ -24,8 +24,8 @@ end
 
 
 function Node:update(dt)
-    --local mx,my = camera:getMousePosition(sx * camera.scale,sy * camera.scale,0,0,sx * gw,sy * gh)
-    local mx,my = camera:getMousePosition()
+    local mx,my = camera:getMousePosition(sw * camera.scale,sh * camera.scale,0,0,sw * gw,sh * gh)
+    --local mx,my = love.mouse.getPosition()
     if  mx > self.x - self.w/2 and mx < self.x + self.w/2 and
         my > self.y - self.h/2 and my < self.y + self.h/2 then
         self.hot = true
@@ -59,6 +59,10 @@ function Node:draw()
     else
         love.graphics.setColor(r,g,b,0.15)
     end
-    love.graphics.circle('line',self.x,self.y,self.w)
+    if self.sharp then
+        love.graphics[self.sharp]('line',self.x,self.y,self.w)
+    else
+        love.graphics.circle('line',self.x,self.y,self.w)
+    end
     love.graphics.setColor(r,g,b,1)
 end

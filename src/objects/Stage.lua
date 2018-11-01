@@ -20,9 +20,7 @@ function Stage:new()
 	input:bind("p",function ()
 		self.area:addObject("Ammo")
 		self.area:addObject("Rock")
-
 		self.area:addObject("Shooter")
-
 		self.area:addObject("Hp")
 		self.area:addObject("Sp")
 		self.area:addObject("Attack",0,0,{name = table.random(attacks_name)})
@@ -35,15 +33,17 @@ end
 function Stage:update(dt)
 	if self.area then self.area:update(dt) end
 	if self.director then self.director:update(dt) end
+	camera:update(dt)
+	camera:follow(self.player.x, self.player.y)
 end
 
 function Stage:draw()
 	love.graphics.setCanvas(self.main_canvas)
 	love.graphics.clear()
-		camera:attach()
-		--love.graphics.print("中文")
-		if self.area then self.area:draw() end
-		camera:detach()
+	camera:attach()
+	if self.area then self.area:draw() end
+	camera:detach()
+	camera:draw()
 	--- score
 	love.graphics.setColor(Color.default)
 	love.graphics.print('得分：' .. self.score,gw - 100,0)
