@@ -33,6 +33,9 @@ function Ammo:new(area,x,y,opts)
     self.v = random(10,20)
     self.collider:setLinearVelocity(self.v * math.cos(self.r),self.v * math.sin(self.r))
     self.collider:applyAngularImpulse(random(-24,24))
+    --- 一定时间后消失
+    --self.time = opts.time or 0.1
+    --timer:after(self.time,function () self:die() end)
 end
 
 function Ammo:draw()
@@ -45,7 +48,6 @@ end
 
 function Ammo:die()
     self.dead = true
-    --self.area:addObject("AmmoEffect",self.x,self.y,{color = Color.ammo,w = self.w,h = self.h})
     for _=1,math.random(4,8) do
         self.area:addObject("AmmoEffect",self.x,self.y,{s=3,color = Color.ammo})
     end

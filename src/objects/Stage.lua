@@ -28,19 +28,26 @@ function Stage:new()
 
 	---- director
 	self.director = Director(self)
+	timer:every(1,function () p_print('camera',math.floor(camera.x),math.floor(camera.y)) end)
+	timer:every(1,function () p_print('player',math.floor(self.player.x),math.floor(self.player.y)) end)
+	--- camera
+	--- follow style  LOCKON  PLATFORMER TOPDOWN  TOPDOWN_TIGHT  SCREEN_BY_SCREEN  NO_DEADZONE
+	camera:setFollowStyle('TOPDOWN_TIGHT')
 end
 
 function Stage:update(dt)
 	if self.area then self.area:update(dt) end
 	if self.director then self.director:update(dt) end
+	--camera.x = self.player.x
+	--camera.y = self.player.y
 	camera:update(dt)
-	camera:follow(self.player.x, self.player.y)
+	camera:follow(self.player.x + gw, self.player.y + gh)
 end
 
 function Stage:draw()
 	love.graphics.setCanvas(self.main_canvas)
 	love.graphics.clear()
-	camera:attach()
+	camera:attach(0,0,gw*sw,gh*sh)
 	if self.area then self.area:draw() end
 	camera:detach()
 	camera:draw()
