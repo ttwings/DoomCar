@@ -71,7 +71,7 @@ function Stage:draw()
 			math.floor(self.font:getHeight()/2))
 
 	-- Ammo
-	local r, g, b = unpack(Color.ammo)
+	r, g, b = unpack(Color.ammo)
 	local ammo, max_ammo = self.player.ammo, self.player.max_ammo
 	love.graphics.setColor(r, g, b)
 	love.graphics.rectangle('fill', gw/2 - 52, 16, 48*(ammo/max_ammo), 4)
@@ -84,7 +84,7 @@ function Stage:draw()
 			math.floor(self.font:getHeight()/2))
 
 	-- Boost
-	local r, g, b = unpack(Color.boost)
+	r, g, b = unpack(Color.boost)
 	local boost, max_boost = self.player.boost, self.player.max_boost
 	love.graphics.setColor(r, g, b)
 	love.graphics.rectangle('fill', gw/2 + 4, 16, 48*(boost/max_boost), 4)
@@ -124,7 +124,6 @@ function Stage:finished()
 end
 
 function Stage:deactivate()
-	p_print("deactivate")
 	self:destroy()
 end
 

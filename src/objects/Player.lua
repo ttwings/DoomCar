@@ -15,7 +15,7 @@ function Player:new(area, x, y, opts)
     self.x, self.y = x, y
     self.w, self.h = 12, 12
     self.r = -math.pi / 2
-    self.rv = 1.66 * math.pi
+    self.rv = 0.5 * math.pi
     self.v = 0
     self.base_max_v = 50
     self.max_v = self.base_max_v
