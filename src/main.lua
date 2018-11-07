@@ -17,6 +17,15 @@ function love.load(  )
     love.graphics.setDefaultFilter("nearest")
     love.graphics.setLineStyle("rough")
     resize(sw,sh)
+    --- dpad ui img
+    pad = {
+        ['t'] = love.graphics.newImage("assets/graphics/ui/dpad_t.png"),
+        ['b'] = love.graphics.newImage("assets/graphics/ui/dpad_b.png"),
+        ['l'] = love.graphics.newImage("assets/graphics/ui/dpad_l.png"),
+        ['r'] = love.graphics.newImage("assets/graphics/ui/dpad_r.png"),
+        ['start'] = love.graphics.newImage("assets/graphics/ui/start.png"),
+        ['back'] = love.graphics.newImage("assets/graphics/ui/back.png"),
+    }
     --- @type Object[]
     local object_files = {}
 

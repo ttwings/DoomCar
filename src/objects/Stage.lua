@@ -28,8 +28,8 @@ function Stage:new()
 
 	---- director
 	self.director = Director(self)
-	timer:every(1,function () p_print('camera',math.floor(camera.x),math.floor(camera.y)) end)
-	timer:every(1,function () p_print('player',math.floor(self.player.x),math.floor(self.player.y)) end)
+	--timer:every(1,function () p_print('camera',math.floor(camera.x),math.floor(camera.y)) end)
+	--timer:every(1,function () p_print('player',math.floor(self.player.x),math.floor(self.player.y)) end)
 	--- camera
 	--- follow style  LOCKON  PLATFORMER TOPDOWN  TOPDOWN_TIGHT  SCREEN_BY_SCREEN  NO_DEADZONE
 	camera:setFollowStyle('TOPDOWN_TIGHT')
@@ -95,7 +95,21 @@ function Stage:draw()
 	love.graphics.print(math.floor(boost) .. '/' .. max_boost, gw/2 + 24 + 4, 6, 0, 1, 1,
 			math.floor(self.font:getWidth(math.floor(boost)  .. '/' .. max_boost)/2),
 			math.floor(self.font:getHeight()/2))
+	--- draw virtual game pad
+	love.graphics.setColor(1,1,1,0.5)
+	love.graphics.circle('line',40,gh - 40,40)
+	love.graphics.setColor(1,1,1,0.7)
+	love.graphics.circle('fill',40,gh - 40,20)
+	--love.graphics.circle('fill',gw - 20,gh - 40,15)
+	--love.graphics.circle('fill',gw - 60,gh - 40,15)
+	--love.graphics.circle('fill',gw - 40,gh - 40,20)
 
+	love.graphics.draw(pad.l,gw - 32,gh - 64)
+	love.graphics.draw(pad.r,gw - 96,gh - 64)
+	love.graphics.draw(pad.t,gw - 64,gh - 32)
+	love.graphics.draw(pad.b,gw - 64,gh - 96)
+	love.graphics.draw(pad.start,gw/2 + 24,gh - 24)
+	love.graphics.draw(pad.back,gw/2 - 24,gh - 24)
 	love.graphics.setCanvas()
 	love.graphics.setColor(1,1,1,1)
 	love.graphics.setBlendMode('alpha','premultiplied')
@@ -120,7 +134,6 @@ function Stage:finished()
 		gotoRoom("StageEnd","StageEnd")
 		p_print("new stage")
 	end)
-	debug.getCollection()
 end
 
 function Stage:deactivate()
