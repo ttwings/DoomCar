@@ -113,7 +113,7 @@ function SkillTree:draw()
             end
             --- draw rectangle
             local mx,my = camera:getMousePosition(0,0,sw * gw,sh * gh)
-            local mx,my = love.mouse.getPosition()
+            --local mx,my = love.mouse.getPosition()
             mx,my = mx/sw,my/sh
 
             love.graphics.setColor(1,0,0,0.8)
