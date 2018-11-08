@@ -34,6 +34,7 @@ end
 function AmmoEffect:update(dt)
     AmmoEffect.super.update(self,dt)
     self.collider:setLinearVelocity(self.v*math.cos(self.r),self.v*math.sin(self.r))
+    --
     if self.x < 0 then self:die() end
     if self.y < 0 then self:die() end
     if self.x > gw then self:die() end

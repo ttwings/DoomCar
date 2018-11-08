@@ -12,10 +12,13 @@ Player = NewGameObject:extend()
 
 function Player:new(area, x, y, opts)
     Player.super.new(self, area, x, y, opts)
+    --- img
+    self.img = love.graphics.newImage("assets/graphics/cars/car01.png")
+
     self.x, self.y = x, y
     self.w, self.h = 12, 12
     self.r = -math.pi / 2
-    self.rv = 1.66 * math.pi
+    self.rv = 0.5 * math.pi
     self.v = 0
     self.base_max_v = 50
     self.max_v = self.base_max_v
@@ -32,7 +35,8 @@ function Player:new(area, x, y, opts)
 
     self.max_ammo = 100
     self.ammo = self.max_ammo
---- skill_point
+
+    --- skill_point
     self.max_sp = skill_points.max
     self.sp = skill_points.left
 
@@ -52,12 +56,12 @@ function Player:new(area, x, y, opts)
     self.polygons = {}
     self.polygons = draft:diamond(self.x,self.y,2 * self.w,'line')
 
-    self.timer:every(0.01, function()
-        self.area:addObject("TrailParticle", self.x - self.w * math.cos(self.r),
-                self.y - self.h * math.sin(self.r), { parent = self, r = random(2, 4), d = random(0.15, 0.25),
-                                                      color = self.trail_color }
-        )
-    end)
+    --self.timer:every(0.01, function()
+    --    self.area:addObject("TrailParticle", self.x - self.w * math.cos(self.r),
+    --            self.y - self.h * math.sin(self.r), { parent = self, r = random(2, 4), d = random(0.15, 0.25),
+    --                                                  color = self.trail_color }
+    --    )
+    --end)
 
     self.collider = self.area.world:newCircleCollider(self.x, self.y, self.w)
     --self.area.world:addCollisionClass("Player")
@@ -127,29 +131,31 @@ function Player:update(dt)
     end
 
 --- out bound
-    if self.x < 0 then
-        self:die()
-    end
-    if self.y < 0 then
-        self:die()
-    end
-    if self.x > gw then
-        self:die()
-    end
-    if self.y > gh then
-        self:die()
-    end
+--    if self.x < 0 then
+--        self:die()
+--    end
+--    if self.y < 0 then
+--        self:die()
+--    end
+--    if self.x > gw then
+--        self:die()
+--    end
+--    if self.y > gh then
+--        self:die()
+--    end
 --- boost
     self.boost = math.min(self.max_boost,self.boost + 10 * dt)
     self.boost_timer = self.boost_timer + dt
     if self.boost_timer > self.boost_cooldown then self.can_boost = true end
-    self.max_v = self.base_max_v
+    --self.max_v = self.base_max_v
+    self.max_v = 0
+
     self.boosting = false
 --- input
     if input:down("up") and self.boost > 1 and self.can_boost then
         self.boosting = true
         self.max_v = 1.5 * self.base_max_v
-        self.boost = self.boost - 50 * dt
+        self.boost = self.boost - 20 * dt
         if self.boost <= 1 then
             self.boosting = false
             self.can_boost = false
@@ -158,8 +164,8 @@ function Player:update(dt)
     end
     if input:down("down") and self.boost > 1 and self.can_boost then
         self.boosting = true
-        self.max_v = 0.5 * self.base_max_v
-        self.boost = self.boost - 50 * dt
+        self.max_v = - 0.5 * self.base_max_v
+        self.boost = self.boost - 20 * dt
         if self.boost <= 1 then
             self.boosting = false
             self.can_boost = false
@@ -189,11 +195,12 @@ end
 
 function Player:draw()
     if not self.visible then return end
+    love.graphics.draw(self.img,self.x,self.y,self.r + math.pi/2,0.3,0.5,80,64)
+
     pushRote(self.x, self.y, self.r - math.pi/2)
     --love.graphics.circle('line', self.x, self.y, self.w / 2)
     --love.graphics.rectangle("line", self.x - self.w, self.y - self.h, 2 * self.w, 2 * self.h)
     --love.graphics.line(self.x, self.y, self.x + 2 * self.w, self.y)
-
     --- diamond
     --draft:diamond(self.x,self.y,2 * self.w,'line')
     --draft:circle(self.x,self.y,self.w/3,8,'line')
@@ -210,11 +217,11 @@ function Player:draw()
     --draft:circle(self.x,self.y,3,5,"line")
     --draft:rectangle(self.x,self.y,self.w * 3,self.h * 2,"line")
     ------
-    draft:rhombus(self.x,self.y,self.w,self.h,"line")
-    draft:rectangle(self.x,self.y + 8,4,18,"line")
+    --draft:rhombus(self.x,self.y,self.w,self.h,"line")
+    --draft:rectangle(self.x,self.y + 8,4,18,"line")
     --draft:square(self.x,self.y,self.w * 1.5,"line")
-    draft:rectangle(self.x,self.y,self.w * 1.4,self.h * 1.6,'line')
-    draft:circle(self.x,self.y,self.w/2,10,'line')
+    --draft:rectangle(self.x,self.y,self.w * 1.4,self.h * 1.6,'line')
+    --draft:circle(self.x,self.y,self.w/2,10,'line')
     love.graphics.pop()
 
 

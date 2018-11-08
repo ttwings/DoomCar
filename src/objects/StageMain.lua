@@ -26,6 +26,7 @@ function StageMain:draw()
     local t2 = "左右箭头控制方向\n上下箭头控制速度"
     love.graphics.print(t2,gw/2,gh/2 + 60,0,1,1,math.floor(self.font:getWidth(t2)/2))
     love.graphics.setFont(font,32)
+
     love.graphics.setCanvas()
     love.graphics.setColor(255,255,255,255)
     love.graphics.setBlendMode('alpha','premultiplied')

@@ -20,9 +20,7 @@ function Stage:new()
 	input:bind("p",function ()
 		self.area:addObject("Ammo")
 		self.area:addObject("Rock")
-
 		self.area:addObject("Shooter")
-
 		self.area:addObject("Hp")
 		self.area:addObject("Sp")
 		self.area:addObject("Attack",0,0,{name = table.random(attacks_name)})
@@ -30,20 +28,29 @@ function Stage:new()
 
 	---- director
 	self.director = Director(self)
+	--timer:every(1,function () p_print('camera',math.floor(camera.x),math.floor(camera.y)) end)
+	--timer:every(1,function () p_print('player',math.floor(self.player.x),math.floor(self.player.y)) end)
+	--- camera
+	--- follow style  LOCKON  PLATFORMER TOPDOWN  TOPDOWN_TIGHT  SCREEN_BY_SCREEN  NO_DEADZONE
+	camera:setFollowStyle('TOPDOWN_TIGHT')
 end
 
 function Stage:update(dt)
 	if self.area then self.area:update(dt) end
 	if self.director then self.director:update(dt) end
+	--camera.x = self.player.x
+	--camera.y = self.player.y
+	camera:update(dt)
+	camera:follow(self.player.x + gw, self.player.y + gh)
 end
 
 function Stage:draw()
 	love.graphics.setCanvas(self.main_canvas)
 	love.graphics.clear()
-		camera:attach()
-		--love.graphics.print("中文")
-		if self.area then self.area:draw() end
-		camera:detach()
+	camera:attach(0,0,gw*sw,gh*sh)
+	if self.area then self.area:draw() end
+	camera:detach()
+	camera:draw()
 	--- score
 	love.graphics.setColor(Color.default)
 	love.graphics.print('得分：' .. self.score,gw - 100,0)
@@ -64,7 +71,7 @@ function Stage:draw()
 			math.floor(self.font:getHeight()/2))
 
 	-- Ammo
-	local r, g, b = unpack(Color.ammo)
+	r, g, b = unpack(Color.ammo)
 	local ammo, max_ammo = self.player.ammo, self.player.max_ammo
 	love.graphics.setColor(r, g, b)
 	love.graphics.rectangle('fill', gw/2 - 52, 16, 48*(ammo/max_ammo), 4)
@@ -77,7 +84,7 @@ function Stage:draw()
 			math.floor(self.font:getHeight()/2))
 
 	-- Boost
-	local r, g, b = unpack(Color.boost)
+	r, g, b = unpack(Color.boost)
 	local boost, max_boost = self.player.boost, self.player.max_boost
 	love.graphics.setColor(r, g, b)
 	love.graphics.rectangle('fill', gw/2 + 4, 16, 48*(boost/max_boost), 4)
@@ -88,7 +95,21 @@ function Stage:draw()
 	love.graphics.print(math.floor(boost) .. '/' .. max_boost, gw/2 + 24 + 4, 6, 0, 1, 1,
 			math.floor(self.font:getWidth(math.floor(boost)  .. '/' .. max_boost)/2),
 			math.floor(self.font:getHeight()/2))
+	--- draw virtual game pad
+	love.graphics.setColor(1,1,1,0.5)
+	love.graphics.circle('line',40,gh - 40,40)
+	love.graphics.setColor(1,1,1,0.7)
+	love.graphics.circle('fill',40,gh - 40,20)
+	--love.graphics.circle('fill',gw - 20,gh - 40,15)
+	--love.graphics.circle('fill',gw - 60,gh - 40,15)
+	--love.graphics.circle('fill',gw - 40,gh - 40,20)
 
+	love.graphics.draw(pad.l,gw - 32,gh - 64)
+	love.graphics.draw(pad.r,gw - 96,gh - 64)
+	love.graphics.draw(pad.t,gw - 64,gh - 32)
+	love.graphics.draw(pad.b,gw - 64,gh - 96)
+	love.graphics.draw(pad.start,gw/2 + 24,gh - 24)
+	love.graphics.draw(pad.back,gw/2 - 24,gh - 24)
 	love.graphics.setCanvas()
 	love.graphics.setColor(1,1,1,1)
 	love.graphics.setBlendMode('alpha','premultiplied')
@@ -113,11 +134,9 @@ function Stage:finished()
 		gotoRoom("StageEnd","StageEnd")
 		p_print("new stage")
 	end)
-	debug.getCollection()
 end
 
 function Stage:deactivate()
-	p_print("deactivate")
 	self:destroy()
 end
 

@@ -1,3 +1,4 @@
+require('globals')
 Input = require( "lib.Input" )
 Object = require("lib.classic")
 Timer = require( "lib.Timer" )
@@ -15,7 +16,16 @@ function love.load(  )
     love.math.setRandomSeed(os.time())
     love.graphics.setDefaultFilter("nearest")
     love.graphics.setLineStyle("rough")
-    resize(3)
+    resize(sw,sh)
+    --- dpad ui img
+    pad = {
+        ['t'] = love.graphics.newImage("assets/graphics/ui/dpad_t.png"),
+        ['b'] = love.graphics.newImage("assets/graphics/ui/dpad_b.png"),
+        ['l'] = love.graphics.newImage("assets/graphics/ui/dpad_l.png"),
+        ['r'] = love.graphics.newImage("assets/graphics/ui/dpad_r.png"),
+        ['start'] = love.graphics.newImage("assets/graphics/ui/start.png"),
+        ['back'] = love.graphics.newImage("assets/graphics/ui/back.png"),
+    }
     --- @type Object[]
     local object_files = {}
 
@@ -40,7 +50,8 @@ function love.load(  )
         --gotoRoom("Stage","Stage")
         --gotoRoom("StageShop","stage_shop")
         --gotoRoom("StageMain","stage_main")
-        gotoRoom("SkillTree","skill_tree")
+        --gotoRoom("SkillTree","skill_tree")
+        gotoRoom('StageMap','StageMap')
     end)
 
     input:bind("f3",function ()
@@ -55,6 +66,7 @@ function love.load(  )
     rooms = {}
     --current_room = StageMain:new()
     gotoRoom("StageMain","StageMain")
+    --gotoRoom("StageShop","StageShop")
     flash_frames = nil
 end
 

@@ -6,10 +6,12 @@
 
 io.stdout:setvbuf("no")
 
-gw = 430
+gw = 480
 gh = 240
-sw = 1
-sh = 1
+sw = 3
+sh = 3
+ww = 1280
+wh = 720
 
 function love.conf(t)
     t.identity = nil                   -- The name of the save directory (string)
@@ -18,8 +20,8 @@ function love.conf(t)
 
     t.window.title = "DoomCar" -- The window title (string)
     t.window.icon = nil                -- Filepath to an image to use as the window's icon (string)
-    t.window.width = gw 			   -- The window width (number)
-    t.window.height = gh 			   -- The window height (number)
+    t.window.width = ww 			   -- The window width (number)
+    t.window.height = wh 			   -- The window height (number)
     t.window.borderless = false        -- Remove all border visuals from the window (boolean)
     t.window.resizable = true          -- Let the window be user-resizable (boolean)
     t.window.minwidth = 1              -- Minimum window width if the window is resizable (number)
