@@ -10,6 +10,10 @@ tree[3] = {x = 96, y = 0, stats = {'6% Increased HP', 'hp_multiplier', 0.06}, li
 tree[4] = {x = 144, y = 0, stats = {'4% Increased HP', 'hp_multiplier', 0.04}}
 
 local suit = require("lib.suit")
+local ui_input = {text = "Hello"}
+local chk = {text = "check"}
+local slider = {value = 0.5,min = -2,max = 2}
+
 --- @class SkillTree : GameObject
 
 SkillTree = Object:extend()
@@ -39,6 +43,7 @@ function SkillTree:new()
     end
 end
 
+
 function SkillTree:update(dt)
     for _, node in ipairs(self.nodes) do
         node:update(dt)
@@ -48,10 +53,11 @@ function SkillTree:update(dt)
     end
 
 
-    if input:down("left_click") then
+    if love.mouse.isDown(1) then
         local mx,my = camera:getMousePosition(sw,sh,0,0,sw * gw,sh * gh)
         local dx,dy = mx - self.previous_mx,my - self.previous_my
-        camera:move(-dx,-dy)
+        --- when camera scale, x,y position should / scale
+        camera:move(-dx/sw,-dy/sh)
     end
     self.previous_mx,self.previous_my = camera:getMousePosition(sw,sh,0,0,sw * gw,sh * gh)
 
@@ -64,19 +70,31 @@ function SkillTree:update(dt)
 
     --- suit test
     --suit.Label("技能点:" .. skill_points.left,gw - 100,0,100,20)
-    --suit.layout:reset(gw/2 - 40,gh - 40,20,20)
+    suit.layout:reset(gw/2 - 40,gh - 40,20,20)
     apply = suit.Button("确定",suit.layout:row(50,30))
-    --cancel = suit.Button("取消", suit.layout:col())
-    --suit.Label("Apply",suit.layout:col())
+    cancel = suit.Button("取消", suit.layout:col())
+    suit.Label("Apply",suit.layout:col())
+    mx,my = love.mouse.getX(),love.mouse.getY()
 
-
-    if apply.entered then
+    if apply.hovered then
         print("enter")
+        suit.Label("Apply",suit.layout:col())
     end
     if apply.hit then
-        suit.Label("Apply",print("apply"))
         print("Apply")
     end
+
+    if suit.Button("Hover?",suit.layout:row(nil,40)).hovered then
+        suit.Button("You Can See",{align = 'left',valign = 'top'},suit.layout:row(nil,50))
+        suit.Button("But you cant touch!",{align = 'right',valign = 'bottom'},suit.layout:row())
+    end
+    --suit.ImageButton()
+    suit.Checkbox(chk,{align = 'right'},suit.layout:row())
+    suit.layout:push(suit.layout:row())
+    suit.layout:padding(3)
+    suit.Slider(slider,suit.layout:col(160,20))
+    suit.Label(("%.02f"):format(slider.value),suit.layout:col(40))
+    suit.layout:pop()
 
 
 end
@@ -112,10 +130,10 @@ function SkillTree:draw()
                 end
             end
             --- draw rectangle
-            local mx,my = camera:getMousePosition(0,0,sw * gw,sh * gh)
-            local mx,my = love.mouse.getPosition()
+            local mx,my = camera:getMousePosition(sw*camera.scale,sh*camera.scale,0,0,sw * gw,sh * gh)
+            --local mx,my = love.mouse.getPosition()
             mx,my = mx/sw,my/sh
-
+            --p_print(mx,my)
             love.graphics.setColor(1,0,0,0.8)
             love.graphics.rectangle('fill',mx,my
             ,16 + max_text_width,font:getHeight() + #stats/3 * font:getHeight())
@@ -135,6 +153,7 @@ function SkillTree:draw()
     --love.graphics.setBlendMode('alpha','premultiplied')
     love.graphics.draw(self.main_canvas,0,0,0,sw,sh)
 
+    love.graphics.print({{1,0,0},mx,{0,1,1},my},gw/2,gh/2)
     suit.draw()
 end
 

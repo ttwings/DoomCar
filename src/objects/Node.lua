@@ -25,6 +25,8 @@ end
 
 function Node:update(dt)
     local mx,my = camera:getMousePosition(sw * camera.scale,sh * camera.scale,0,0,sw * gw,sh * gh)
+    mx,my = mx/sw,my/sh
+
     --local mx,my = love.mouse.getPosition()
     if  mx > self.x - self.w/2 and mx < self.x + self.w/2 and
         my > self.y - self.h/2 and my < self.y + self.h/2 then
@@ -65,4 +67,5 @@ function Node:draw()
         love.graphics.circle('line',self.x,self.y,self.w)
     end
     love.graphics.setColor(r,g,b,1)
+
 end

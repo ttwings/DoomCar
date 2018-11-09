@@ -25,7 +25,7 @@ function Stage:new()
 		self.area:addObject("Sp")
 		self.area:addObject("Attack",0,0,{name = table.random(attacks_name)})
 	end )
-
+    self.area:addObject("Joystick")
 	---- director
 	self.director = Director(self)
 	--timer:every(1,function () p_print('camera',math.floor(camera.x),math.floor(camera.y)) end)
