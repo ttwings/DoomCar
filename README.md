@@ -15,10 +15,8 @@ Study BYTEPATH SSYGEN blog。Make a Doom Car game.
 ## 目前进度
 ### 11 被动效果 正在进行
 ### 12 更多被动 关键点
-### 13 技能树基本已经完成。
-
+### 13 技能树基本已经完成。camera bug .= = 被卡主了。
+### 14 修改为自己的风格。 CDDA 与 重装机兵 风格
 ---------------------
 ## 截图
-![start](src/doc/2018102501.png)
-![gaming](src/doc/2018102502.png)
-![gaming](src/doc/2018102503.png)
+![gaming](src/doc/20181110.png)
