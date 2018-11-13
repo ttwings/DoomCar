@@ -964,6 +964,31 @@ function chanceList( ... )
     }
 end
 
+function generateClickSound()
+    local snd = love.sound.newSoundData(512,44100,16,1)
+    for i = 0,snd:getSampleCount() -1 do
+        local t = i / 44100
+        local s = i / snd:getSampleCount()
+        snd:setSample(i,(0.7*(2*love.math.random() - 1) + 0.3 * math.sin(t*9000*math.pi))*(1-s)^1.2 * 0.3)
+    end
+    return love.audio.newSource(snd)
+end
+
+function generateImageButton()
+    local metaballs = function(t,r,g,b)
+        return function(x,y)
+            local px,py = 2*(x/200 - 0.5),2 * (y/100 - 0.5)
+            local d1 = math.exp(-((px - 0.6)^2 + (py - 0.1)^2))
+            local d2 = math.exp(-((px + 0.7)^2 + (py + 0.1)^2)*2)
+            local d = (d1 + d2)/2
+            if d > t then
+                return r,g,b,((d-t)/(1-t))^0.2
+            end
+            return 0,0,0,0
+        end
+    end
+end
+
 --- debug
 function debug.getCollection()
     print("Before collection : " .. collectgarbage("count")/1024)

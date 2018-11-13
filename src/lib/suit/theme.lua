@@ -27,6 +27,7 @@ function theme.drawBox(x,y,w,h, colors, cornerRadius)
 	end
 
 	love.graphics.setColor(colors.bg)
+	--- 更改这里的绘图，就可以弄成特殊的效果。。比如中文风格
 	love.graphics.rectangle('fill', x,y, w,h, cornerRadius)
 end
 

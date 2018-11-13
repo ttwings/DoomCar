@@ -6,12 +6,12 @@
 
 io.stdout:setvbuf("no")
 
-gw = 480
+gw =  400
 gh = 240
 sw = 3
 sh = 3
-ww = 1280
-wh = 720
+ww = 800
+wh = 600
 
 function love.conf(t)
     t.identity = nil                   -- The name of the save directory (string)
