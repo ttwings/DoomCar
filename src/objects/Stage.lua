@@ -45,7 +45,7 @@ function Stage:update(dt)
 	--self.joystick:update(dt)
 	--love.touch.getPosition(1)
 	camera:update(dt)
-	camera:follow(self.player.x + gw, self.player.y + gh)
+	camera:follow(self.player.x + gw/sw, self.player.y + gh/sh)
 end
 
 function Stage:draw()
@@ -108,12 +108,12 @@ function Stage:draw()
 	--love.graphics.circle('fill',gw - 60,gh - 40,15)
 	--love.graphics.circle('fill',gw - 40,gh - 40,20)
 
-	local touches = love.touch.getTouches()
-
-	for i, id in ipairs(touches) do
-		local x, y = love.touch.getPosition(id)
-		love.graphics.circle("fill", x, y, 20)
-	end
+	--local touches = love.touch.getTouches()
+    --
+	--for i, id in ipairs(touches) do
+	--	local x, y = love.touch.getPosition(id)
+	--	love.graphics.circle("fill", x, y, 20)
+	--end
 
 
 	love.graphics.draw(pad.l,gw - 32,gh - 64)
@@ -125,7 +125,7 @@ function Stage:draw()
 	love.graphics.setCanvas()
 	love.graphics.setColor(1,1,1,1)
 	love.graphics.setBlendMode('alpha','premultiplied')
-	love.graphics.draw(self.main_canvas,0,0,0,3,3)
+	love.graphics.draw(self.main_canvas,0,0,0,sw,sh)
 	love.graphics.setBlendMode('alpha')
 end
 

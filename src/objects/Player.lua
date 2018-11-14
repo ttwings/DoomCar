@@ -152,7 +152,7 @@ function Player:update(dt)
 
     self.boosting = false
 --- input
-    if input:down("up") and self.boost > 1 and self.can_boost then
+    if ((ty > gh) or input:down("up")) and self.boost > 1 and self.can_boost then
         self.boosting = true
         self.max_v = 1.5 * self.base_max_v
         self.boost = self.boost - 20 * dt
@@ -162,7 +162,7 @@ function Player:update(dt)
             self.boost_timer = 0
         end
     end
-    if input:down("down") and self.boost > 1 and self.can_boost then
+    if ((ty < gh) or input:down("down")) and self.boost > 1 and self.can_boost then
         self.boosting = true
         self.max_v = - 0.5 * self.base_max_v
         self.boost = self.boost - 20 * dt
@@ -176,10 +176,10 @@ function Player:update(dt)
     if self.boosting then
         self.trail_color = Color.boost
     end
-    if input:down("left") then
+    if (tx < gw) or input:down("left") then
         self.r = self.r - self.rv * dt
     end
-    if input:down("right") then
+    if (ty < gh) or input:down("right") then
         self.r = self.r + self.rv * dt
     end
     self.v = math.min(self.v + self.a * dt, self.max_v)

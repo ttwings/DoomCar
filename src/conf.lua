@@ -8,8 +8,8 @@ io.stdout:setvbuf("no")
 
 gw =  400
 gh = 240
-sw = 3
-sh = 3
+sw = 2
+sh = 2
 ww = 800
 wh = 600
 
