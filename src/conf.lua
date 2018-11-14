@@ -15,19 +15,20 @@ wh = 600
 
 function love.conf(t)
     t.identity = nil                   -- The name of the save directory (string)
-    --t.version = "0.10.1"               -- The LÖVE version this game was made for (string)
+    --t.version = "0.11.1"               -- The LÖVE version this game was made for (string)
     t.console = false                  -- Attach a console (boolean, Windows only)
 
     t.window.title = "DoomCar" -- The window title (string)
     t.window.icon = nil                -- Filepath to an image to use as the window's icon (string)
-    t.window.width = ww 			   -- The window width (number)
-    t.window.height = wh 			   -- The window height (number)
+    --t.window.width = ww 			   -- The window width (number)
+    --t.window.height = wh 			   -- The window height (number)
     t.window.borderless = false        -- Remove all border visuals from the window (boolean)
     t.window.resizable = true          -- Let the window be user-resizable (boolean)
     t.window.minwidth = 1              -- Minimum window width if the window is resizable (number)
     t.window.minheight = 1             -- Minimum window height if the window is resizable (number)
     t.window.fullscreen = false        -- Enable fullscreen (boolean)
     t.window.fullscreentype = "exclusive" -- Standard fullscreen or desktop fullscreen mode (string)
+    --t.window.fullscreentype = "exclusive"
     t.window.vsync = true              -- Enable vertical sync (boolean)
     t.window.fsaa = 0                  -- The number of samples to use with multi-sampled antialiasing (number)
     t.window.display = 1               -- Index of the monitor to show the window in (number)
@@ -48,6 +49,7 @@ function love.conf(t)
     t.modules.sound = true 			   -- Enable the sound module (boolean)
     t.modules.system = true            -- Enable the system module (boolean)
     t.modules.timer = true             -- Enable the timer module (boolean), Disabling it will result 0 delta time in love.update
+    t.modules.touch = true
     t.modules.window = true            -- Enable the window module (boolean)
     t.modules.thread = true            -- Enable the thread module (boolean)
 end

@@ -17,6 +17,15 @@ function love.load(  )
     love.math.setRandomSeed(os.time())
     love.graphics.setDefaultFilter("nearest")
     love.graphics.setLineStyle("rough")
+    ww = love.graphics.getWidth()
+    wh = love.graphics.getHeight()
+    --love.window.setMode(ww,wh)
+    --gw = 400
+    --gh = 240
+    --p_print(love.graphics.getDimensions())
+    --sw = ww/gw
+    --sh = wh/gh
+    --p_print(gw,gh,sw,sh,ww,wh)
     resize(sw,sh)
     --- dpad ui img
     pad = {

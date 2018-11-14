@@ -1,7 +1,7 @@
 
 --- @class Joystick
 
-Joystick = Object:extend()
+Joystick = GameObject:extend()
 --- @field working boolean
 --- @field stickSize int
 --- @field sw number
@@ -69,21 +69,24 @@ function Joystick:testTouch()
 	self.mx,self.my = 0,0
 	--touches[1] = love.mouse.isDown(1)
     for i, id in ipairs(touches) do
-        local x,y = love.touch.getPosition(id)
-        --local x,y = love.mouse.getPosition()
+        --local x,y = love.touch.getPosition(id)
+		p_print(i,id)
+        local x,y = love.mouse.getPosition()
         if x< self.sw/2 then
         	self.left = true
         	self.mx,self.my = x,y
+			p_print(self.mx,self.my)
         else
         	self.right = true
         	self.rx,self.ry = x,y
+			p_print(self.mx,self.my)
         end
     end
 end
 
 
-function Joystick:update()
-	p_print("joystick update")
+function Joystick:update(dt)
+	--p_print("joystick update")
 	self:testTouch()
 	if self.relative then
 		if self.working then

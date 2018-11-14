@@ -32,6 +32,13 @@ function StageMain:draw()
     love.graphics.setBlendMode('alpha','premultiplied')
     love.graphics.draw(self.main_canvas,0,0,0,3,3)
     love.graphics.setBlendMode('alpha')
+    local touches = love.touch.getTouches()
+
+    for i, id in ipairs(touches) do
+        local x, y = love.touch.getPosition(id)
+        love.graphics.circle("fill", x, y, 20)
+    end
+
 end
 
 function StageMain:destroy()

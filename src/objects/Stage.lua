@@ -2,6 +2,7 @@
 --- @field world World
 --- @field area Area
 require("objects.Area")
+local Joystick = require("objects.Joystick")
 
 Stage = Object:extend()
 
@@ -25,14 +26,15 @@ function Stage:new()
 		self.area:addObject("Sp")
 		self.area:addObject("Attack",0,0,{name = table.random(attacks_name)})
 	end )
-    self.area:addObject("Joystick")
+    --self.area:addObject("Joystick")
+	self.joystick = Joystick:new()
 	---- director
 	self.director = Director(self)
 	--timer:every(1,function () p_print('camera',math.floor(camera.x),math.floor(camera.y)) end)
 	--timer:every(1,function () p_print('player',math.floor(self.player.x),math.floor(self.player.y)) end)
 	--- camera
 	--- follow style  LOCKON  PLATFORMER TOPDOWN  TOPDOWN_TIGHT  SCREEN_BY_SCREEN  NO_DEADZONE
-	camera:setFollowStyle('TOPDOWN_TIGHT')
+	camera:setFollowStyle('NO_DEADZONE')
 end
 
 function Stage:update(dt)
@@ -40,6 +42,8 @@ function Stage:update(dt)
 	if self.director then self.director:update(dt) end
 	--camera.x = self.player.x
 	--camera.y = self.player.y
+	--self.joystick:update(dt)
+	--love.touch.getPosition(1)
 	camera:update(dt)
 	camera:follow(self.player.x + gw, self.player.y + gh)
 end
@@ -103,6 +107,14 @@ function Stage:draw()
 	--love.graphics.circle('fill',gw - 20,gh - 40,15)
 	--love.graphics.circle('fill',gw - 60,gh - 40,15)
 	--love.graphics.circle('fill',gw - 40,gh - 40,20)
+
+	local touches = love.touch.getTouches()
+
+	for i, id in ipairs(touches) do
+		local x, y = love.touch.getPosition(id)
+		love.graphics.circle("fill", x, y, 20)
+	end
+
 
 	love.graphics.draw(pad.l,gw - 32,gh - 64)
 	love.graphics.draw(pad.r,gw - 96,gh - 64)
