@@ -13,6 +13,20 @@ function StageMain:update(dt)
     input:bind("space",function ()
         gotoRoom("Stage","Stage")
     end)
+
+    Suit.layout:reset(gw*sw/2 - 50,gh*sh/2)
+    if Suit.Button("积分模式",Suit.layout:row(100,40)).hit then
+        gotoRoom("Stage","Stage")
+    end
+    if Suit.Button("世界地图",Suit.layout:row(100,40)).hit then
+        gotoRoom("StageMap","StageMap")
+    end
+    if Suit.Button("科技升级",Suit.layout:row(100,40)).hit then
+        gotoRoom("SkillTree","SkillTree")
+    end
+    if Suit.Button("支持作者",Suit.layout:row(100,40)).hit then
+        gotoRoom("SkillTree","SkillTree")
+    end
 end
 
 function StageMain:draw()
@@ -32,7 +46,7 @@ function StageMain:draw()
     love.graphics.setBlendMode('alpha','premultiplied')
     love.graphics.draw(self.main_canvas,0,0,0,sw,sh)
     love.graphics.setBlendMode('alpha')
-
+    Suit.draw()
 
 end
 

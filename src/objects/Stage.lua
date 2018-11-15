@@ -46,6 +46,18 @@ function Stage:update(dt)
 	--love.touch.getPosition(1)
 	camera:update(dt)
 	camera:follow(self.player.x + gw/sw, self.player.y + gh/sh)
+    --- 左边按键
+    Suit.layout:reset(50,gh*sh - 40)
+    if Suit.Button("<",20,gh*sh - 100,60,60).hovered then
+        self.player:turnLeft(dt)
+    end
+    if Suit.Button(">",100,gh*sh - 100,60,60).hovered then
+        self.player:turnRight(dt)
+    end
+    ----- 右边按键
+    --if Suit.ImageButton() then
+    --
+    --end
 end
 
 function Stage:draw()
@@ -127,6 +139,8 @@ function Stage:draw()
 	love.graphics.setBlendMode('alpha','premultiplied')
 	love.graphics.draw(self.main_canvas,0,0,0,sw,sh)
 	love.graphics.setBlendMode('alpha')
+    --- suit draw
+    Suit.draw()
 end
 
 function Stage:destroy()

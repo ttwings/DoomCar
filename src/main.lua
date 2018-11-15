@@ -79,7 +79,7 @@ function love.load(  )
     --gotoRoom("StageShop","StageShop")
     flash_frames = nil
 
-    touches = love.touch.getTouches()
+
     tx ,ty = gw,gh
 
 end
@@ -88,6 +88,7 @@ function love.update(dt)
     timer:update(dt*slow_amount)
     camera:update(dt*slow_amount)
     if current_room then current_room:update(dt*slow_amount) end
+    touches = love.touch.getTouches()
     for i, id in ipairs(touches) do
         tx, ty = love.touch.getPosition(id)
     end
@@ -109,6 +110,7 @@ function love.draw()
     end
 
     love.graphics.circle("line", tx, ty, 20)
+
 end
 
 function slow(amount,duration)

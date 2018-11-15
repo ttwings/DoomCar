@@ -149,38 +149,23 @@ function Player:update(dt)
     if self.boost_timer > self.boost_cooldown then self.can_boost = true end
     self.max_v = self.base_max_v
     --self.max_v = 0
-
     self.boosting = false
 --- input
     if ((ty > gh) or input:down("up")) and self.boost > 1 and self.can_boost then
-        self.boosting = true
-        self.max_v = 1.5 * self.base_max_v
-        self.boost = self.boost - 20 * dt
-        if self.boost <= 1 then
-            self.boosting = false
-            self.can_boost = false
-            self.boost_timer = 0
-        end
+        self:up(dt)
     end
     if ((ty < gh) or input:down("down")) and self.boost > 1 and self.can_boost then
-        self.boosting = true
-        self.max_v = - 0.5 * self.base_max_v
-        self.boost = self.boost - 20 * dt
-        if self.boost <= 1 then
-            self.boosting = false
-            self.can_boost = false
-            self.boost_timer = 0
-        end
+        self:down(dt)
     end
     self.trail_color = Color.skill_point
     if self.boosting then
         self.trail_color = Color.boost
     end
     if (tx < gw) or input:down("left") then
-        self.r = self.r - self.rv * dt
+        self:turnLeft(dt)
     end
     if (ty < gh) or input:down("right") then
-        self.r = self.r + self.rv * dt
+        self:turnRight(dt)
     end
     self.v = math.min(self.v + self.a * dt, self.max_v)
     --- 在windfield源码的备注中找到。。。。貌似用的 love2d physics的方法。
@@ -191,6 +176,37 @@ function Player:update(dt)
         self.shoot_timer = 0
         self:shot()
     end
+end
+
+function Player:up(dt)
+    --local dt = love.timer.getDelta()
+    self.boosting = true
+    self.max_v = 1.5 * self.base_max_v
+    self.boost = self.boost - 20 * dt
+    if self.boost <= 1 then
+        self.boosting = false
+        self.can_boost = false
+        self.boost_timer = 0
+    end
+end
+
+function Player:down(dt)
+    self.boosting = true
+    self.max_v = - 0.5 * self.base_max_v
+    self.boost = self.boost - 20 * dt
+    if self.boost <= 1 then
+        self.boosting = false
+        self.can_boost = false
+        self.boost_timer = 0
+    end
+end
+
+function Player:turnLeft(dt)
+    self.r = self.r - self.rv * dt
+end
+
+function Player:turnRight(dt)
+    self.r = self.r + self.rv * dt
 end
 
 function Player:draw()
