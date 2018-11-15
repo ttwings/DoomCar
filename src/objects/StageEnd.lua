@@ -14,6 +14,7 @@ function StageEnd:update(dt)
     if self.area then self.area:update(dt) end
     input:bind("space",function ()
         gotoRoom("Stage","Stage")
+        saveData()
     end)
 end
 

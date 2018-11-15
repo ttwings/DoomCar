@@ -9,7 +9,7 @@ Physics = require("lib.windfield")
 Draft = require("lib.draft")
 Vector = require("lib.vector")
 fn = require("lib.moses")
-
+bitser = require("lib.bitser")
 function love.load(  )
     font = Fonts.unifont
     draft = Draft()
@@ -120,4 +120,28 @@ end
 
 function flash(frames)
     flash_frames = frames
+end
+
+function saveData()
+    local save_data  = {}
+    --- set all save data here
+    save_data.score = score
+    save_data.skill_points = skill_points
+    save_data.tree = tree
+    save_data.achievements = achievements
+    bitser.dumpLoveFile('save',save_data)
+end
+
+function loadData()
+    if love.filesystem.exists('save') then
+        local save_data = bitser.loadLoveFile('save')
+        --- load all save data here
+        --- eg
+        score = save_data.score
+        skill_points = save_data.skill_points
+        tree = save_data.tree
+        achievements = save_data.achievements
+    else
+        first_run_ever = true
+    end
 end

@@ -17,6 +17,7 @@ function StageMain:update(dt)
     Suit.layout:reset(gw*sw/2 - 50,gh*sh/2)
     if Suit.Button("积分模式",Suit.layout:row(100,40)).hit then
         gotoRoom("Stage","Stage")
+        loadData()
     end
     if Suit.Button("世界地图",Suit.layout:row(100,40)).hit then
         gotoRoom("StageMap","StageMap")

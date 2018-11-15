@@ -157,9 +157,11 @@ end
 function Stage:finished()
 	table.insert(score,self.score)
 	timer:after(1,function ()
-		gotoRoom("StageEnd","StageEnd")
-		p_print("new stage")
-	end)
+        gotoRoom("StageEnd","StageEnd")
+        if not achievements['10k Fighter'] and score >=10000 and device == 'Fighter' then
+            achievements['10k Fighter'] = true
+        end
+    end)
 end
 
 function Stage:deactivate()
