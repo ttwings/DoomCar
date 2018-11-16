@@ -1,5 +1,5 @@
 require('globals')
-Suit = require('lib.suit')
+require('lib.gooi')
 Input = require( "lib.Input" )
 Object = require("lib.classic")
 Timer = require( "lib.Timer" )
@@ -78,10 +78,8 @@ function love.load(  )
     gotoRoom("StageMain","StageMain")
     --gotoRoom("StageShop","StageShop")
     flash_frames = nil
-
-
     tx ,ty = gw,gh
-
+    loadData()
 end
 
 function love.update(dt)
@@ -92,6 +90,7 @@ function love.update(dt)
     for i, id in ipairs(touches) do
         tx, ty = love.touch.getPosition(id)
     end
+
 end
 
 function love.draw()
@@ -108,10 +107,12 @@ function love.draw()
         love.graphics.rectangle("fill",0,0,sw*gw,sh*gh)
         love.graphics.setColor(1,1,1,1)
     end
-
-    love.graphics.circle("line", tx, ty, 20)
-
+    --love.graphics.circle("line", tx, ty, 20)
 end
+
+function love.mousereleased(x,y,button) gooi.released() end
+function love.mousepressed(x,y,button) gooi.pressed() end
+
 
 function slow(amount,duration)
     slow_amount = amount
@@ -122,6 +123,8 @@ function flash(frames)
     flash_frames = frames
 end
 
+
+--- @type func
 function saveData()
     local save_data  = {}
     --- set all save data here
@@ -133,11 +136,12 @@ function saveData()
 end
 
 function loadData()
-    if love.filesystem.exists('save') then
+    if love.filesystem.getInfo('save').type == "file" then
         local save_data = bitser.loadLoveFile('save')
         --- load all save data here
         --- eg
         score = save_data.score
+        --p_print(score)
         skill_points = save_data.skill_points
         tree = save_data.tree
         achievements = save_data.achievements

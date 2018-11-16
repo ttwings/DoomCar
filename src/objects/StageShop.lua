@@ -8,8 +8,6 @@
 --- @field world World
 --- @field area Area
 
-local suit = require("lib.suit")
-
 StageShop = Object:extend()
 
 function StageShop:new()
@@ -29,22 +27,6 @@ local input = {text = ""}
 
 function StageShop:update(dt)
     if self.area then self.area:update(dt) end
-    --- suit update
-    test = suit.Button("X",{font = font},gw * sw - 40,0,40,40)
-
-    if test.hit then
-        love.event.quit()
-    end
-
-    suit.layout:reset()
-    suit.layout:row(48,48)
-    local row_num = 8
-    for i = 0, 100 do
-        suit.Button("物品" .. i,i%row_num * 48 + 32,math.floor(i/row_num) * 48 + 32,40,40)
-    end
-
-    suit.Label("钱:" .. 10000,100,gh * sh - 60,100,40)
-
 end
 
 function StageShop:draw()
@@ -65,9 +47,6 @@ function StageShop:draw()
     love.graphics.setBlendMode('alpha','premultiplied')
     love.graphics.draw(self.main_canvas,0,0,0,3,3)
     love.graphics.setBlendMode('alpha')
-    ---- suit gui
-    suit.draw()
-
 end
 
 function StageShop:destroy()

@@ -9,7 +9,6 @@ tree[2] = {x = 48, y = 0, stats = {'4% Increased HP', 'hp_multiplier', 0.04}, li
 tree[3] = {x = 96, y = 0, stats = {'6% Increased HP', 'hp_multiplier', 0.06}, links = {4}}
 tree[4] = {x = 144, y = 0, stats = {'4% Increased HP', 'hp_multiplier', 0.04}}
 
-local suit = require("lib.suit")
 local ui_input = {text = "Hello"}
 local chk = {text = "check"}
 local slider = {value = 0.5,min = -2,max = 2}
@@ -68,35 +67,6 @@ function SkillTree:update(dt)
         timer:tween(0.2,camera,{scale = camera.scale - 0.4},'in-out-cubic')
     end
 
-    --- suit test
-    --suit.Label("技能点:" .. skill_points.left,gw - 100,0,100,20)
-    suit.layout:reset(gw/2 - 40,gh - 40,20,20)
-    apply = suit.Button("确定",suit.layout:row(50,30))
-    cancel = suit.Button("取消", suit.layout:col())
-    suit.Label("Apply",suit.layout:col())
-    mx,my = love.mouse.getX(),love.mouse.getY()
-
-    if apply.hovered then
-        print("enter")
-        suit.Label("Apply",suit.layout:col())
-    end
-    if apply.hit then
-        print("Apply")
-    end
-
-    if suit.Button("Hover?",suit.layout:row(nil,40)).hovered then
-        suit.Button("You Can See",{align = 'left',valign = 'top'},suit.layout:row(nil,50))
-        suit.Button("But you cant touch!",{align = 'right',valign = 'bottom'},suit.layout:row())
-    end
-    --suit.ImageButton()
-    suit.Checkbox(chk,{align = 'right'},suit.layout:row())
-    suit.layout:push(suit.layout:row())
-    suit.layout:padding(3)
-    suit.Slider(slider,suit.layout:col(160,20))
-    suit.Label(("%.02f"):format(slider.value),suit.layout:col(40))
-    suit.layout:pop()
-
-
 end
 
 
@@ -154,7 +124,6 @@ function SkillTree:draw()
     love.graphics.draw(self.main_canvas,0,0,0,sw,sh)
 
     love.graphics.print({{1,0,0},mx,{0,1,1},my},gw/2,gh/2)
-    suit.draw()
 end
 
 function SkillTree:canNodeBeBought(id)
@@ -165,5 +134,4 @@ end
 
 function SkillTree:keypressed(key)
     p_print("key pressed")
-    suit.keypressed(key)
 end

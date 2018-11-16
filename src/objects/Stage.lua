@@ -18,23 +18,28 @@ function Stage:new()
 	self.area.world:addCollisionClass("EnemyProjectile",{ignores = {"Collectable","Projectile","EnemyProjectile","Enemy"}})
 	self.main_canvas = love.graphics.newCanvas(gw,gh)
 	self.player = self.area:addObject("Player",gw/2,gh/2)
-	input:bind("p",function ()
-		self.area:addObject("Ammo")
-		self.area:addObject("Rock")
-		self.area:addObject("Shooter")
-		self.area:addObject("Hp")
-		self.area:addObject("Sp")
-		self.area:addObject("Attack",0,0,{name = table.random(attacks_name)})
-	end )
-    --self.area:addObject("Joystick")
-	self.joystick = Joystick:new()
 	---- director
 	self.director = Director(self)
-	--timer:every(1,function () p_print('camera',math.floor(camera.x),math.floor(camera.y)) end)
-	--timer:every(1,function () p_print('player',math.floor(self.player.x),math.floor(self.player.y)) end)
-	--- camera
-	--- follow style  LOCKON  PLATFORMER TOPDOWN  TOPDOWN_TIGHT  SCREEN_BY_SCREEN  NO_DEADZONE
+	--- camera  follow style  LOCKON  PLATFORMER TOPDOWN  TOPDOWN_TIGHT  SCREEN_BY_SCREEN  NO_DEADZONE
 	camera:setFollowStyle('NO_DEADZONE')
+    --- game panel
+    style = {
+        font = Fonts.unifont,
+        showBorder = false,
+    }
+    gooi.setStyle(style)
+
+    img_ui_dir = "assets/graphics/ui/"
+    joy_ship = gooi.newJoy({size = 128}):bg({1,1,1,1}):setDigital():setStyle({showBorder = false})
+    button_shot_main = gooi.newButton({text = "" ,icon=img_ui_dir .. "dpad_b.png"}):bg({0,0,0,1}):onRelease(
+            function()
+                self.player:shot(dt)
+            end
+    )
+    panel_game = gooi.newPanel({x=0,y=0,w=gw*sw,h=gh*sh,layout = 'game'})
+    panel_game:add(joy_ship,"b-l")
+    panel_game:add(button_shot_main,'b-r')
+
 end
 
 function Stage:update(dt)
@@ -46,18 +51,20 @@ function Stage:update(dt)
 	--love.touch.getPosition(1)
 	camera:update(dt)
 	camera:follow(self.player.x + gw/sw, self.player.y + gh/sh)
-    --- 左边按键
-    Suit.layout:reset(50,gh*sh - 40)
-    if Suit.Button("<",20,gh*sh - 100,60,60).hovered then
+    gooi.update(dt)
+    local dir = joy_ship:direction()
+    if dir:match('l') then
         self.player:turnLeft(dt)
-    end
-    if Suit.Button(">",100,gh*sh - 100,60,60).hovered then
+    elseif dir:match('r') then
         self.player:turnRight(dt)
     end
-    ----- 右边按键
-    --if Suit.ImageButton() then
-    --
-    --end
+    if dir:match('t') then
+        self.player:up(dt)
+    elseif dir:match('b') then
+        self.player:down(dt)
+    end
+
+
 end
 
 function Stage:draw()
@@ -139,8 +146,8 @@ function Stage:draw()
 	love.graphics.setBlendMode('alpha','premultiplied')
 	love.graphics.draw(self.main_canvas,0,0,0,sw,sh)
 	love.graphics.setBlendMode('alpha')
-    --- suit draw
-    Suit.draw()
+    --- ui draw
+    gooi.draw()
 end
 
 function Stage:destroy()

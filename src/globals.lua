@@ -48,8 +48,13 @@ skill_points.bought = 0
 
 bought_node_indexes = {1}
 
-achievements = {}
-achievements['10k Fighter'] = true
+achievements = {
+['10k Fighter'] = false,
+['20k Fighter'] = false,
+['30k Fighter'] = false,
+['40k Fighter'] = false,
+['50k Fighter'] = false,
+}
 
 first_run_ever = true
 

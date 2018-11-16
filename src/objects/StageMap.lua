@@ -10,7 +10,6 @@ town[2] = {x = 48, y = 0, opts = {name = "小镇1"},stats = {'4% Increased HP', 
 town[3] = {x = 96, y = 0, opts = {name = "小镇1"},stats = {'6% Increased HP', 'hp_multiplier', 0.06}, links = {4}}
 town[4] = {x = 144, y = 0, opts = {name = "小镇1"},stats = {'4% Increased HP', 'hp_multiplier', 0.04}}
 
-local suit = require("lib.suit")
 --- @class StageMap : GameObject
 
 StageMap = Object:extend()

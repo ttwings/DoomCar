@@ -999,3 +999,16 @@ function debug.getCollection()
     for k , v in pairs(counts) do print(k,v) end
     print("------------------------------")
 end
+
+--- check x,y in button
+--- @type func
+--- @param x1 number
+--- @param y1 number
+--- @param x2 number
+--- @param y2 number
+--- @param x number
+--- @param y number
+--- @return boolean
+function checkButton(x1,y1,x2,y2,x,y)
+    return x > x1 and x < x2 and y > y1 and y < y2;
+end

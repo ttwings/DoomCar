@@ -77,6 +77,8 @@ function Player:new(area, x, y, opts)
     input:bind('f4', function()
         self:die()
     end)
+
+    self.can_shot = false
 end
 
 function Player:update(dt)
@@ -170,8 +172,17 @@ function Player:update(dt)
     self.v = math.min(self.v + self.a * dt, self.max_v)
     --- 在windfield源码的备注中找到。。。。貌似用的 love2d physics的方法。
     self.collider:setLinearVelocity(self.v * math.cos(self.r), self.v * math.sin(self.r))
---- shoot
+    --- shoot
+    --if self.can_shot then
+    --    self:shot(dt)
+    --end
     self.shoot_timer = self.shoot_timer + dt
+    if love.keyboard.isDown("space") then
+        self:shot(dt)
+    end
+end
+
+function Player:shot(dt)
     if self.shoot_timer > self.shoot_cooldown then
         self.shoot_timer = 0
         self:shot()
@@ -239,8 +250,6 @@ function Player:draw()
     --draft:rectangle(self.x,self.y,self.w * 1.4,self.h * 1.6,'line')
     --draft:circle(self.x,self.y,self.w/2,10,'line')
     love.graphics.pop()
-
-
 end
 --- @field area Area
 function Player:shot()
