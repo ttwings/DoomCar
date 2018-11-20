@@ -67,18 +67,10 @@ function Player:new(area, x, y, opts)
     --self.area.world:addCollisionClass("Player")
     self.collider:setCollisionClass("Player")
     self.collider:setObject(self)
-    self.attack_speed = 1
-    --self.timer:every(0.24 , function()
-    --    self:shot()
-    --end)
+    --self.attack_speed = 1
     self.timer:every(5, function()
         self:tick()
     end)
-    input:bind('f4', function()
-        self:die()
-    end)
-
-    self.can_shot = false
 end
 
 function Player:update(dt)
@@ -153,31 +145,29 @@ function Player:update(dt)
     --self.max_v = 0
     self.boosting = false
 --- input
-    if ((ty > gh) or input:down("up")) and self.boost > 1 and self.can_boost then
+    if input:down("up") and self.boost > 1 and self.can_boost then
         self:up(dt)
     end
-    if ((ty < gh) or input:down("down")) and self.boost > 1 and self.can_boost then
+    if input:down("down") and self.boost > 1 and self.can_boost then
         self:down(dt)
     end
     self.trail_color = Color.skill_point
     if self.boosting then
         self.trail_color = Color.boost
     end
-    if (tx < gw) or input:down("left") then
+    if input:down("left") then
         self:turnLeft(dt)
     end
-    if (ty < gh) or input:down("right") then
+    if input:down("right") then
         self:turnRight(dt)
     end
     self.v = math.min(self.v + self.a * dt, self.max_v)
     --- 在windfield源码的备注中找到。。。。貌似用的 love2d physics的方法。
     self.collider:setLinearVelocity(self.v * math.cos(self.r), self.v * math.sin(self.r))
-    --- shoot
-    --if self.can_shot then
-    --    self:shot(dt)
-    --end
+
     self.shoot_timer = self.shoot_timer + dt
-    if love.keyboard.isDown("space") then
+    if love.keyboard.isDown("space") and self.shoot_timer > self.shoot_cooldown then
+        self.shoot_timer = 0
         self:shot(dt)
     end
 end
@@ -190,7 +180,6 @@ function Player:shot(dt)
 end
 
 function Player:up(dt)
-    --local dt = love.timer.getDelta()
     self.boosting = true
     self.max_v = 1.5 * self.base_max_v
     self.boost = self.boost - 20 * dt

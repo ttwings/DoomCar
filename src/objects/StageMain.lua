@@ -8,27 +8,72 @@ function StageMain:new()
     self.font = font
     self.main_canvas = love.graphics.newCanvas(gw,gh)
     style = {
-        font = Fonts.unifont,
+        font = font,
         showBorder = false,
+        bg = {1,1,1,1}
     }
     gooi.setStyle(style)
-    gooi.newButton({group = "main",text = "积分模式", x = gw*sw/2,y = gh*sh/2}):onRelease(
+    gooi.newButton({group = "StageMain",text = "积分模式", x = 0,y = gh*sh/2,w=gw*sw,h=40})
+            :center()
+            :bg({1,1,1,0.1})
+            :onRelease(
             function()
                 gotoRoom("Stage","Stage")
-                gooi.setGroupEnabled("main",false)
-                gooi.setGroupVisible("main",false)
+                gooi.setGroupEnabled("StageMain",false)
+                gooi.setGroupVisible("StageMain",false)
+                gooi.setGroupEnabled("Stage",true)
+                gooi.setGroupVisible("Stage",true)
+            end
+    )
+    gooi.newButton({group = "StageMain",text = "查看帮助", x = 0,y = gh*sh/2 + 40,w=gw*sw,h=40})
+        :center()
+        :bg({1,1,1,0.1})
+        :onRelease(
+            function()
+                gotoRoom("StageEnd","StageEnd")
+                gooi.setGroupEnabled("StageMain",false)
+                gooi.setGroupVisible("StageMain",false)
+                gooi.setGroupEnabled("StageEnd",true)
+                gooi.setGroupVisible("StageEnd",true)
+            end
+    )
+    gooi.newButton({group = "StageMain",text = "语言选择", x = 0,y = gh*sh/2 + 80,w=gw*sw,h=40})
+        :center()
+        :bg({1,1,1,0.1})
+        :onRelease(
+            function()
+                gotoRoom("StageSelect","StageSelect")
+                gooi.setGroupEnabled("StageMain",false)
+                gooi.setGroupVisible("StageMain",false)
+                gooi.setGroupEnabled("StageSelect",true)
+                gooi.setGroupVisible("StageSelect",true)
+            end
+    )
+    gooi.newButton({group = "StageMain",text = "关于游戏", x = 0,y = gh*sh/2 + 120,w=gw*sw,h=40})
+        :center()
+        :bg({1,1,1,0.1})
+        :onRelease(
+            function()
+                gotoRoom("StageAbout","StageAbout")
+                gooi.setGroupEnabled("StageMain",false)
+                gooi.setGroupVisible("StageMain",false)
+                gooi.setGroupEnabled("StageAbout",true)
+                gooi.setGroupVisible("StageAbout",true)
+            end
+    )
+    gooi.newButton({group = "StageMain",text = "退出游戏", x = 0,y = gh*sh/2 + 160,w=gw*sw,h=40})
+        :center()
+        :bg({1,1,1,0.1})
+        :onRelease(
+            function()
+                love.event.quit()
             end
     )
 
 end
 
 function StageMain:update(dt)
-    input:bind("space",function ()
-        gotoRoom("Stage","Stage")
 
-    end)
-
-    --gooi.update(dt)
 end
 
 function StageMain:draw()
@@ -36,19 +81,14 @@ function StageMain:draw()
     love.graphics.clear()
     camera:attach(0,0,sw*gw,sh*gh)
     camera:detach()
-    love.graphics.print("毁灭战车",gw/2,gh/2 - 50,0,3,3,math.floor(self.font:getWidth("打飞机")/2))
-    local t1 = "按空格开始 或 点击开始"
-    love.graphics.print(t1,gw/2,gh/2 + 40,0,1,1,math.floor(self.font:getWidth(t1)/2))
-    local t2 = "左右箭头控制方向\n上下箭头控制速度"
-    love.graphics.print(t2,gw/2,gh/2 + 60,0,1,1,math.floor(self.font:getWidth(t2)/2))
-    love.graphics.setFont(font,32)
+    love.graphics.print(title,gw/2,gh/2 - 50,0,3,3,math.floor(self.font:getWidth(title)/2))
 
     love.graphics.setCanvas()
     love.graphics.setColor(255,255,255,255)
     love.graphics.setBlendMode('alpha','premultiplied')
     love.graphics.draw(self.main_canvas,0,0,0,sw,sh)
     love.graphics.setBlendMode('alpha')
-    gooi.draw('main')
+    gooi.draw('StageMain')
 end
 
 function StageMain:destroy()

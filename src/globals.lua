@@ -5,7 +5,7 @@
 
 ------
 Fonts = {}
-Fonts.unifont = love.graphics.newFont("assets/font/unifont.ttf")
+Fonts.unifont = love.graphics.newFont("assets/font/unifont.ttf",12)
 ---
 
 Color = {}

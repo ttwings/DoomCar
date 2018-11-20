@@ -13,12 +13,14 @@ sh = 2
 ww = 800
 wh = 600
 
+title = "毁灭战车"
+
 function love.conf(t)
     t.identity = nil                   -- The name of the save directory (string)
     --t.version = "0.11.1"               -- The LÖVE version this game was made for (string)
     t.console = false                  -- Attach a console (boolean, Windows only)
 
-    t.window.title = "DoomCar" -- The window title (string)
+    t.window.title = title -- The window title (string)
     t.window.icon = nil                -- Filepath to an image to use as the window's icon (string)
     --t.window.width = ww 			   -- The window width (number)
     --t.window.height = wh 			   -- The window height (number)
