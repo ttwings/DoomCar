@@ -9,7 +9,10 @@ tree[2] = {x = 48, y = 0, stats = {'4% Increased HP', 'hp_multiplier', 0.04}, li
 tree[3] = {x = 96, y = 0, stats = {'6% Increased HP', 'hp_multiplier', 0.06}, links = {4}}
 tree[4] = {x = 144, y = 0, stats = {'4% Increased HP', 'hp_multiplier', 0.04}}
 
-local suit = require("lib.suit")
+local ui_input = {text = "Hello"}
+local chk = {text = "check"}
+local slider = {value = 0.5,min = -2,max = 2}
+
 --- @class SkillTree : GameObject
 
 SkillTree = Object:extend()
@@ -37,7 +40,21 @@ function SkillTree:new()
             end
         end
     end
+    --- gooi
+    gooi.newButton({group = "SkillTree",text = "返回菜单", x = gw*sw - 80,y = gh*sh - 40})
+        :center()
+        :bg({1,1,1,0.1})
+        :onRelease(
+            function()
+                gotoRoom("StageMain","StageMain")
+                gooi.setGroupEnabled("StageTree",false)
+                gooi.setGroupVisible("StageTree",false)
+                gooi.setGroupEnabled("StageMain",true)
+                gooi.setGroupVisible("StageMain",true)
+            end
+    )
 end
+
 
 function SkillTree:update(dt)
     for _, node in ipairs(self.nodes) do
@@ -51,6 +68,7 @@ function SkillTree:update(dt)
     if love.mouse.isDown(1) then
         local mx,my = camera:getMousePosition(sw,sh,0,0,sw * gw,sh * gh)
         local dx,dy = mx - self.previous_mx,my - self.previous_my
+        --- when camera scale, x,y position should / scale
         camera:move(-dx/sw,-dy/sh)
     end
     self.previous_mx,self.previous_my = camera:getMousePosition(sw,sh,0,0,sw * gw,sh * gh)
@@ -61,23 +79,6 @@ function SkillTree:update(dt)
     if input:pressed("zoom_out") then
         timer:tween(0.2,camera,{scale = camera.scale - 0.4},'in-out-cubic')
     end
-
-    --- suit test
-    --suit.Label("技能点:" .. skill_points.left,gw - 100,0,100,20)
-    --suit.layout:reset(gw/2 - 40,gh - 40,20,20)
-    apply = suit.Button("确定",suit.layout:row(50,30))
-    --cancel = suit.Button("取消", suit.layout:col())
-    --suit.Label("Apply",suit.layout:col())
-
-
-    if apply.entered then
-        print("enter")
-    end
-    if apply.hit then
-        suit.Label("Apply",print("apply"))
-        print("Apply")
-    end
-
 
 end
 
@@ -100,9 +101,7 @@ function SkillTree:draw()
     for _, node in ipairs(self.nodes) do
         node:draw()
     end
-    camera:detach()
-
-    --- draw text
+    --- draw node
     for _,node in ipairs(self.nodes) do
         if node.hot and tree[node.id].stats then
             local stats = tree[node.id].stats
@@ -114,11 +113,10 @@ function SkillTree:draw()
                 end
             end
             --- draw rectangle
-            --local mx,my = camera:getMousePosition(sw,sh,0,0,sw * gw,sh * gh)
-            local mx,my = love.mouse.getPosition()
-            mx,my = mx / sw,my / sh
-
-            p_print(mx ,my)
+            local mx,my = camera:getMousePosition(sw*camera.scale,sh*camera.scale,0,0,sw * gw,sh * gh)
+            --local mx,my = love.mouse.getPosition()
+            mx,my = mx/sw,my/sh
+            --p_print(mx,my)
             love.graphics.setColor(1,0,0,0.8)
             love.graphics.rectangle('fill',mx,my
             ,16 + max_text_width,font:getHeight() + #stats/3 * font:getHeight())
@@ -130,7 +128,7 @@ function SkillTree:draw()
             end
         end
     end
-
+    camera:detach()
     love.graphics.print('科技 : ' .. skill_points.left,0,0)
 
     love.graphics.setColor(1,1,1)
@@ -138,7 +136,8 @@ function SkillTree:draw()
     --love.graphics.setBlendMode('alpha','premultiplied')
     love.graphics.draw(self.main_canvas,0,0,0,sw,sh)
 
-    suit.draw()
+    love.graphics.print({{1,0,0},mx,{0,1,1},my},gw/2,gh/2)
+    gooi.draw("SkillTree")
 end
 
 function SkillTree:canNodeBeBought(id)
@@ -146,8 +145,7 @@ function SkillTree:canNodeBeBought(id)
         if fn.any(bought_node_indexes,linked_node_id) then return true end
     end
 end
---
---function SkillTree:keypressed(key)
---    p_print("key pressed")
---    suit.keypressed(key)
---end
+
+function SkillTree:keypressed(key)
+    p_print("key pressed")
+end

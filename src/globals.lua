@@ -5,7 +5,7 @@
 
 ------
 Fonts = {}
-Fonts.unifont = love.graphics.newFont("assets/font/unifont.ttf")
+Fonts.unifont = love.graphics.newFont("assets/font/unifont.ttf",12)
 ---
 
 Color = {}
@@ -47,4 +47,14 @@ skill_points.max = 1000
 skill_points.bought = 0
 
 bought_node_indexes = {1}
+
+achievements = {
+['10k Fighter'] = false,
+['20k Fighter'] = false,
+['30k Fighter'] = false,
+['40k Fighter'] = false,
+['50k Fighter'] = false,
+}
+
+first_run_ever = true
 

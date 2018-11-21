@@ -161,7 +161,6 @@ function Director:setAttackSpawnForThisRound()
     local attack_list = {}
     while point > 0 do
         local attack = self.attack_spawn_chance[self.difficulty]:next()
-        p_print(attack)
         point = point - self.attack_to_point[attack]
         table.insert(attack_list,attack)
     end

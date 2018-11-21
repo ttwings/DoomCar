@@ -2,7 +2,6 @@
 --- @field world World
 --- @field area Area
 require("objects.Area")
-
 Stage = Object:extend()
 
 function Stage:new()
@@ -15,33 +14,59 @@ function Stage:new()
 	self.area.world:addCollisionClass("Collectable",{ignores = {"Collectable","Projectile","Player"}})
 	self.area.world:addCollisionClass("Enemy",{ignores = {"Collectable","Projectile","Player"}})
 	self.area.world:addCollisionClass("EnemyProjectile",{ignores = {"Collectable","Projectile","EnemyProjectile","Enemy"}})
-	self.main_canvas = love.graphics.newCanvas(gw,gh)
-	self.player = self.area:addObject("Player",gw/2,gh/2)
-	input:bind("p",function ()
-		self.area:addObject("Ammo")
-		self.area:addObject("Rock")
-		self.area:addObject("Shooter")
-		self.area:addObject("Hp")
-		self.area:addObject("Sp")
-		self.area:addObject("Attack",0,0,{name = table.random(attacks_name)})
-	end )
 
+    --self.main_canvas = love.graphics.newCanvas(gw,gh)
+    self.stage_w,self.stage_h = 2560,2560
+    self.main_canvas = love.graphics.newCanvas(self.stage_w ,self.stage_h)
+	self.player = self.area:addObject("Player",self.stage_w/2,self.stage_h/2)
 	---- director
 	self.director = Director(self)
-	--timer:every(1,function () p_print('camera',math.floor(camera.x),math.floor(camera.y)) end)
-	--timer:every(1,function () p_print('player',math.floor(self.player.x),math.floor(self.player.y)) end)
-	--- camera
-	--- follow style  LOCKON  PLATFORMER TOPDOWN  TOPDOWN_TIGHT  SCREEN_BY_SCREEN  NO_DEADZONE
-	camera:setFollowStyle('TOPDOWN_TIGHT')
+	--- camera  follow style  LOCKON  PLATFORMER TOPDOWN  TOPDOWN_TIGHT  SCREEN_BY_SCREEN  NO_DEADZONE
+	camera:setFollowStyle('NO_DEADZONE')
+    --- gooi ui
+    style = {
+        font = Fonts.unifont,
+        showBorder = false,
+    }
+    gooi.setStyle(style)
+	self.jx,self.jy = 0,gh*sh - 130
+    img_ui_dir = "assets/graphics/ui/"
+    joy_ship = gooi.newJoy({group = "Stage",x = self.jx,y = self.jy,size = 128}):setDigital():setStyle({bgColor = {1,1,1,0.1},showBorder = true})
+    button_shot_main = gooi.newButton({group = "Stage",text = "" ,x = gw*sw - 40,y = gh*sh - 80,icon=img_ui_dir .. "dpad_b.png"}):bg({1,1,1,0.1}):onRelease(
+            function()
+                self.player:shot(dt)
+            end
+    )
+
+    gooi.newButton({group = "Stage",x = gw*sw - 60,y = 10,text = "返回"}):bg({1,1,1,0.1}):onRelease(
+            function()
+                gotoRoom("StageMain","StageMain")
+                gooi.setGroupEnabled("Stage",false)
+                gooi.setGroupVisible("Stage",false)
+                gooi.setGroupEnabled("StageMain",true)
+                gooi.setGroupVisible("StageMain",true)
+            end
+    )
 end
 
 function Stage:update(dt)
 	if self.area then self.area:update(dt) end
 	if self.director then self.director:update(dt) end
-	--camera.x = self.player.x
-	--camera.y = self.player.y
 	camera:update(dt)
-	camera:follow(self.player.x + gw, self.player.y + gh)
+	camera:follow(self.player.x + gw/sw, self.player.y + gh/sh)
+    gooi.update(dt)
+    ---
+    local dir = joy_ship:direction()
+    if dir:match('l') then
+        self.player:turnLeft(dt)
+    elseif dir:match('r') then
+        self.player:turnRight(dt)
+    end
+    if dir:match('t') then
+        self.player:up(dt)
+    elseif dir:match('b') then
+        self.player:down(dt)
+    end
 end
 
 function Stage:draw()
@@ -69,7 +94,6 @@ function Stage:draw()
 	love.graphics.print(hp .. '/' .. max_hp, gw/2 - 52 + 24, gh - 6, 0, 1, 1,
 			math.floor(self.font:getWidth(hp .. '/' .. max_hp)/2),
 			math.floor(self.font:getHeight()/2))
-
 	-- Ammo
 	r, g, b = unpack(Color.ammo)
 	local ammo, max_ammo = self.player.ammo, self.player.max_ammo
@@ -96,25 +120,36 @@ function Stage:draw()
 			math.floor(self.font:getWidth(math.floor(boost)  .. '/' .. max_boost)/2),
 			math.floor(self.font:getHeight()/2))
 	--- draw virtual game pad
-	love.graphics.setColor(1,1,1,0.5)
-	love.graphics.circle('line',40,gh - 40,40)
-	love.graphics.setColor(1,1,1,0.7)
-	love.graphics.circle('fill',40,gh - 40,20)
+	love.graphics.setColor(1,1,1,1)
+	love.graphics.circle('line',self.jx,self.jy,50)
+	--love.graphics.setColor(1,1,1,0.7)
+	--love.graphics.circle('fill',40,gh - 40,20)
 	--love.graphics.circle('fill',gw - 20,gh - 40,15)
 	--love.graphics.circle('fill',gw - 60,gh - 40,15)
 	--love.graphics.circle('fill',gw - 40,gh - 40,20)
 
-	love.graphics.draw(pad.l,gw - 32,gh - 64)
-	love.graphics.draw(pad.r,gw - 96,gh - 64)
-	love.graphics.draw(pad.t,gw - 64,gh - 32)
-	love.graphics.draw(pad.b,gw - 64,gh - 96)
-	love.graphics.draw(pad.start,gw/2 + 24,gh - 24)
-	love.graphics.draw(pad.back,gw/2 - 24,gh - 24)
+	--local touches = love.touch.getTouches()
+    --
+	--for i, id in ipairs(touches) do
+	--	local x, y = love.touch.getPosition(id)
+	--	love.graphics.circle("fill", x, y, 20)
+	--end
+
+    --
+	--love.graphics.draw(pad.l,gw - 32,gh - 64)
+	--love.graphics.draw(pad.r,gw - 96,gh - 64)
+	--love.graphics.draw(pad.t,gw - 64,gh - 32)
+	--love.graphics.draw(pad.b,gw - 64,gh - 96)
+	--love.graphics.draw(pad.start,gw/2 + 24,gh - 24)
+	--love.graphics.draw(pad.back,gw/2 - 24,gh - 24)
 	love.graphics.setCanvas()
 	love.graphics.setColor(1,1,1,1)
 	love.graphics.setBlendMode('alpha','premultiplied')
-	love.graphics.draw(self.main_canvas,0,0,0,3,3)
+	love.graphics.draw(self.main_canvas,0,0,0,sw,sh)
 	love.graphics.setBlendMode('alpha')
+    --- ui draw
+    love.graphics.print({{1,0,0},math.floor(self.player.x),{0,1,1},math.floor(self.player.y)})
+    gooi.draw("Stage")
 end
 
 function Stage:destroy()
@@ -131,9 +166,11 @@ end
 function Stage:finished()
 	table.insert(score,self.score)
 	timer:after(1,function ()
-		gotoRoom("StageEnd","StageEnd")
-		p_print("new stage")
-	end)
+        gotoRoom("StageEnd","StageEnd")
+        if not achievements['10k Fighter'] and score >=10000 and device == 'Fighter' then
+            achievements['10k Fighter'] = true
+        end
+    end)
 end
 
 function Stage:deactivate()

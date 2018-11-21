@@ -67,15 +67,9 @@ function Player:new(area, x, y, opts)
     --self.area.world:addCollisionClass("Player")
     self.collider:setCollisionClass("Player")
     self.collider:setObject(self)
-    self.attack_speed = 1
-    --self.timer:every(0.24 , function()
-    --    self:shot()
-    --end)
+    --self.attack_speed = 1
     self.timer:every(5, function()
         self:tick()
-    end)
-    input:bind('f4', function()
-        self:die()
     end)
 end
 
@@ -149,48 +143,70 @@ function Player:update(dt)
     if self.boost_timer > self.boost_cooldown then self.can_boost = true end
     self.max_v = self.base_max_v
     --self.max_v = 0
-
     self.boosting = false
 --- input
     if input:down("up") and self.boost > 1 and self.can_boost then
-        self.boosting = true
-        self.max_v = 1.5 * self.base_max_v
-        self.boost = self.boost - 20 * dt
-        if self.boost <= 1 then
-            self.boosting = false
-            self.can_boost = false
-            self.boost_timer = 0
-        end
+        self:up(dt)
     end
     if input:down("down") and self.boost > 1 and self.can_boost then
-        self.boosting = true
-        self.max_v = - 0.5 * self.base_max_v
-        self.boost = self.boost - 20 * dt
-        if self.boost <= 1 then
-            self.boosting = false
-            self.can_boost = false
-            self.boost_timer = 0
-        end
+        self:down(dt)
     end
     self.trail_color = Color.skill_point
     if self.boosting then
         self.trail_color = Color.boost
     end
     if input:down("left") then
-        self.r = self.r - self.rv * dt
+        self:turnLeft(dt)
     end
     if input:down("right") then
-        self.r = self.r + self.rv * dt
+        self:turnRight(dt)
     end
     self.v = math.min(self.v + self.a * dt, self.max_v)
     --- 在windfield源码的备注中找到。。。。貌似用的 love2d physics的方法。
     self.collider:setLinearVelocity(self.v * math.cos(self.r), self.v * math.sin(self.r))
---- shoot
+
     self.shoot_timer = self.shoot_timer + dt
+    if love.keyboard.isDown("space") and self.shoot_timer > self.shoot_cooldown then
+        self.shoot_timer = 0
+        self:shot(dt)
+    end
+end
+
+function Player:shot(dt)
     if self.shoot_timer > self.shoot_cooldown then
         self.shoot_timer = 0
         self:shot()
     end
+end
+
+function Player:up(dt)
+    self.boosting = true
+    self.max_v = 1.5 * self.base_max_v
+    self.boost = self.boost - 20 * dt
+    if self.boost <= 1 then
+        self.boosting = false
+        self.can_boost = false
+        self.boost_timer = 0
+    end
+end
+
+function Player:down(dt)
+    self.boosting = true
+    self.max_v = - 0.5 * self.base_max_v
+    self.boost = self.boost - 20 * dt
+    if self.boost <= 1 then
+        self.boosting = false
+        self.can_boost = false
+        self.boost_timer = 0
+    end
+end
+
+function Player:turnLeft(dt)
+    self.r = self.r - self.rv * dt
+end
+
+function Player:turnRight(dt)
+    self.r = self.r + self.rv * dt
 end
 
 function Player:draw()
@@ -223,8 +239,6 @@ function Player:draw()
     --draft:rectangle(self.x,self.y,self.w * 1.4,self.h * 1.6,'line')
     --draft:circle(self.x,self.y,self.w/2,10,'line')
     love.graphics.pop()
-
-
 end
 --- @field area Area
 function Player:shot()

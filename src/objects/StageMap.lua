@@ -10,7 +10,6 @@ town[2] = {x = 48, y = 0, opts = {name = "小镇1"},stats = {'4% Increased HP', 
 town[3] = {x = 96, y = 0, opts = {name = "小镇1"},stats = {'6% Increased HP', 'hp_multiplier', 0.06}, links = {4}}
 town[4] = {x = 144, y = 0, opts = {name = "小镇1"},stats = {'4% Increased HP', 'hp_multiplier', 0.04}}
 
-local suit = require("lib.suit")
 --- @class StageMap : GameObject
 
 StageMap = Object:extend()
@@ -38,6 +37,18 @@ function StageMap:new()
             end
         end
     end
+    gooi.newButton({group = "StageMap",text = "返回菜单", x = gw*sw - 80,y = gh*sh - 40})
+        :center()
+        :bg({0,0,0,0.8})
+        :onRelease(
+            function()
+                gotoRoom("StageMain","StageMain")
+                gooi.setGroupEnabled("StageMap",false)
+                gooi.setGroupVisible("StageMap",false)
+                gooi.setGroupEnabled("StageMain",true)
+                gooi.setGroupVisible("StageMain",true)
+            end
+    )
 end
 
 function StageMap:update(dt)
@@ -55,13 +66,13 @@ function StageMap:update(dt)
         camera:move(-dx,-dy)
     end
     self.previous_mx,self.previous_my = camera:getMousePosition(sw,sh,0,0,sw * gw,sh * gh)
-
-    if input:pressed("zoom_in") then
-        timer:tween(0.2,camera,{scale = camera.scale + 0.4},'in-out-cubic')
-    end
-    if input:pressed("zoom_out") then
-        timer:tween(0.2,camera,{scale = camera.scale - 0.4},'in-out-cubic')
-    end
+    --
+    --if input:pressed("zoom_in") then
+    --    timer:tween(0.2,camera,{scale = camera.scale + 0.4},'in-out-cubic')
+    --end
+    --if input:pressed("zoom_out") then
+    --    timer:tween(0.2,camera,{scale = camera.scale - 0.4},'in-out-cubic')
+    --end
 end
 
 
@@ -121,7 +132,7 @@ function StageMap:draw()
     love.graphics.setCanvas()
     --love.graphics.setBlendMode('alpha','premultiplied')
     love.graphics.draw(self.main_canvas,0,0,0,sw,sh)
-
+    gooi.draw("StageMap")
 end
 
 
