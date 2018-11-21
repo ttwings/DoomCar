@@ -40,6 +40,19 @@ function SkillTree:new()
             end
         end
     end
+    --- gooi
+    gooi.newButton({group = "SkillTree",text = "返回菜单", x = gw*sw - 80,y = gh*sh - 40})
+        :center()
+        :bg({1,1,1,0.1})
+        :onRelease(
+            function()
+                gotoRoom("StageMain","StageMain")
+                gooi.setGroupEnabled("StageTree",false)
+                gooi.setGroupVisible("StageTree",false)
+                gooi.setGroupEnabled("StageMain",true)
+                gooi.setGroupVisible("StageMain",true)
+            end
+    )
 end
 
 
@@ -124,6 +137,7 @@ function SkillTree:draw()
     love.graphics.draw(self.main_canvas,0,0,0,sw,sh)
 
     love.graphics.print({{1,0,0},mx,{0,1,1},my},gw/2,gh/2)
+    gooi.draw("SkillTree")
 end
 
 function SkillTree:canNodeBeBought(id)

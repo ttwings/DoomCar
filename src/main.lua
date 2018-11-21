@@ -79,7 +79,7 @@ function love.load(  )
     --gotoRoom("StageShop","StageShop")
     flash_frames = nil
     tx ,ty = gw,gh
-    loadData()
+    --loadData()
 end
 
 function love.update(dt)

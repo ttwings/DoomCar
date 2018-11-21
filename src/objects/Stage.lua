@@ -14,8 +14,11 @@ function Stage:new()
 	self.area.world:addCollisionClass("Collectable",{ignores = {"Collectable","Projectile","Player"}})
 	self.area.world:addCollisionClass("Enemy",{ignores = {"Collectable","Projectile","Player"}})
 	self.area.world:addCollisionClass("EnemyProjectile",{ignores = {"Collectable","Projectile","EnemyProjectile","Enemy"}})
-	self.main_canvas = love.graphics.newCanvas(gw,gh)
-	self.player = self.area:addObject("Player",gw/2,gh/2)
+
+    --self.main_canvas = love.graphics.newCanvas(gw,gh)
+    self.stage_w,self.stage_h = 2560,2560
+    self.main_canvas = love.graphics.newCanvas(self.stage_w ,self.stage_h)
+	self.player = self.area:addObject("Player",self.stage_w/2,self.stage_h/2)
 	---- director
 	self.director = Director(self)
 	--- camera  follow style  LOCKON  PLATFORMER TOPDOWN  TOPDOWN_TIGHT  SCREEN_BY_SCREEN  NO_DEADZONE
@@ -145,6 +148,7 @@ function Stage:draw()
 	love.graphics.draw(self.main_canvas,0,0,0,sw,sh)
 	love.graphics.setBlendMode('alpha')
     --- ui draw
+    love.graphics.print({{1,0,0},math.floor(self.player.x),{0,1,1},math.floor(self.player.y)})
     gooi.draw("Stage")
 end
 

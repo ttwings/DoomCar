@@ -13,6 +13,30 @@ function StageMain:new()
         bg = {1,1,1,1}
     }
     gooi.setStyle(style)
+    gooi.newButton({group = "StageMain",text = "科技升级", x = 0,y = gh*sh/2 - 80,w=gw*sw,h=40})
+        :center()
+        :bg({1,1,1,0.1})
+        :onRelease(
+            function()
+                gotoRoom("SkillTree","SkillTree")
+                gooi.setGroupEnabled("StageMain",false)
+                gooi.setGroupVisible("StageMain",false)
+                gooi.setGroupEnabled("SkillTree",true)
+                gooi.setGroupVisible("SkillTree",true)
+            end
+    )
+    gooi.newButton({group = "StageMain",text = "冒险模式", x = 0,y = gh*sh/2 - 40,w=gw*sw,h=40})
+        :center()
+        :bg({1,1,1,0.1})
+        :onRelease(
+            function()
+                gotoRoom("StageMap","StageMap")
+                gooi.setGroupEnabled("StageMain",false)
+                gooi.setGroupVisible("StageMain",false)
+                gooi.setGroupEnabled("StageMap",true)
+                gooi.setGroupVisible("StageMap",true)
+            end
+    )
     gooi.newButton({group = "StageMain",text = "积分模式", x = 0,y = gh*sh/2,w=gw*sw,h=40})
             :center()
             :bg({1,1,1,0.1})
@@ -25,6 +49,7 @@ function StageMain:new()
                 gooi.setGroupVisible("Stage",true)
             end
     )
+
     gooi.newButton({group = "StageMain",text = "查看帮助", x = 0,y = gh*sh/2 + 40,w=gw*sw,h=40})
         :center()
         :bg({1,1,1,0.1})
@@ -81,7 +106,7 @@ function StageMain:draw()
     love.graphics.clear()
     camera:attach(0,0,sw*gw,sh*gh)
     camera:detach()
-    love.graphics.print(title,gw/2,gh/2 - 50,0,3,3,math.floor(self.font:getWidth(title)/2))
+    love.graphics.print(title,gw/2,gh/2 - 80,0,sw,sh,math.floor(self.font:getWidth(title)/2))
 
     love.graphics.setCanvas()
     love.graphics.setColor(255,255,255,255)
