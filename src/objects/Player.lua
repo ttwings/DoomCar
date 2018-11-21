@@ -56,12 +56,12 @@ function Player:new(area, x, y, opts)
     self.polygons = {}
     self.polygons = draft:diamond(self.x,self.y,2 * self.w,'line')
 
-    --self.timer:every(0.01, function()
-    --    self.area:addObject("TrailParticle", self.x - self.w * math.cos(self.r),
-    --            self.y - self.h * math.sin(self.r), { parent = self, r = random(2, 4), d = random(0.15, 0.25),
-    --                                                  color = self.trail_color }
-    --    )
-    --end)
+    self.timer:every(0.01, function()
+        self.area:addObject("TrailParticle", self.x - self.w * math.cos(self.r),
+                self.y - self.h * math.sin(self.r), { parent = self, r = random(2, 4), d = random(0.15, 0.25),
+                                                      color = self.trail_color }
+        )
+    end)
 
     self.collider = self.area.world:newCircleCollider(self.x, self.y, self.w)
     --self.area.world:addCollisionClass("Player")
@@ -147,8 +147,8 @@ function Player:update(dt)
     self.boost = math.min(self.max_boost,self.boost + 10 * dt)
     self.boost_timer = self.boost_timer + dt
     if self.boost_timer > self.boost_cooldown then self.can_boost = true end
-    --self.max_v = self.base_max_v
-    self.max_v = 0
+    self.max_v = self.base_max_v
+    --self.max_v = 0
 
     self.boosting = false
 --- input
@@ -195,15 +195,15 @@ end
 
 function Player:draw()
     if not self.visible then return end
-    love.graphics.draw(self.img,self.x,self.y,self.r + math.pi/2,0.3,0.5,80,64)
+    --love.graphics.draw(self.img,self.x,self.y,self.r + math.pi/2,0.3,0.5,80,64)
 
     pushRote(self.x, self.y, self.r - math.pi/2)
     --love.graphics.circle('line', self.x, self.y, self.w / 2)
     --love.graphics.rectangle("line", self.x - self.w, self.y - self.h, 2 * self.w, 2 * self.h)
     --love.graphics.line(self.x, self.y, self.x + 2 * self.w, self.y)
     --- diamond
-    --draft:diamond(self.x,self.y,2 * self.w,'line')
-    --draft:circle(self.x,self.y,self.w/3,8,'line')
+    draft:diamond(self.x,self.y,2 * self.w,'line')
+    draft:circle(self.x,self.y,self.w/3,8,'line')
     --- 和尚 圆
     --draft:circle(self.x,self.y,self.w * 2,10,"line")
     --draft:circle(self.x,self.y + 3,3,5,"line")
