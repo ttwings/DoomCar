@@ -4,6 +4,16 @@ Study BYTEPATH SSYGEN blog。Make a Doom Car game.
 学习SSYGEN大神的blog，改装制作一个战车射击游戏。
 相对于飞船，更喜欢战车。
 
+## 请求支援
+
+love2d 是一个小众的游戏框架。 相关文档较少。
+很多插件支持都是爱好者自发设计，想加admob模块。
+love2d论坛，有大神做了 love2d 0.10.2版。love2d新版11并没有做。
+同时自己在 love2d打包 ipa 和 apk 方面，还有些问题。
+现发布了一个 猪八戒需求。 求欢迎大神们指导。
+
+https://task.zbj.com/14419272
+
 ## 战斗模式
 
 考虑 dota游戏模式。 多个战车互相对战。
