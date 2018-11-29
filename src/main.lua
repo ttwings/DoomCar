@@ -19,6 +19,7 @@ function love.load(  )
     love.graphics.setLineStyle("rough")
     ww = love.graphics.getWidth()
     wh = love.graphics.getHeight()
+
     --love.window.setMode(ww,wh)
     --gw = 400
     --gh = 240
@@ -79,6 +80,7 @@ function love.load(  )
     --gotoRoom("StageShop","StageShop")
     flash_frames = nil
     tx ,ty = gw,gh
+    --- apk 报错。 需要了解原因。 可能是需要判断系统？
     --loadData()
 end
 
